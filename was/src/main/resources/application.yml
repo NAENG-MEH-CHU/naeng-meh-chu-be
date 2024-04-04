@@ -1,10 +1,10 @@
 server:
-    port: 8080
+    port: 8081
 
 spring:
     datasource:
         driver-class-name: com.mysql.cj.jdbc.Driver
-        url: jdbc:mysql://127.0.0.1:3306/capstone
+        url: jdbc:mysql://http://158.180.93.233:3306/naengmechoo
         username: root
         password:
 
