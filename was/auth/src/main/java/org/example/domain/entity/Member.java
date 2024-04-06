@@ -2,16 +2,18 @@ package org.example.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.example.domain.enums.Gender;
 
 import java.util.UUID;
 
-@AllArgsConstructor
+@AllArgsConstructor(staticName = "of")
 @NoArgsConstructor
 @Getter
 @Entity
+@Builder
 public class Member {
 
     @Id
