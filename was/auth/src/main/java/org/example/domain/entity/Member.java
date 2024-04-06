@@ -33,4 +33,22 @@ public class Member {
     @Column
     @Enumerated(EnumType.STRING)
     private Gender gender;
+
+    private void addIngredient(final int value) {
+        convertIngredientTo(getChangingIndex(value), "1");
+    }
+
+    private void removeIngredient(final int value) {
+        convertIngredientTo(getChangingIndex(value), "0");
+    }
+
+    private void convertIngredientTo(final int index, final String target) {
+        ingredients = ingredients.substring(0, index-1)
+                + target
+                + ingredients.substring(index+1);
+    }
+
+    private int getChangingIndex(final int value) {
+        return ingredients.length() - value;
+    }
 }
