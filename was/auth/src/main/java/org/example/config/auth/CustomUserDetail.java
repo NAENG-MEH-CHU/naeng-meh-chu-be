@@ -16,6 +16,7 @@ import java.util.*;
 public class CustomUserDetail implements UserDetails, OAuth2User {
 
     private Member member;
+    private Map<String, Object> attributes;
 
     @Override
     public Map<String, Object> getAttributes() {
