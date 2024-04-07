@@ -1,4 +1,4 @@
-package main.java.org.example.domain.dto;
+package org.example.domain.dto;
 
 public class TokenResponse {
 

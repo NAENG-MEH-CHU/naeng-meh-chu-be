@@ -2,5 +2,5 @@ rootProject.name = 'was'
 include 'member'
 include 'fridge'
 include 'recipe'
-include 'common'
+include 'auth'
 
