@@ -1,31 +1,37 @@
 package org.example.presentation;
-
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.example.application.JwtAuthService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.example.application.OAuthLoginService;
+import org.example.config.oauth.params.NaverLoginParams;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
 
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
 public class AuthController {
 
-    private final JwtAuthService jwtAuthService;
+    private final OAuthLoginService oAuthLoginService;
 
-    @GetMapping("/login/naver")
-    public void loginNaver(HttpServletRequest request, HttpServletResponse response) throws MalformedURLException, UnsupportedEncodingException, URISyntaxException {
-        String url = jwtAuthService.getNaverAuthorizeUrl();
+    @PostMapping("/login/naver")
+    public void naverLogin(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
+        String url = oAuthLoginService.getNaverAuthorizeUrl();
         try {
             response.sendRedirect(url);
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+
+    @GetMapping("/login/oauth2/code/naver")
+    public ResponseEntity<String> naverLogin(@RequestBody NaverLoginParams param) {
+        String authToken = oAuthLoginService.login(param);
+        return new ResponseEntity<>(authToken, HttpStatus.OK);
     }
 }
