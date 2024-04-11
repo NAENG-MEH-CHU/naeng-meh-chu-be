@@ -1,10 +1,11 @@
 package org.example.presentation;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.example.application.JwtAuthService;
 import org.example.application.OAuthLoginService;
-import org.example.config.oauth.params.NaverLoginParams;
+import org.example.config.oauth.params.OAuthLoginParams;
+import org.example.domain.entity.Member;
+import org.example.support.JwtLogin;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,21 +18,31 @@ import java.io.UnsupportedEncodingException;
 public class AuthController {
 
     private final OAuthLoginService oAuthLoginService;
+    private final JwtAuthService jwtAuthService;
 
-    @PostMapping("/login/naver")
-    public void naverLogin(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
+    @GetMapping("/login/naver")
+    public void naverLogin(HttpServletResponse response) throws UnsupportedEncodingException {
         String url = oAuthLoginService.getNaverAuthorizeUrl();
-        try {
-            response.sendRedirect(url);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        AuthControllerUtil.sendToRedirect(url, response);
     }
 
+    @GetMapping("/login/google")
+    public void googleLogin(HttpServletResponse response) throws UnsupportedEncodingException {
+        String url = oAuthLoginService.getGoogleAuthorizeUrl();
+        AuthControllerUtil.sendToRedirect(url, response);
+    }
 
-    @GetMapping("/login/oauth2/code/naver")
-    public ResponseEntity<String> naverLogin(@RequestBody NaverLoginParams param) {
+    @GetMapping("/{provider}/callback")
+    public ResponseEntity<String> loginCallback(@RequestParam String code,
+                                                @RequestParam(required = false) String state,
+                                                @PathVariable("provider") String provider) {
+        OAuthLoginParams param = AuthControllerUtil.createOAuthLoginParams(code, state);
         String authToken = oAuthLoginService.login(param);
-        return new ResponseEntity<>(authToken, HttpStatus.OK);
+        return new ResponseEntity<>(authToken, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/find")
+    public ResponseEntity<Member> findMemberByToken(@JwtLogin Member member) {
+        return new ResponseEntity<>(member, HttpStatus.OK);
     }
 }

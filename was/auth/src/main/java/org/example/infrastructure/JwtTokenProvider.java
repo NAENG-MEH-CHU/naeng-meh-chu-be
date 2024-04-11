@@ -31,6 +31,7 @@ public class JwtTokenProvider {
     }
 
     public String getPayload(final String token) {
+        if(!isTokenValidated(token)) throw new Error("다시 로그인해주세요");
         return Jwts.parser()
                 .setSigningKey(secretKey)
                 .parseClaimsJws(token).getBody().getSubject();

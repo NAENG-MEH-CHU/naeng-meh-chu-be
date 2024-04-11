@@ -4,51 +4,55 @@ import lombok.NoArgsConstructor;
 import org.example.config.oauth.params.OAuthLoginParams;
 import org.example.config.oauth.params.OAuthProvider;
 import org.example.config.oauth.provider.OAuth2UserInfo;
+import org.example.config.oauth.provider.google.GoogleOAuth2DataResolver;
+import org.example.config.oauth.provider.google.GoogleUserInfo;
+import org.example.config.oauth.provider.google.token.GoogleToken;
 import org.example.config.oauth.provider.naver.NaverUserInfo;
-import org.example.config.oauth.provider.naver.token.NaverToken;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponents;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.Objects;
 
 @Component
 @NoArgsConstructor
-public class NaverApiClient implements OAuthClient {
+public class GoogleApiClient implements OAuthClient{
 
-    @Value("${oauth2.naver.token-uri}")
-    private String authUrl;
-    @Value("${oauth2.naver.user-info-uri}")
-    private String apiUrl;
-    @Value("${oauth2.naver.client-id}")
-    private String clientId;
-    @Value("${oauth2.naver.client-secret}")
-    private String clientSecret;
+    @Autowired
+    private GoogleOAuth2DataResolver resolver;
     private static final RestTemplate restTemplate = new RestTemplate();
 
     @Override
     public OAuthProvider oAuthProvider() {
-        return OAuthProvider.NAVER;
+        return OAuthProvider.GOOGLE;
     }
 
     @Override
     public String requestAccessToken(OAuthLoginParams params) {
         HttpEntity<MultiValueMap<String, String>> request = generateHttpRequest(params);
-        NaverToken naverToken = restTemplate.postForObject(authUrl, request, NaverToken.class);
-        Objects.requireNonNull(naverToken);
-        return naverToken.accessToken();
+        GoogleToken googleToken = restTemplate.postForObject(resolver.getTokenUrl(), request, GoogleToken.class);
+        Objects.requireNonNull(googleToken);
+        return googleToken.accessToken();
     }
 
     @Override
     public OAuth2UserInfo requestOAuthInfo(String accessToken) {
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.set("Authorization", "Bearer " + accessToken);
-        HttpEntity<?> request = new HttpEntity<>(null, httpHeaders);
-        return restTemplate.postForObject(apiUrl, request, NaverUserInfo.class);
+        String uri = createUri(accessToken, resolver.getUserInfoUrl());
+        return restTemplate.getForObject(uri, GoogleUserInfo.class);
+    }
+
+    private String createUri(final String accessToken, final String url) {
+        UriComponents uriComponents = UriComponentsBuilder
+                .fromUriString(url)
+                .queryParam("access_token", accessToken)
+                .build();
+        return uriComponents.toString();
     }
 
     private HttpEntity<MultiValueMap<String, String>> generateHttpRequest(OAuthLoginParams params) {
@@ -57,8 +61,9 @@ public class NaverApiClient implements OAuthClient {
 
         MultiValueMap<String, String> body = params.makeBody();
         body.add("grant_type", "authorization_code");
-        body.add("client_id", clientId);
-        body.add("client_secret", clientSecret);
+        body.add("client_id", resolver.getClientId());
+        body.add("client_secret", resolver.getClientSecret());
+        body.add("redirect_uri", resolver.getRedirectUrl());
         return new HttpEntity<>(body, httpHeaders);
     }
 }
