@@ -6,6 +6,7 @@ import org.example.config.oauth.client.NaverApiClient;
 import org.example.config.oauth.client.OAuthClient;
 import org.example.config.oauth.params.OAuthLoginParams;
 import org.example.config.oauth.provider.OAuth2UserInfo;
+import org.example.config.oauth.provider.google.GoogleOAuth2DataResolver;
 import org.example.domain.entity.Member;
 import org.example.domain.repository.MemberRepository;
 import org.example.infrastructure.JwtTokenProvider;
@@ -32,15 +33,20 @@ public class OAuthLoginService {
     private final NaverOAuth2DataResolver naverResolver;
 
     @Autowired
+    private final GoogleOAuth2DataResolver googleResolver;
+
+    @Autowired
     private final NaverApiClient naverApiClient;
 
     public OAuthLoginService(MemberRepository memberRepository,
                              JwtTokenProvider tokenProvider,
+                             GoogleOAuth2DataResolver googleResolver,
                              NaverOAuth2DataResolver naverResolver,
                              NaverApiClient naverApiClient
                              ) {
         this.memberRepository = memberRepository;
         this.tokenProvider = tokenProvider;
+        this.googleResolver = googleResolver;
         this.naverResolver = naverResolver;
         this.naverApiClient = naverApiClient;
         this.requestOAuthInfoService = new RequestOAuthInfoService(List.of(naverApiClient));
@@ -53,6 +59,17 @@ public class OAuthLoginService {
                 .queryParam("client_id", naverResolver.getClientId())
                 .queryParam("redirect_uri", URLEncoder.encode(naverResolver.getRedirectUrl(), StandardCharsets.UTF_8))
                 .queryParam("state", URLEncoder.encode("1234", StandardCharsets.UTF_8))
+                .build();
+        return uriComponents.toString();
+    }
+
+    public String getGoogleAuthorizeUrl() throws UnsupportedEncodingException {
+        UriComponents uriComponents = UriComponentsBuilder
+                .fromUriString(googleResolver.getAuthUrl())
+                .queryParam("response_type", "code")
+                .queryParam("client_id", googleResolver.getClientId())
+                .queryParam("redirect_uri", URLEncoder.encode(googleResolver.getRedirectUrl(), StandardCharsets.UTF_8))
+                .queryParam("scope", googleResolver.getScope())
                 .build();
         return uriComponents.toString();
     }

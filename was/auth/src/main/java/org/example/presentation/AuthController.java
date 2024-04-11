@@ -3,6 +3,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.example.application.OAuthLoginService;
+import org.example.config.oauth.params.GoogleLoginParams;
 import org.example.config.oauth.params.NaverLoginParams;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,10 +28,28 @@ public class AuthController {
         }
     }
 
+    @GetMapping("/login/google")
+    public void googleLogin(HttpServletResponse response) throws UnsupportedEncodingException {
+        String url = oAuthLoginService.getGoogleAuthorizeUrl();
+        try {
+            response.sendRedirect(url);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
     @GetMapping("/naver/callback")
     public ResponseEntity<String> naverLoginCallback(@RequestParam String code, @RequestParam String state) {
         NaverLoginParams param = new NaverLoginParams(code, state);
+        String authToken = oAuthLoginService.login(param);
+        return new ResponseEntity<>(authToken, HttpStatus.CREATED);
+    }
+
+
+    @GetMapping("/google/callback")
+    public ResponseEntity<String> googleLoginCallback(@RequestParam String code) {
+        GoogleLoginParams param = new GoogleLoginParams(code);
         String authToken = oAuthLoginService.login(param);
         return new ResponseEntity<>(authToken, HttpStatus.CREATED);
     }

@@ -1,4 +1,4 @@
-package org.example.config.oauth.provider.naver;
+package org.example.config.oauth.provider.google;
 
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,6 +14,9 @@ public class GoogleOAuth2DataResolver {
     @Value("${oauth2.google.client-secret}")
     private String clientSecret;
 
+    @Value("${oauth2.google.authorization-uri}")
+    private String authUrl;
+
     @Value("${oauth2.google.redirect-uri}")
     private String redirectUrl;
 
@@ -22,4 +25,7 @@ public class GoogleOAuth2DataResolver {
 
     @Value("${oauth2.google.resource-uri}")
     private String userInfoUrl;
+
+    @Value("${oauth2.google.scope}")
+    private String scope;
 }
