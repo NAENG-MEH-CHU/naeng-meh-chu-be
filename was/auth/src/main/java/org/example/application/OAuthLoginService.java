@@ -2,6 +2,7 @@ package org.example.application;
 
 import lombok.RequiredArgsConstructor;
 import org.example.config.oauth.NaverOAuth2DataResolver;
+import org.example.config.oauth.client.GoogleApiClient;
 import org.example.config.oauth.client.NaverApiClient;
 import org.example.config.oauth.client.OAuthClient;
 import org.example.config.oauth.params.OAuthLoginParams;
@@ -38,18 +39,23 @@ public class OAuthLoginService {
     @Autowired
     private final NaverApiClient naverApiClient;
 
+    @Autowired
+    private final GoogleApiClient googleApiClient;
+
     public OAuthLoginService(MemberRepository memberRepository,
                              JwtTokenProvider tokenProvider,
                              GoogleOAuth2DataResolver googleResolver,
                              NaverOAuth2DataResolver naverResolver,
+                             GoogleApiClient googleApiClient,
                              NaverApiClient naverApiClient
                              ) {
         this.memberRepository = memberRepository;
         this.tokenProvider = tokenProvider;
         this.googleResolver = googleResolver;
         this.naverResolver = naverResolver;
+        this.googleApiClient = googleApiClient;
         this.naverApiClient = naverApiClient;
-        this.requestOAuthInfoService = new RequestOAuthInfoService(List.of(naverApiClient));
+        this.requestOAuthInfoService = new RequestOAuthInfoService(List.of(naverApiClient, googleApiClient));
     }
 
     public String getNaverAuthorizeUrl() throws UnsupportedEncodingException {
