@@ -1,10 +1,9 @@
 package org.example.presentation;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.example.application.OAuthLoginService;
-import org.example.config.oauth.params.GoogleLoginParams;
-import org.example.config.oauth.params.NaverLoginParams;
+import org.example.config.oauth.params.google.GoogleLoginParams;
+import org.example.config.oauth.params.naver.NaverLoginParams;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
