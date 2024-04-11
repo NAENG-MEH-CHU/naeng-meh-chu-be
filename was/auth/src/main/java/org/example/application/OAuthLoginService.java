@@ -2,6 +2,8 @@ package org.example.application;
 
 import lombok.RequiredArgsConstructor;
 import org.example.config.oauth.NaverOAuth2DataResolver;
+import org.example.config.oauth.client.NaverApiClient;
+import org.example.config.oauth.client.OAuthClient;
 import org.example.config.oauth.params.OAuthLoginParams;
 import org.example.config.oauth.provider.OAuth2UserInfo;
 import org.example.domain.entity.Member;
@@ -13,14 +15,13 @@ import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Service
-@RequiredArgsConstructor
 public class OAuthLoginService {
 
     private final MemberRepository memberRepository;
@@ -28,7 +29,22 @@ public class OAuthLoginService {
     private final RequestOAuthInfoService requestOAuthInfoService;
 
     @Autowired
-    private NaverOAuth2DataResolver naverResolver;
+    private final NaverOAuth2DataResolver naverResolver;
+
+    @Autowired
+    private final NaverApiClient naverApiClient;
+
+    public OAuthLoginService(MemberRepository memberRepository,
+                             JwtTokenProvider tokenProvider,
+                             NaverOAuth2DataResolver naverResolver,
+                             NaverApiClient naverApiClient
+                             ) {
+        this.memberRepository = memberRepository;
+        this.tokenProvider = tokenProvider;
+        this.naverResolver = naverResolver;
+        this.naverApiClient = naverApiClient;
+        this.requestOAuthInfoService = new RequestOAuthInfoService(List.of(naverApiClient));
+    }
 
     public String getNaverAuthorizeUrl() throws UnsupportedEncodingException {
         UriComponents uriComponents = UriComponentsBuilder
@@ -61,7 +77,7 @@ public class OAuthLoginService {
                 .gender(oAuthUserInfo.getGender())
                 .nickname(oAuthUserInfo.getNickname())
                 .build();
-
+        System.out.println(member.toString());
         memberRepository.save(member);
         return member.getId();
     }

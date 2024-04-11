@@ -14,9 +14,6 @@ public class NaverOAuth2DataResolver {
     @Value("${oauth2.naver.client-secret}")
     private String clientSecret;
 
-    @Value("${oauth2.naver.scope}")
-    private String scope;
-
     @Value("${oauth2.naver.client-name}")
     private String clientName;
 

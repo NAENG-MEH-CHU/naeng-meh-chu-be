@@ -2,7 +2,6 @@ package org.example.presentation;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.example.application.JwtAuthService;
 import org.example.application.OAuthLoginService;
 import org.example.config.oauth.params.NaverLoginParams;
 import org.springframework.http.HttpStatus;
@@ -18,8 +17,8 @@ public class AuthController {
 
     private final OAuthLoginService oAuthLoginService;
 
-    @PostMapping("/login/naver")
-    public void naverLogin(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
+    @GetMapping("/login/naver")
+    public void naverLogin(HttpServletResponse response) throws UnsupportedEncodingException {
         String url = oAuthLoginService.getNaverAuthorizeUrl();
         try {
             response.sendRedirect(url);
@@ -29,9 +28,10 @@ public class AuthController {
     }
 
 
-    @GetMapping("/login/oauth2/code/naver")
-    public ResponseEntity<String> naverLogin(@RequestBody NaverLoginParams param) {
+    @GetMapping("/naver/callback")
+    public ResponseEntity<String> naverLoginCallback(@RequestParam String code, @RequestParam String state) {
+        NaverLoginParams param = new NaverLoginParams(code, state);
         String authToken = oAuthLoginService.login(param);
-        return new ResponseEntity<>(authToken, HttpStatus.OK);
+        return new ResponseEntity<>(authToken, HttpStatus.CREATED);
     }
 }

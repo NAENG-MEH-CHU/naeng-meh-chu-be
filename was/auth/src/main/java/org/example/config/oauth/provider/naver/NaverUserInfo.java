@@ -23,6 +23,7 @@ public class NaverUserInfo implements OAuth2UserInfo {
 
     @Override
     public int getAge() {
+        System.out.println(response.toString());
         return Integer.parseInt(response.age());
     }
 

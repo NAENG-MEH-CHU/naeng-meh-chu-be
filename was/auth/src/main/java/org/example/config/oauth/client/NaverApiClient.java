@@ -1,6 +1,6 @@
 package org.example.config.oauth.client;
 
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.example.config.oauth.params.OAuthLoginParams;
 import org.example.config.oauth.params.OAuthProvider;
 import org.example.config.oauth.provider.OAuth2UserInfo;
@@ -11,26 +11,24 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
-import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Objects;
 
 @Component
-@RequiredArgsConstructor
+@NoArgsConstructor
 public class NaverApiClient implements OAuthClient {
 
-    @Value("${oauth.naver.authorization-uri}")
+    @Value("${oauth2.naver.token-uri}")
     private String authUrl;
-    @Value("${oauth.naver.user-info-uri}")
+    @Value("${oauth2.naver.user-info-uri}")
     private String apiUrl;
-    @Value("${oauth.naver.client-id}")
+    @Value("${oauth2.naver.client-id}")
     private String clientId;
-    @Value("${oauth.naver.client-secret}")
+    @Value("${oauth2.naver.client-secret}")
     private String clientSecret;
-
-    private final RestTemplate restTemplate;
+    private static final RestTemplate restTemplate = new RestTemplate();
 
     @Override
     public OAuthProvider oAuthProvider() {
@@ -39,28 +37,20 @@ public class NaverApiClient implements OAuthClient {
 
     @Override
     public String requestAccessToken(OAuthLoginParams params) {
-        String url = authUrl;
         HttpEntity<MultiValueMap<String, String>> request = generateHttpRequest(params);
-
-        NaverToken naverToken = restTemplate.postForObject(url, request, NaverToken.class);
+        NaverToken naverToken = restTemplate.postForObject(authUrl, request, NaverToken.class);
         Objects.requireNonNull(naverToken);
         return naverToken.accessToken();
     }
 
     @Override
     public OAuth2UserInfo requestOAuthInfo(String accessToken) {
-        String url = apiUrl;
-
         HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-        String requestToken = "Bearer " + accessToken;
-        httpHeaders.set("Authorization", requestToken);
-
-        MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
-
-        HttpEntity<?> request = new HttpEntity<>(body, httpHeaders);
-        return restTemplate.postForObject(url, request, NaverUserInfo.class);
+        httpHeaders.set("Authorization", "Bearer " + accessToken);
+        HttpEntity<?> request = new HttpEntity<>(null, httpHeaders);
+        return restTemplate.postForObject(apiUrl, request, NaverUserInfo.class);
     }
+
     private HttpEntity<MultiValueMap<String, String>> generateHttpRequest(OAuthLoginParams params) {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
