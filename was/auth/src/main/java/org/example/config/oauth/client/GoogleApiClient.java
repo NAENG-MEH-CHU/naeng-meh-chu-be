@@ -5,6 +5,9 @@ import org.example.config.oauth.params.OAuthLoginParams;
 import org.example.config.oauth.params.OAuthProvider;
 import org.example.config.oauth.provider.OAuth2UserInfo;
 import org.example.config.oauth.provider.google.GoogleOAuth2DataResolver;
+import org.example.config.oauth.provider.google.GoogleUserInfo;
+import org.example.config.oauth.provider.google.token.GoogleToken;
+import org.example.config.oauth.provider.naver.NaverUserInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -12,6 +15,8 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponents;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.Objects;
 
@@ -31,13 +36,23 @@ public class GoogleApiClient implements OAuthClient{
     @Override
     public String requestAccessToken(OAuthLoginParams params) {
         HttpEntity<MultiValueMap<String, String>> request = generateHttpRequest(params);
-        System.out.println(restTemplate.postForObject(resolver.getTokenUrl(), request, String.class));
-        return null;
+        GoogleToken googleToken = restTemplate.postForObject(resolver.getTokenUrl(), request, GoogleToken.class);
+        Objects.requireNonNull(googleToken);
+        return googleToken.accessToken();
     }
 
     @Override
     public OAuth2UserInfo requestOAuthInfo(String accessToken) {
-        return null;
+        String uri = createUri(accessToken, resolver.getUserInfoUrl());
+        return restTemplate.getForObject(uri, GoogleUserInfo.class);
+    }
+
+    private String createUri(final String accessToken, final String url) {
+        UriComponents uriComponents = UriComponentsBuilder
+                .fromUriString(url)
+                .queryParam("access_token", accessToken)
+                .build();
+        return uriComponents.toString();
     }
 
     private HttpEntity<MultiValueMap<String, String>> generateHttpRequest(OAuthLoginParams params) {

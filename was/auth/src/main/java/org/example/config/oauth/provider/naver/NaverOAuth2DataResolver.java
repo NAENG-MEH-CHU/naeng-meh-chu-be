@@ -1,4 +1,4 @@
-package org.example.config.oauth;
+package org.example.config.oauth.provider.naver;
 
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;

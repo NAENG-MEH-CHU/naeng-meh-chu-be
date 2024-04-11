@@ -1,10 +1,8 @@
 package org.example.application;
 
-import lombok.RequiredArgsConstructor;
-import org.example.config.oauth.NaverOAuth2DataResolver;
+import org.example.config.oauth.provider.naver.NaverOAuth2DataResolver;
 import org.example.config.oauth.client.GoogleApiClient;
 import org.example.config.oauth.client.NaverApiClient;
-import org.example.config.oauth.client.OAuthClient;
 import org.example.config.oauth.params.OAuthLoginParams;
 import org.example.config.oauth.provider.OAuth2UserInfo;
 import org.example.config.oauth.provider.google.GoogleOAuth2DataResolver;
@@ -19,7 +17,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -37,10 +34,10 @@ public class OAuthLoginService {
     private final GoogleOAuth2DataResolver googleResolver;
 
     @Autowired
-    private final NaverApiClient naverApiClient;
+    private NaverApiClient naverApiClient;
 
     @Autowired
-    private final GoogleApiClient googleApiClient;
+    private GoogleApiClient googleApiClient;
 
     public OAuthLoginService(MemberRepository memberRepository,
                              JwtTokenProvider tokenProvider,
@@ -53,8 +50,6 @@ public class OAuthLoginService {
         this.tokenProvider = tokenProvider;
         this.googleResolver = googleResolver;
         this.naverResolver = naverResolver;
-        this.googleApiClient = googleApiClient;
-        this.naverApiClient = naverApiClient;
         this.requestOAuthInfoService = new RequestOAuthInfoService(List.of(naverApiClient, googleApiClient));
     }
 
@@ -100,7 +95,6 @@ public class OAuthLoginService {
                 .gender(oAuthUserInfo.getGender())
                 .nickname(oAuthUserInfo.getNickname())
                 .build();
-        System.out.println(member.toString());
         memberRepository.save(member);
         return member.getId();
     }
