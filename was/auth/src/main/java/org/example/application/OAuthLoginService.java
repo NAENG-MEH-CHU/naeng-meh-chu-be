@@ -89,6 +89,7 @@ public class OAuthLoginService {
 
     private UUID newUser(OAuth2UserInfo oAuthUserInfo) {
         Member member = Member.builder()
+                .id(null)
                 .email(oAuthUserInfo.getEmail())
                 .ingredients("0")
                 .age(oAuthUserInfo.getAge())
