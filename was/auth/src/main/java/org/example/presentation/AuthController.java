@@ -1,7 +1,6 @@
 package org.example.presentation;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.example.application.JwtAuthService;
 import org.example.application.OAuthLoginService;
 import org.example.config.oauth.params.OAuthLoginParams;
 import org.example.domain.entity.Member;
@@ -21,7 +20,7 @@ public class AuthController {
     private final OAuthLoginService oAuthLoginService;
 
     @GetMapping("/login/{provider}")
-    public void naverLogin(HttpServletResponse response, @PathVariable("provider") String provider) throws UnsupportedEncodingException {
+    public void loginThroughOAuth2(HttpServletResponse response, @PathVariable("provider") String provider) throws UnsupportedEncodingException {
         AuthControllerUtil.sendToRedirect(getUrlByProvider(provider), response);
     }
 
