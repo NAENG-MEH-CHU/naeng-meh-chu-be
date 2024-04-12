@@ -3,7 +3,6 @@ package org.example.support;
 import lombok.RequiredArgsConstructor;
 import org.example.application.JwtAuthService;
 import org.example.domain.entity.Member;
-import org.example.exception.exceptions.BearerTokenNotFoundException;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;

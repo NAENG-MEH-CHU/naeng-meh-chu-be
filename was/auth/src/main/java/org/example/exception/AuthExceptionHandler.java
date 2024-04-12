@@ -12,7 +12,7 @@ public class AuthExceptionHandler {
 
     @ExceptionHandler(BearerTokenNotFoundException.class)
     public ResponseEntity<String> handlerBearerTokenNotFoundException(final BearerTokenNotFoundException exception) {
-        return getNotFoundResponse(exception.getMessage());
+        return getUnauthorizedResponse(exception.getMessage());
     }
 
     @ExceptionHandler(MemberNotFoundException.class)
@@ -22,5 +22,9 @@ public class AuthExceptionHandler {
 
     private ResponseEntity<String> getNotFoundResponse(final String message) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(message);
+    }
+
+    private ResponseEntity<String> getUnauthorizedResponse(final String message) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(message);
     }
 }

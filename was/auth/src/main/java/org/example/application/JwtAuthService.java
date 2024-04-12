@@ -8,6 +8,8 @@ import org.example.infrastructure.JwtTokenProvider;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.UUID;
+
 @Service
 @AllArgsConstructor
 public class JwtAuthService {
@@ -17,8 +19,8 @@ public class JwtAuthService {
 
     @Transactional(readOnly = true)
     public Member findMemberByJwtPayload(final String jwtPayload) {
-        String jwtPayloadOfEmail = jwtTokenProvider.getPayload(jwtPayload);
-        return memberRepository.findByEmail(jwtPayloadOfEmail)
+        String id = jwtTokenProvider.getPayload(jwtPayload);
+        return memberRepository.findById(UUID.fromString(id))
                 .orElseThrow(MemberNotFoundException::new);
     }
 }
