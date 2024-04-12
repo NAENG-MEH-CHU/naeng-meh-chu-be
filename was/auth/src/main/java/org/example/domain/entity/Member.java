@@ -57,4 +57,8 @@ public class Member {
     public void updateNickname(final String nickname) {
         this.nickname = nickname;
     }
+
+    public void updateGender(final Gender gender) {
+        this.gender = gender;
+    }
 }
