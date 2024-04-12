@@ -5,6 +5,8 @@ plugins {
     id 'org.asciidoctor.jvm.convert' version '3.3.2'
 }
 
+bootJar.enabled = false
+
 group = 'org.capstone'
 version = '0.0.1-SNAPSHOT'
 
