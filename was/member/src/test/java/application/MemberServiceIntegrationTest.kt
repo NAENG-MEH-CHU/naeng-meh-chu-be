@@ -46,4 +46,17 @@ open class MemberServiceIntegrationTest(
         //then
         Assertions.assertEquals(changedMember.nickname, "after");
     }
+
+    @DisplayName("회원의 성별 변경을 성공한다.")
+    @Test
+    fun changeGender_success() {
+        // given
+
+        //when
+        memberService.updateGender("여성", member)
+        val changedMember = memberRepository.findById(member.id).orElseThrow{ MemberNotFoundException() }
+
+        //then
+        Assertions.assertEquals(changedMember.gender, Gender.FEMALE);
+    }
 }
