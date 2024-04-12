@@ -55,5 +55,4 @@ class MemberServiceUnitTest {
         // Then
         Assertions.assertEquals(result, Unit)
     }
-
 }
