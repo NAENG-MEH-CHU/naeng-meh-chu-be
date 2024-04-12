@@ -17,4 +17,15 @@ open class MemberService(private val memberRepository: MemberRepository) {
         member.updateNickname(nickname);
         memberRepository.save(member);
     }
+
+    @Transactional
+    open fun updateGender(genderString: String, member: Member) {
+        member.updateGender(findGenderByInput(genderString));
+        memberRepository.save(member);
+    }
+
+    private fun findGenderByInput(genderString: String): Gender {
+        if(genderString == MALE.value) return MALE;
+        return FEMALE;
+    }
 }
