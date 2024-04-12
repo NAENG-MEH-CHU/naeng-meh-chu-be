@@ -54,7 +54,7 @@ public class Member {
         return ingredients.length() - value;
     }
 
-    private void updateNickname(final String nickname) {
+    public void updateNickname(final String nickname) {
         this.nickname = nickname;
     }
 }
