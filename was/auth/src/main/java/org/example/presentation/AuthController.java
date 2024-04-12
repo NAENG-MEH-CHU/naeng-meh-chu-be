@@ -1,4 +1,5 @@
 package org.example.presentation;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.example.application.JwtAuthService;
@@ -17,19 +18,13 @@ import java.io.UnsupportedEncodingException;
 @RequiredArgsConstructor
 public class AuthController {
 
+    private static final String GOOGLE = "google";
     private final OAuthLoginService oAuthLoginService;
     private final JwtAuthService jwtAuthService;
 
-    @GetMapping("/login/naver")
-    public void naverLogin(HttpServletResponse response) throws UnsupportedEncodingException {
-        String url = oAuthLoginService.getNaverAuthorizeUrl();
-        AuthControllerUtil.sendToRedirect(url, response);
-    }
-
-    @GetMapping("/login/google")
-    public void googleLogin(HttpServletResponse response) throws UnsupportedEncodingException {
-        String url = oAuthLoginService.getGoogleAuthorizeUrl();
-        AuthControllerUtil.sendToRedirect(url, response);
+    @GetMapping("/login/{provider}")
+    public void loginThroughOAuth2(HttpServletResponse response, @PathVariable("provider") String provider) throws UnsupportedEncodingException {
+        AuthControllerUtil.sendToRedirect(getUrlByProvider(provider), response);
     }
 
     @GetMapping("/{provider}/callback")
@@ -38,11 +33,20 @@ public class AuthController {
                                                 @PathVariable("provider") String provider) {
         OAuthLoginParams param = AuthControllerUtil.createOAuthLoginParams(code, state);
         String authToken = oAuthLoginService.login(param);
-        return new ResponseEntity<>(authToken, HttpStatus.CREATED);
+        return new ResponseEntity<>(AuthControllerUtil.addPrefixToToken(authToken), HttpStatus.CREATED);
     }
 
-    @GetMapping("/find")
-    public ResponseEntity<Member> findMemberByToken(@JwtLogin Member member) {
-        return new ResponseEntity<>(member, HttpStatus.OK);
+    @GetMapping("/reissue")
+    public ResponseEntity<String> reissue(HttpServletRequest request) {
+        String token = request.getHeader("Authorization");
+        String reissuedToken = jwtAuthService.reissue(token);
+        return new ResponseEntity<>(reissuedToken, HttpStatus.OK);
+    }
+
+    private String getUrlByProvider(final String provider) throws UnsupportedEncodingException {
+        if(provider.equals(GOOGLE)) {
+            return oAuthLoginService.getGoogleAuthorizeUrl();
+        }
+        return oAuthLoginService.getNaverAuthorizeUrl();
     }
 }

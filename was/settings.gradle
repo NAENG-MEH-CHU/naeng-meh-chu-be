@@ -1,3 +1,6 @@
 rootProject.name = 'was'
-include 'member', 'fridge', 'recipe', 'auth'
+include 'member'
+include 'fridge'
+include 'recipe'
+include 'auth'
 
