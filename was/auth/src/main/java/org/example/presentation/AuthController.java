@@ -17,19 +17,12 @@ import java.io.UnsupportedEncodingException;
 @RequiredArgsConstructor
 public class AuthController {
 
+    private static final String GOOGLE = "google";
     private final OAuthLoginService oAuthLoginService;
-    private final JwtAuthService jwtAuthService;
 
-    @GetMapping("/login/naver")
-    public void naverLogin(HttpServletResponse response) throws UnsupportedEncodingException {
-        String url = oAuthLoginService.getNaverAuthorizeUrl();
-        AuthControllerUtil.sendToRedirect(url, response);
-    }
-
-    @GetMapping("/login/google")
-    public void googleLogin(HttpServletResponse response) throws UnsupportedEncodingException {
-        String url = oAuthLoginService.getGoogleAuthorizeUrl();
-        AuthControllerUtil.sendToRedirect(url, response);
+    @GetMapping("/login/{provider}")
+    public void naverLogin(HttpServletResponse response, @PathVariable("provider") String provider) throws UnsupportedEncodingException {
+        AuthControllerUtil.sendToRedirect(getUrlByProvider(provider), response);
     }
 
     @GetMapping("/{provider}/callback")
@@ -42,7 +35,14 @@ public class AuthController {
     }
 
     @GetMapping("/find")
-    public ResponseEntity<Member> findMemberByToken(@JwtLogin Member member) {
+    public ResponseEntity<Member> findMemberByToken(@JwtLogin final Member member) {
         return new ResponseEntity<>(member, HttpStatus.OK);
+    }
+
+    private String getUrlByProvider(final String provider) throws UnsupportedEncodingException {
+        if(provider.equals(GOOGLE)) {
+            return oAuthLoginService.getGoogleAuthorizeUrl();
+        }
+        return oAuthLoginService.getNaverAuthorizeUrl();
     }
 }
