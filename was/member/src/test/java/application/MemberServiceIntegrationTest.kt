@@ -6,6 +6,7 @@ import org.example.domain.entity.Member
 import org.example.domain.enums.Gender
 import org.example.domain.repository.MemberRepository
 import org.example.exception.exceptions.MemberNotFoundException
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
@@ -58,5 +59,41 @@ open class MemberServiceIntegrationTest(
 
         //then
         Assertions.assertEquals(changedMember.gender, Gender.FEMALE);
+    }
+
+    @DisplayName("회원의 삭제를 성공한다.")
+    @Test
+    fun deleteMember_success() {
+        // given
+
+        //when
+        memberService.deleteMember(member)
+        val changedMember = memberRepository.findById(member.id)
+
+        //then
+        Assertions.assertThrows(MemberNotFoundException::class.java){
+            memberRepository.findById(member.id).orElseThrow{ MemberNotFoundException() }
+        }
+    }
+
+    @DisplayName("회원의 삭제를 실패한다. 회원이 이미 존재하지 않는다.")
+    @Test
+    fun deleteMember_fail_not_found() {
+        // given
+
+        //when
+        memberRepository.delete(member)
+
+        //then
+        Assertions.assertThrows(MemberNotFoundException::class.java){ memberService.deleteMember(member) }
+    }
+
+    @AfterEach
+    fun deleteMember() {
+        try {
+            memberRepository.delete(member)
+        }catch (e: Exception) {
+            return
+        }
     }
 }
