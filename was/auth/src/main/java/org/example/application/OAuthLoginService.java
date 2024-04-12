@@ -11,6 +11,7 @@ import org.example.domain.repository.MemberRepository;
 import org.example.infrastructure.JwtTokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -75,6 +76,7 @@ public class OAuthLoginService {
         return uriComponents.toString();
     }
 
+    @Transactional
     public String login(OAuthLoginParams params) {
         OAuth2UserInfo oAuthUserInfo = requestOAuthInfoService.request(params);
         UUID memberId = findOrCreateUser(oAuthUserInfo);

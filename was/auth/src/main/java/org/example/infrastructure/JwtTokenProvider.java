@@ -1,6 +1,8 @@
 package org.example.infrastructure;
 
 import io.jsonwebtoken.*;
+import org.example.exception.exceptions.NeedToLoginException;
+import org.example.exception.exceptions.TokenExpiredException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -31,21 +33,21 @@ public class JwtTokenProvider {
     }
 
     public String getPayload(final String token) {
-        if(!isTokenValidated(token)) throw new Error("다시 로그인해주세요");
         return Jwts.parser()
                 .setSigningKey(secretKey)
                 .parseClaimsJws(token).getBody().getSubject();
     }
 
-    public boolean isTokenValidated(final String token) {
+    public void validateToken(final String token) {
         try {
             Jws<Claims> claims = Jwts.parser()
                     .setSigningKey(secretKey)
                     .parseClaimsJws(token);
-
-            return !claims.getBody().getExpiration().before(new Date());
+            if(claims.getBody().getExpiration().before(new Date())) {
+                throw new TokenExpiredException();
+            }
         } catch (JwtException | IllegalArgumentException e) {
-            return false;
+            throw new NeedToLoginException();
         }
     }
 }

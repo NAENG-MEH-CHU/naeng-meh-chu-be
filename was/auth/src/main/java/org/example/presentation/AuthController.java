@@ -1,6 +1,8 @@
 package org.example.presentation;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.example.application.JwtAuthService;
 import org.example.application.OAuthLoginService;
 import org.example.config.oauth.params.OAuthLoginParams;
 import org.example.domain.entity.Member;
@@ -18,6 +20,7 @@ public class AuthController {
 
     private static final String GOOGLE = "google";
     private final OAuthLoginService oAuthLoginService;
+    private final JwtAuthService jwtAuthService;
 
     @GetMapping("/login/{provider}")
     public void loginThroughOAuth2(HttpServletResponse response, @PathVariable("provider") String provider) throws UnsupportedEncodingException {
@@ -33,9 +36,11 @@ public class AuthController {
         return new ResponseEntity<>(AuthControllerUtil.addPrefixToToken(authToken), HttpStatus.CREATED);
     }
 
-    @GetMapping("/find")
-    public ResponseEntity<Member> findMemberByToken(@JwtLogin final Member member) {
-        return new ResponseEntity<>(member, HttpStatus.OK);
+    @GetMapping("/reissue")
+    public ResponseEntity<String> reissue(HttpServletRequest request) {
+        String token = request.getHeader("Authorization");
+        String reissuedToken = jwtAuthService.reissue(token);
+        return new ResponseEntity<>(reissuedToken, HttpStatus.OK);
     }
 
     private String getUrlByProvider(final String provider) throws UnsupportedEncodingException {

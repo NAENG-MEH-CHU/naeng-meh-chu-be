@@ -1,6 +1,6 @@
 package org.example.support;
 
-import org.example.exception.exceptions.BearerTokenNotFoundException;
+import org.example.exception.exceptions.NeedToLoginException;
 
 public class JwtUtil {
 
@@ -11,7 +11,7 @@ public class JwtUtil {
 
     public static void validateAuthorization(final String authorizationHeader) {
         if (!hasAuthorizationHeader(authorizationHeader) || !isBearerToken(authorizationHeader)) {
-            throw new BearerTokenNotFoundException();
+            throw new NeedToLoginException();
         }
     }
 
