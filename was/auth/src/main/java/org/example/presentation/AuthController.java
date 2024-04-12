@@ -30,7 +30,7 @@ public class AuthController {
                                                 @PathVariable("provider") String provider) {
         OAuthLoginParams param = AuthControllerUtil.createOAuthLoginParams(code, state);
         String authToken = oAuthLoginService.login(param);
-        return new ResponseEntity<>(authToken, HttpStatus.CREATED);
+        return new ResponseEntity<>(AuthControllerUtil.addPrefixToToken(authToken), HttpStatus.CREATED);
     }
 
     @GetMapping("/find")
