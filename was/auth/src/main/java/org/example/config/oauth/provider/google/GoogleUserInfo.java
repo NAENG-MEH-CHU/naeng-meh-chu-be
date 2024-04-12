@@ -5,6 +5,8 @@ import org.example.config.oauth.params.OAuthProvider;
 import org.example.config.oauth.provider.OAuth2UserInfo;
 import org.example.domain.enums.Gender;
 
+import java.util.Date;
+
 public class GoogleUserInfo implements OAuth2UserInfo {
 
     @JsonProperty("id")
@@ -24,8 +26,8 @@ public class GoogleUserInfo implements OAuth2UserInfo {
     }
 
     @Override
-    public int getAge() {
-        return 0;
+    public Date getAge() {
+        return null;
     }
 
     @Override

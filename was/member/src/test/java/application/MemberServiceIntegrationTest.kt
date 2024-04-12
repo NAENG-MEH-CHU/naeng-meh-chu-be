@@ -27,11 +27,11 @@ open class MemberServiceIntegrationTest(
     fun addMember() {
         member = Member.builder()
                 .nickname("before")
-                .age(10)
+                .age(null)
                 .gender(Gender.MALE)
                 .email("test@test.com")
-                .ingredients("0")
-                .build();
+                .ingredients(0)
+                .build()
         member = memberRepository.save(member);
     }
 

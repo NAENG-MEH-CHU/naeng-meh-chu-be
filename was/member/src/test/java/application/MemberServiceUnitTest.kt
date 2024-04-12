@@ -24,10 +24,10 @@ class MemberServiceUnitTest {
 
     private var member = Member.builder()
             .nickname("before")
-            .age(10)
+            .age(null)
             .gender(Gender.MALE)
             .email("test@test.com")
-            .ingredients("0")
+            .ingredients(0)
             .build();
 
     @DisplayName("회원의 닉네임을 성공적으로 수정한다.")
