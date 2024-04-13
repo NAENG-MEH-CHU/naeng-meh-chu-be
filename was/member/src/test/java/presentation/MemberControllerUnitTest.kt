@@ -5,7 +5,7 @@ import org.example.application.MemberService
 import org.example.domain.entity.Member
 import org.example.domain.enums.Gender
 import org.example.presentation.MemberController
-import org.junit.jupiter.api.Assertions
+import org.example.presentation.dto.ChangeNicknameRequest
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -44,7 +44,7 @@ class MemberControllerUnitTest {
                 .doNothing()
                 .`when`(memberService)
                 .updateNickname(nickname, member)
-        val result = memberController.updateNickname(member, nickname)
+        val result = memberController.updateNickname(member, ChangeNicknameRequest(nickname))
 
         // Then
         result shouldBe ResponseEntity<Unit>(HttpStatus.OK)
