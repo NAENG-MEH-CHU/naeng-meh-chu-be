@@ -1,5 +1,6 @@
 package application
 
+import io.kotest.matchers.shouldBe
 import org.example.application.MemberService
 import org.example.domain.entity.Member
 import org.example.domain.enums.Gender
@@ -40,7 +41,7 @@ class MemberServiceUnitTest {
         val result = memberService.updateNickname("after", member)
 
         // Then
-        Assertions.assertEquals(result, Unit)
+        result shouldBe Unit
     }
 
     @DisplayName("회원의 성별을 성공적으로 수정한다.")
@@ -53,6 +54,6 @@ class MemberServiceUnitTest {
         val result = memberService.updateGender("남성", member)
 
         // Then
-        Assertions.assertEquals(result, Unit)
+        result shouldBe Unit
     }
 }

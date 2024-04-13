@@ -1,5 +1,7 @@
 package application
 
+import io.kotest.assertions.throwables.shouldThrow
+import io.kotest.matchers.shouldBe
 import org.example.MemberApplication
 import org.example.application.MemberService
 import org.example.domain.entity.Member
@@ -45,7 +47,7 @@ open class MemberServiceIntegrationTest(
         val changedMember = memberRepository.findById(member.id).orElseThrow{ MemberNotFoundException() }
 
         //then
-        Assertions.assertEquals(changedMember.nickname, "after");
+        changedMember.nickname shouldBe "after"
     }
 
     @DisplayName("회원의 성별 변경을 성공한다.")
@@ -58,7 +60,7 @@ open class MemberServiceIntegrationTest(
         val changedMember = memberRepository.findById(member.id).orElseThrow{ MemberNotFoundException() }
 
         //then
-        Assertions.assertEquals(changedMember.gender, Gender.FEMALE);
+        changedMember.gender shouldBe  Gender.FEMALE
     }
 
     @DisplayName("회원의 삭제를 성공한다.")
@@ -71,7 +73,7 @@ open class MemberServiceIntegrationTest(
         val changedMember = memberRepository.findById(member.id)
 
         //then
-        Assertions.assertThrows(MemberNotFoundException::class.java){
+        shouldThrow<MemberNotFoundException> {
             memberRepository.findById(member.id).orElseThrow{ MemberNotFoundException() }
         }
     }
@@ -85,7 +87,9 @@ open class MemberServiceIntegrationTest(
         memberRepository.delete(member)
 
         //then
-        Assertions.assertThrows(MemberNotFoundException::class.java){ memberService.deleteMember(member) }
+        shouldThrow<MemberNotFoundException> {
+            memberService.deleteMember(member)
+        }
     }
 
     @AfterEach

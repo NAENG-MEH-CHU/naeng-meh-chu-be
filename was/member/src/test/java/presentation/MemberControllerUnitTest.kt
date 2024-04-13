@@ -1,5 +1,6 @@
 package presentation
 
+import io.kotest.matchers.shouldBe
 import org.example.application.MemberService
 import org.example.domain.entity.Member
 import org.example.domain.enums.Gender
@@ -46,6 +47,6 @@ class MemberControllerUnitTest {
         val result = memberController.updateNickname(member, nickname)
 
         // Then
-        Assertions.assertEquals(result, ResponseEntity<Unit>(HttpStatus.OK))
+        result shouldBe ResponseEntity<Unit>(HttpStatus.OK)
     }
 }
