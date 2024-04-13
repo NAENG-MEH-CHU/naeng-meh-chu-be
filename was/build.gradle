@@ -18,6 +18,7 @@ configurations {
     compileOnly {
         extendsFrom annotationProcessor
     }
+    asciidoctorExt
 }
 
 repositories {
@@ -42,6 +43,13 @@ subprojects {
         mavenCentral()
     }
 
+    configurations {
+        compileOnly {
+            extendsFrom annotationProcessor
+        }
+        asciidoctorExt
+    }
+
     ext {
         set('snippetsDir', file("build/generated-snippets"))
     }
@@ -61,6 +69,8 @@ subprojects {
         testImplementation("io.kotest:kotest-runner-junit5")
         // Assertion library
         testImplementation("io.kotest:kotest-assertions-core")
+        asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor'
+
     }
 
     tasks.named('test') {
@@ -71,6 +81,29 @@ subprojects {
     tasks.named('asciidoctor') {
         inputs.dir snippetsDir
         dependsOn test
+    }
+
+    asciidoctor {
+        dependsOn test
+        configurations 'asciidoctorExt'
+        baseDirFollowsSourceFile()
+    }
+
+    tasks.register('copyApiDocument', Copy) {
+        dependsOn asciidoctor
+        doFirst {
+            delete file("src/main/resources/static/docs")
+        }
+        from asciidoctor.outputDir
+        into file("src/main/resources/static/docs")
+    }
+
+    bootJar {
+        dependsOn copyApiDocument
+    }
+
+    build {
+        dependsOn copyApiDocument
     }
 }
 
@@ -86,6 +119,7 @@ dependencies {
     implementation group: "io.jsonwebtoken", name: "jjwt-api", version: "0.11.2"
     implementation group: "io.jsonwebtoken", name: "jjwt-impl", version: "0.11.2"
     implementation group: "io.jsonwebtoken", name: "jjwt-jackson", version: "0.11.2"
+    asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor'
 }
 
 tasks.named('test') {
