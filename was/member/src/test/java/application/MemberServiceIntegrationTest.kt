@@ -73,7 +73,7 @@ open class MemberServiceIntegrationTest(
 
         //then
         shouldThrow<GenderNotValidException> {
-            memberService.updateGender("여성", member)
+            memberService.updateGender("중성", member)
         }
     }
 
@@ -84,7 +84,6 @@ open class MemberServiceIntegrationTest(
 
         //when
         memberService.deleteMember(member)
-        val changedMember = memberRepository.findById(member.id)
 
         //then
         shouldThrow<MemberNotFoundException> {
