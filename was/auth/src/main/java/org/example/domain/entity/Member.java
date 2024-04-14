@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.example.domain.enums.Gender;
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.UUID;
 
 @AllArgsConstructor(staticName = "of")
@@ -26,35 +28,37 @@ public class Member {
     @Column
     private String nickname;
 
-    @Lob
-    private String ingredients;
+    @Column
+    private long ingredients;
 
     @Column
-    private int age;
+    private LocalDate age;
 
     @Column
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    private void addIngredient(final int value) {
-        convertIngredientTo(getChangingIndex(value), "1");
+    public boolean containsIngredient(final int value) {
+        return (ingredients & value) == value;
     }
 
-    private void removeIngredient(final int value) {
-        convertIngredientTo(getChangingIndex(value), "0");
+    public void addIngredient(final int value) {
+        ingredients |= value;
     }
 
-    private void convertIngredientTo(final int index, final String target) {
-        ingredients = ingredients.substring(0, index-1)
-                + target
-                + ingredients.substring(index+1);
+    public void removeIngredient(final int value) {
+        ingredients &= ~value;
     }
 
-    private int getChangingIndex(final int value) {
-        return ingredients.length() - value;
-    }
-
-    private void updateNickname(final String nickname) {
+    public void updateNickname(final String nickname) {
         this.nickname = nickname;
+    }
+
+    public void updateGender(final Gender gender) {
+        this.gender = gender;
+    }
+
+    public void updateAge(final LocalDate birth) {
+        this.age = birth;
     }
 }

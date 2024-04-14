@@ -93,7 +93,7 @@ public class OAuthLoginService {
         Member member = Member.builder()
                 .id(null)
                 .email(oAuthUserInfo.getEmail())
-                .ingredients("0")
+                .ingredients(0)
                 .age(oAuthUserInfo.getAge())
                 .gender(oAuthUserInfo.getGender())
                 .nickname(oAuthUserInfo.getNickname())
