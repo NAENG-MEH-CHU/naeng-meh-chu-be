@@ -63,6 +63,19 @@ open class MemberServiceIntegrationTest(
         changedMember.gender shouldBe  Gender.FEMALE
     }
 
+    @DisplayName("회원의 성별 변경을 실패한다. 올바른 성별 입력이 아니다")
+    @Test
+    fun changeGender_fail_not_valid_gender() {
+        // given
+
+        //when
+
+        //then
+        shouldThrow<GenderNotValidException> {
+            memberService.updateGender("여성", member)
+        }
+    }
+
     @DisplayName("회원의 삭제를 성공한다.")
     @Test
     fun deleteMember_success() {
