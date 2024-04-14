@@ -10,6 +10,7 @@ import org.example.domain.enums.Gender
 import org.example.domain.repository.MemberRepository
 import org.example.infrastructure.JwtTokenProvider
 import org.example.presentation.MemberController
+import org.example.presentation.dto.ChangeGenderRequest
 import org.example.presentation.dto.ChangeNicknameRequest
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeAll
@@ -123,6 +124,80 @@ class MemberControllerIntegrationTest(
                                 headerWithName(HttpHeaders.AUTHORIZATION).description("로그인 후 제공되는 Bearer 토큰")
                         ),
                 )).andReturn();
+    }
+
+    @DisplayName("회원의 성별 수정을 성공한다")
+    @Test
+    fun updateGender_success() {
+        val newGender = "여성"
+
+        mockMvc.perform(patch("/api/member/gender")
+            .header(HttpHeaders.AUTHORIZATION, "Bearer $accessToken")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(makeJson(ChangeGenderRequest(newGender))))
+            .andExpect(MockMvcResultMatchers.status().isOk)
+            .andDo(customDocument(
+                "update_gender",
+                requestHeaders(
+                    headerWithName(HttpHeaders.AUTHORIZATION).description("로그인 후 제공되는 Bearer 토큰")
+                ),
+                requestFields(
+                    fieldWithPath("gender").description("변경할 성별(`남성`, `여성` 으로 입력)"),
+                ),
+            )).andReturn()
+    }
+
+    @DisplayName("회원의 성별 수정을 실패한다. 토큰이 없을 경우")
+    @Test
+    fun updateGender_fail_no_token() {
+        val newGender = "여성"
+
+        mockMvc.perform(patch("/api/member/gender")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(makeJson(ChangeGenderRequest(newGender))))
+            .andExpect(MockMvcResultMatchers.status().isUnauthorized)
+            .andDo(customDocument(
+                "fail_to_update_gender_no_token",
+                requestFields(
+                    fieldWithPath("gender").description("변경할 성별(`남성`, `여성` 으로 입력)"),
+                ),
+            )).andReturn();
+    }
+
+    @DisplayName("회원의 성별 수정을 실패한다. 입력이 없을 경우")
+    @Test
+    fun updateGender_fail_no_gender() {
+
+        mockMvc.perform(patch("/api/member/gender")
+            .header(HttpHeaders.AUTHORIZATION, "Bearer $accessToken")
+            .contentType(MediaType.APPLICATION_JSON))
+            .andExpect(MockMvcResultMatchers.status().isBadRequest)
+            .andDo(customDocument(
+                "fail_to_update_gender_blank",
+                requestHeaders(
+                    headerWithName(HttpHeaders.AUTHORIZATION).description("로그인 후 제공되는 Bearer 토큰")
+                ),
+            )).andReturn();
+    }
+
+    @DisplayName("회원의 성별 수정을 실패한다. 입력이 `남성/여성`이 아닌경우 경우")
+    @Test
+    fun updateGender_fail_invalid_gender() {
+
+        mockMvc.perform(patch("/api/member/gender")
+            .header(HttpHeaders.AUTHORIZATION, "Bearer $accessToken")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(makeJson(ChangeGenderRequest("중성"))))
+            .andExpect(MockMvcResultMatchers.status().isBadRequest)
+            .andDo(customDocument(
+                "fail_to_update_gender_invalid",
+                requestHeaders(
+                    headerWithName(HttpHeaders.AUTHORIZATION).description("로그인 후 제공되는 Bearer 토큰")
+                ),
+                requestFields(
+                    fieldWithPath("gender").description("변경할 성별(`남성`, `여성` 으로 입력)"),
+                ),
+            )).andReturn();
     }
 
     @AfterEach
