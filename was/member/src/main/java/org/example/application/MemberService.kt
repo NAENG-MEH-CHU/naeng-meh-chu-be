@@ -5,8 +5,7 @@ import org.example.domain.entity.Member
 import org.example.domain.enums.Gender
 import org.example.domain.enums.Gender.*
 import org.example.domain.repository.MemberRepository
-import org.example.exception.exceptions.GenderNotValidException
-import org.example.exception.exceptions.MemberNotFoundException
+import org.example.exception.exceptions.*
 import org.example.presentation.dto.ChangeBirthRequest
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -51,9 +50,25 @@ open class MemberService(private val memberRepository: MemberRepository) {
     }
 
     private fun parseChangeBirthRequestToLocalDate(request: ChangeBirthRequest): LocalDate {
-        if(request.year === null) throw Error()
-        if(request.month === null) throw Error()
-        if(request.day === null) throw Error()
+        validateChangeBirthRequest(request)
         return LocalDate.of(request.year!!, request.month!!, request.day!!)
+    }
+
+    private fun validateChangeBirthRequest(request: ChangeBirthRequest) {
+        if(isBirthInputInvalid(request.year))
+            throw BirthNotValidException(getInvalidInputType(request.year), InvalidInputArea.YEAR)
+        if(isBirthInputInvalid(request.month))
+            throw BirthNotValidException(getInvalidInputType(request.month), InvalidInputArea.MONTH)
+        if(isBirthInputInvalid(request.day))
+            throw BirthNotValidException(getInvalidInputType(request.day), InvalidInputArea.DAY)
+    }
+
+    private fun isBirthInputInvalid(value: Int?): Boolean {
+        return value == 0 || value === null
+    }
+
+    private fun getInvalidInputType(value: Int?): InputValueType {
+        if(value === null) return InputValueType.NULL
+        return InputValueType.ZERO
     }
 }
