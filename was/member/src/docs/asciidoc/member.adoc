@@ -83,3 +83,24 @@ include::{snippets}/member-controller-integration-test/fail_to_update_gender_inv
 ==== 응답
 
 include::{snippets}/member-controller-integration-test/fail_to_update_gender_invalid/http-response.adoc[]
+
+== 회원 삭제
+
+=== 성공
+
+==== 요청
+
+include::{snippets}/member-controller-integration-test/delete_member/http-request.adoc[]
+include::{snippets}/member-controller-integration-test/delete_member/request-headers.adoc[]
+
+==== 응답
+
+include::{snippets}/member-controller-integration-test/delete_member/http-response.adoc[]
+
+=== 토큰이 없을 경우 성별 수정을 실패한다
+
+==== 응답
+
+include::{snippets}/member-controller-integration-test/fail_to_delete_member_no_token/http-response.adoc[]
+
+

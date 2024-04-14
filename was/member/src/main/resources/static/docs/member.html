@@ -461,6 +461,12 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_성별_입력이_남성_여성이_아닌_경우_성별_수정을_실패한다">2.4. 성별 입력이 '남성', '여성&#8217;이 아닌 경우 성별 수정을 실패한다</a></li>
 </ul>
 </li>
+<li><a href="#_회원_삭제">3. 회원 삭제</a>
+<ul class="sectlevel2">
+<li><a href="#_성공_3">3.1. 성공</a></li>
+<li><a href="#_토큰이_없을_경우_성별_수정을_실패한다_2">3.2. 토큰이 없을 경우 성별 수정을 실패한다</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -476,7 +482,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /api/member/nickname HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmZDMyNzViNS0yZTVlLTRkOGYtYjRlYy0xNTVkOGFkN2MzNTEiLCJpYXQiOjE3MTMwNzYwMDUsImV4cCI6MTcxMzA3OTYwNX0.rnPoPJ4JY2AglN-smi1-l156J9fSEcmddA4tRRRgf9E
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI3Zjg4NGQyNC0wMDc2LTRlNTAtYTNlZC1jMjAwMDA4ZDljMjkiLCJpYXQiOjE3MTMwNzY0MDcsImV4cCI6MTcxMzA4MDAwN30.lPnhpoxaxa0VCYuBN7cNGrZcGNaA7eueyhbQgzfbHPI
 Content-Length: 26
 Host: localhost:8080
 
@@ -618,7 +624,7 @@ Content-Length: 32
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /api/member/gender HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI3MzgzMjZmOC1mMTFmLTRkMDgtYWRlYS1kZmVjZTczOTA2NmQiLCJpYXQiOjE3MTMwNzYwMDQsImV4cCI6MTcxMzA3OTYwNH0.KXweMv4xGqi-Z38T_JIi2XOE3D5pE6OxT_GQ0HRXgKE
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjZGI4ZDkxMC03NTQ2LTQyOWUtYWFhYS01YjVhNzY4NjQ3NGIiLCJpYXQiOjE3MTMwNzY0MDYsImV4cCI6MTcxMzA4MDAwNn0.MkD35hyg3vZnnd-nVHeHyEGiuMRkmalMOz5g6e9Ff0s
 Content-Length: 25
 Host: localhost:8080
 
@@ -803,11 +809,70 @@ Content-Length: 42
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="_회원_삭제"><a class="link" href="#_회원_삭제">3. 회원 삭제</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_성공_3"><a class="link" href="#_성공_3">3.1. 성공</a></h3>
+<div class="sect3">
+<h4 id="_요청_7"><a class="link" href="#_요청_7">3.1.1. 요청</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">DELETE /api/member HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4YmQzMjU5ZS05YTBmLTQzNmMtOTg4My02MjJhMDVlNTk4NTciLCJpYXQiOjE3MTMwNzY0MDcsImV4cCI6MTcxMzA4MDAwN30.sheW4H26L62IItFJD2qdoMB-utUF-FQLiyFM4Hjavl4
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Authorization</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">로그인 후 제공되는 Bearer 토큰</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_응답_8"><a class="link" href="#_응답_8">3.1.2. 응답</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 204 No Content</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_토큰이_없을_경우_성별_수정을_실패한다_2"><a class="link" href="#_토큰이_없을_경우_성별_수정을_실패한다_2">3.2. 토큰이 없을 경우 성별 수정을 실패한다</a></h3>
+<div class="sect3">
+<h4 id="_응답_9"><a class="link" href="#_응답_9">3.2.1. 응답</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 401 Unauthorized
+Content-Type: text/plain;charset=UTF-8
+Content-Length: 32
+
+로그인 후 이용해주세요</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2024-04-14 15:26:25 +0900
+Last updated 2024-04-14 15:33:17 +0900
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
