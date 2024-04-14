@@ -5,6 +5,7 @@ import org.example.application.MemberService
 import org.example.domain.entity.Member
 import org.example.domain.enums.Gender
 import org.example.presentation.MemberController
+import org.example.presentation.dto.ChangeGenderRequest
 import org.example.presentation.dto.ChangeNicknameRequest
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
@@ -18,7 +19,6 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 
 @ExtendWith(MockitoExtension::class)
-@AutoConfigureRestDocs
 class MemberControllerUnitTest {
 
     @Mock
@@ -82,6 +82,6 @@ class MemberControllerUnitTest {
         val result = memberController.deleteMember(member)
 
         // Then
-        result shouldBe ResponseEntity<Unit>(HttpStatus.OK)
+        result shouldBe ResponseEntity<Unit>(HttpStatus.NO_CONTENT)
     }
 }
