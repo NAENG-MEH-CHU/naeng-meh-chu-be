@@ -51,4 +51,37 @@ class MemberControllerUnitTest {
         // Then
         result shouldBe ResponseEntity<Unit>(HttpStatus.OK)
     }
+
+    @DisplayName("회원의 성별을 성공적으로 수정한다.")
+    @Test
+    fun updateGender() {
+        // Given
+        val gender = "여성"
+
+        // When
+        Mockito
+            .doNothing()
+            .`when`(memberService)
+            .updateGender(gender, member)
+        val result = memberController.updateGender(member, ChangeGenderRequest(gender))
+
+        // Then
+        result shouldBe ResponseEntity<Unit>(HttpStatus.OK)
+    }
+
+    @DisplayName("회원을 성공적으로 삭제한다.")
+    @Test
+    fun deleteMember() {
+        // Given
+
+        // When
+        Mockito
+            .doNothing()
+            .`when`(memberService)
+            .deleteMember(member)
+        val result = memberController.deleteMember(member)
+
+        // Then
+        result shouldBe ResponseEntity<Unit>(HttpStatus.OK)
+    }
 }
