@@ -6,6 +6,7 @@ import org.example.domain.entity.Member
 import org.example.domain.enums.Gender
 import org.example.domain.repository.MemberRepository
 import org.example.exception.exceptions.MemberNotFoundException
+import org.example.presentation.dto.ChangeBirthRequest
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
@@ -53,6 +54,20 @@ class MemberServiceUnitTest {
         // When
         Mockito.`when`(memberRepository.save(member)).thenReturn(member)
         val result = memberService.updateGender("남성", member)
+
+        // Then
+        result shouldBe Unit
+    }
+
+    @DisplayName("회원의 출생년도를 성공적으로 수정한다")
+    @Test
+    fun updateAge() {
+        // Given
+        val request = ChangeBirthRequest(1998, 9, 5)
+
+        // When
+        Mockito.`when`(memberRepository.save(member)).thenReturn(member)
+        val result = memberService.updateBirth(request, member)
 
         // Then
         result shouldBe Unit
