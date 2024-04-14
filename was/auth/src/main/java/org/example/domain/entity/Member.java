@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.example.domain.enums.Gender;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.UUID;
 
@@ -31,7 +32,7 @@ public class Member {
     private long ingredients;
 
     @Column
-    private Date age;
+    private LocalDate age;
 
     @Column
     @Enumerated(EnumType.STRING)
@@ -55,5 +56,9 @@ public class Member {
 
     public void updateGender(final Gender gender) {
         this.gender = gender;
+    }
+
+    public void updateAge(final LocalDate birth) {
+        this.age = birth;
     }
 }

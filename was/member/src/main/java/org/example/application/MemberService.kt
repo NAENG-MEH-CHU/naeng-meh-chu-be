@@ -7,8 +7,10 @@ import org.example.domain.enums.Gender.*
 import org.example.domain.repository.MemberRepository
 import org.example.exception.exceptions.GenderNotValidException
 import org.example.exception.exceptions.MemberNotFoundException
+import org.example.presentation.dto.ChangeBirthRequest
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.time.LocalDate
 
 @Service
 @RequiredArgsConstructor
@@ -27,6 +29,12 @@ open class MemberService(private val memberRepository: MemberRepository) {
     }
 
     @Transactional
+    open fun updateBirth(request: ChangeBirthRequest, member: Member) {
+        member.updateAge(parseChangeBirthRequestToLocalDate(request))
+        memberRepository.save(member)
+    }
+
+    @Transactional
     open fun deleteMember(member: Member) {
         if(memberRepository.existsById(member.id)) {
             memberRepository.delete(member)
@@ -40,5 +48,12 @@ open class MemberService(private val memberRepository: MemberRepository) {
         if(genderString == MALE.value) return MALE;
         if(genderString == FEMALE.value) return FEMALE;
         throw GenderNotValidException()
+    }
+
+    private fun parseChangeBirthRequestToLocalDate(request: ChangeBirthRequest): LocalDate {
+        if(request.year === null) throw Error()
+        if(request.month === null) throw Error()
+        if(request.day === null) throw Error()
+        return LocalDate.of(request.year!!, request.month!!, request.day!!)
     }
 }
