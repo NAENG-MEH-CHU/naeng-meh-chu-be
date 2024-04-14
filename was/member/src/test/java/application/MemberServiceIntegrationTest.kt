@@ -7,6 +7,7 @@ import org.example.application.MemberService
 import org.example.domain.entity.Member
 import org.example.domain.enums.Gender
 import org.example.domain.repository.MemberRepository
+import org.example.exception.exceptions.GenderNotValidException
 import org.example.exception.exceptions.MemberNotFoundException
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions
