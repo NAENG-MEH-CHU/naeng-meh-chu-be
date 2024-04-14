@@ -200,6 +200,31 @@ class MemberControllerIntegrationTest(
             )).andReturn();
     }
 
+    @DisplayName("회원 삭제를 성공한다")
+    @Test
+    fun deleteMember_success() {
+        mockMvc.perform(delete("/api/member")
+            .header(HttpHeaders.AUTHORIZATION, "Bearer $accessToken"))
+            .andExpect(MockMvcResultMatchers.status().isNoContent)
+            .andDo(customDocument(
+                "delete_member",
+                requestHeaders(
+                    headerWithName(HttpHeaders.AUTHORIZATION).description("로그인 후 제공되는 Bearer 토큰")
+                ),
+            )).andReturn()
+    }
+
+    @DisplayName("회원의 성별 수정을 실패한다. 토큰이 없을 경우")
+    @Test
+    fun deleteMember_fail_no_token() {
+
+        mockMvc.perform(delete("/api/member"))
+            .andExpect(MockMvcResultMatchers.status().isUnauthorized)
+            .andDo(customDocument(
+                "fail_to_delete_member_no_token",
+            )).andReturn();
+    }
+
     @AfterEach
     fun removeMember() {
         memberRepository.delete(member)
