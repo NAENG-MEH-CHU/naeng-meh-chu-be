@@ -5,6 +5,7 @@ import org.example.application.MemberService
 import org.example.domain.entity.Member
 import org.example.domain.enums.Gender
 import org.example.domain.repository.MemberRepository
+import org.example.exception.exceptions.MemberNotFoundException
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
@@ -52,6 +53,20 @@ class MemberServiceUnitTest {
         // When
         Mockito.`when`(memberRepository.save(member)).thenReturn(member)
         val result = memberService.updateGender("남성", member)
+
+        // Then
+        result shouldBe Unit
+    }
+
+    @DisplayName("회원을 성공적으로 삭제한다.")
+    @Test
+    fun deleteMember() {
+        // Given
+
+        // When
+        Mockito.`when`(memberRepository.existsById(member.id)).thenReturn(true)
+        Mockito.doNothing().`when`(memberRepository).delete(member)
+        val result = memberService.deleteMember(member)
 
         // Then
         result shouldBe Unit
