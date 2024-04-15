@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import org.example.MemberApplication
 import org.example.application.MemberService
 import org.example.domain.entity.Member
+import org.example.domain.enums.Age
 import org.example.domain.enums.Gender
 import org.example.domain.repository.MemberRepository
 import org.example.infrastructure.JwtTokenProvider
@@ -65,12 +66,64 @@ class MemberControllerIntegrationTest(
         member = Member.builder()
                 .nickname("before")
                 .age(null)
-                .gender(Gender.MALE)
+                .gender(null)
                 .email("test@test.com")
                 .ingredients(0)
                 .build()
         memberRepository.save(member)
         accessToken = jwtTokenProvider.createAccessToken(member.id.toString())
+    }
+
+    @DisplayName("회원의 정보 조회를 성공한다")
+    @Test
+    fun findMemberData_success() {
+        mockMvc.perform(
+            get("/api/member/me")
+            .header(HttpHeaders.AUTHORIZATION, "Bearer $accessToken"))
+            .andExpect(MockMvcResultMatchers.status().isOk)
+            .andDo(customDocument(
+                "find_member_data",
+                requestHeaders(
+                    headerWithName(HttpHeaders.AUTHORIZATION).description("로그인 후 제공되는 Bearer 토큰")
+                ),
+            )).andReturn()
+    }
+
+    @DisplayName("회원의 정보 조회를 실패한다. 토큰이 없을 경우")
+    @Test
+    fun findMemberData_fail_no_token() {
+
+        mockMvc.perform(get("/api/member/me"))
+            .andExpect(MockMvcResultMatchers.status().isUnauthorized)
+            .andDo(customDocument(
+                "fail_to_find_member_data_no_token",
+            )).andReturn();
+    }
+
+    @DisplayName("변경 가능한 나이대 조회를 성공한다")
+    @Test
+    fun findAgeOption_success() {
+        mockMvc.perform(
+            get("/api/member/age")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer $accessToken"))
+            .andExpect(MockMvcResultMatchers.status().isOk)
+            .andDo(customDocument(
+                "find_age_option",
+                requestHeaders(
+                    headerWithName(HttpHeaders.AUTHORIZATION).description("로그인 후 제공되는 Bearer 토큰")
+                ),
+            )).andReturn()
+    }
+
+    @DisplayName("변경 가능한 나이대 조회를 실패한다. 토큰이 없을 경우")
+    @Test
+    fun findAgeOption_fail_no_token() {
+
+        mockMvc.perform(get("/api/member/age"))
+            .andExpect(MockMvcResultMatchers.status().isUnauthorized)
+            .andDo(customDocument(
+                "fail_to_find_age_option_no_token",
+            )).andReturn();
     }
 
     @DisplayName("회원의 닉네임 수정을 성공한다")
