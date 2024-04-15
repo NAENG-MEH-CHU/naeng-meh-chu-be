@@ -122,6 +122,19 @@ dependencies {
     asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor'
 }
 
+jar {
+    enabled = true
+    from(":auth") {
+        include "build/libs/*.jar"
+    }
+    from(":member") {
+        include "build/libs/*.jar"
+    }
+    from(":fridge") {
+        include "build/libs/*.jar"
+    }
+}
+
 tasks.named('test') {
     outputs.dir snippetsDir
     useJUnitPlatform()
