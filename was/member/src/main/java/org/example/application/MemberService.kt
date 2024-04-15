@@ -2,6 +2,7 @@ package org.example.application
 
 import lombok.RequiredArgsConstructor
 import org.example.domain.entity.Member
+import org.example.domain.enums.Age
 import org.example.domain.enums.Gender
 import org.example.domain.enums.Gender.*
 import org.example.domain.repository.MemberRepository
@@ -28,7 +29,8 @@ open class MemberService(private val memberRepository: MemberRepository) {
 
     @Transactional
     open fun updateAge(request: ChangeAgeRequest, member: Member) {
-        member.updateAge(request.getAge())
+        val age = parseAge(request.getAge())
+        member.updateAge(age)
         memberRepository.save(member)
     }
 
@@ -46,5 +48,18 @@ open class MemberService(private val memberRepository: MemberRepository) {
         if(genderString == MALE.value) return MALE;
         if(genderString == FEMALE.value) return FEMALE;
         throw GenderNotValidException()
+    }
+
+    private fun parseAge(age: String): Age {
+        if (age == Age.TEEN.type) return Age.TEEN
+        if (age == Age.TWENTIES.type) return Age.TWENTIES
+        if (age == Age.THIRTIES.type) return Age.THIRTIES
+        if (age == Age.FORTIES.type) return Age.FORTIES
+        if (age == Age.FIFTIES.type) return Age.FIFTIES
+        if (age == Age.SIXTIES.type) return Age.SIXTIES
+        if (age == Age.SEVENTIES.type) return Age.SEVENTIES
+        if (age == Age.EIGHTIES.type) return Age.EIGHTIES
+        if (age == Age.NINETIES.type) return Age.NINETIES
+        throw AgeNotValidException()
     }
 }
