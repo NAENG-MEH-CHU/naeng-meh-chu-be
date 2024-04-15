@@ -2,18 +2,22 @@ package org.example.application
 
 import lombok.RequiredArgsConstructor
 import org.example.domain.entity.Member
+import org.example.domain.enums.Age
 import org.example.domain.enums.Gender
 import org.example.domain.enums.Gender.*
 import org.example.domain.repository.MemberRepository
 import org.example.exception.exceptions.*
-import org.example.presentation.dto.ChangeBirthRequest
+import org.example.presentation.dto.ChangeAgeRequest
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.time.LocalDate
 
 @Service
 @RequiredArgsConstructor
 open class MemberService(private val memberRepository: MemberRepository) {
+
+    open fun findAgeOptions(): List<String> {
+        return Age.entries.map { age -> age.type };
+    }
 
     @Transactional
     open fun updateNickname(nickname:String, member: Member) {
@@ -28,8 +32,9 @@ open class MemberService(private val memberRepository: MemberRepository) {
     }
 
     @Transactional
-    open fun updateBirth(request: ChangeBirthRequest, member: Member) {
-        member.updateAge(parseChangeBirthRequestToLocalDate(request))
+    open fun updateAge(request: ChangeAgeRequest, member: Member) {
+        val age = parseAge(request.getAge())
+        member.updateAge(age)
         memberRepository.save(member)
     }
 
@@ -49,26 +54,16 @@ open class MemberService(private val memberRepository: MemberRepository) {
         throw GenderNotValidException()
     }
 
-    private fun parseChangeBirthRequestToLocalDate(request: ChangeBirthRequest): LocalDate {
-        validateChangeBirthRequest(request)
-        return LocalDate.of(request.year!!, request.month!!, request.day!!)
-    }
-
-    private fun validateChangeBirthRequest(request: ChangeBirthRequest) {
-        if(isBirthInputInvalid(request.year))
-            throw BirthNotValidException(getInvalidInputType(request.year), InvalidInputArea.YEAR)
-        if(isBirthInputInvalid(request.month))
-            throw BirthNotValidException(getInvalidInputType(request.month), InvalidInputArea.MONTH)
-        if(isBirthInputInvalid(request.day))
-            throw BirthNotValidException(getInvalidInputType(request.day), InvalidInputArea.DAY)
-    }
-
-    private fun isBirthInputInvalid(value: Int?): Boolean {
-        return value == 0 || value === null
-    }
-
-    private fun getInvalidInputType(value: Int?): InputValueType {
-        if(value === null) return InputValueType.NULL
-        return InputValueType.ZERO
+    private fun parseAge(age: String): Age {
+        if (age == Age.TEEN.type) return Age.TEEN
+        if (age == Age.TWENTIES.type) return Age.TWENTIES
+        if (age == Age.THIRTIES.type) return Age.THIRTIES
+        if (age == Age.FORTIES.type) return Age.FORTIES
+        if (age == Age.FIFTIES.type) return Age.FIFTIES
+        if (age == Age.SIXTIES.type) return Age.SIXTIES
+        if (age == Age.SEVENTIES.type) return Age.SEVENTIES
+        if (age == Age.EIGHTIES.type) return Age.EIGHTIES
+        if (age == Age.NINETIES.type) return Age.NINETIES
+        throw AgeNotValidException()
     }
 }

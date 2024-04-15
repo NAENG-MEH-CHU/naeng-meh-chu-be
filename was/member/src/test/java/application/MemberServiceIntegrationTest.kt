@@ -5,10 +5,13 @@ import io.kotest.matchers.shouldBe
 import org.example.MemberApplication
 import org.example.application.MemberService
 import org.example.domain.entity.Member
+import org.example.domain.enums.Age
 import org.example.domain.enums.Gender
 import org.example.domain.repository.MemberRepository
+import org.example.exception.exceptions.AgeNotValidException
 import org.example.exception.exceptions.GenderNotValidException
 import org.example.exception.exceptions.MemberNotFoundException
+import org.example.presentation.dto.ChangeAgeRequest
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
@@ -74,6 +77,32 @@ open class MemberServiceIntegrationTest(
         //then
         shouldThrow<GenderNotValidException> {
             memberService.updateGender("중성", member)
+        }
+    }
+
+    @DisplayName("회원의 나이대 변경을 성공한다.")
+    @Test
+    fun changeAge_success() {
+        // given
+
+        //when
+        memberService.updateAge(ChangeAgeRequest("30대"), member)
+        val changedMember = memberRepository.findById(member.id).orElseThrow{ MemberNotFoundException() }
+
+        //then
+        changedMember.age shouldBe Age.THIRTIES
+    }
+
+    @DisplayName("회원의 나이대 변경을 실패한다. 올바른 나이대 입력이 아니다")
+    @Test
+    fun changeAge_fail_not_valid_age() {
+        // given
+
+        //when
+
+        //then
+        shouldThrow<AgeNotValidException> {
+            memberService.updateAge(ChangeAgeRequest("111"), member)
         }
     }
 

@@ -5,6 +5,7 @@ import org.example.application.MemberService
 import org.example.domain.entity.Member
 import org.example.domain.enums.Gender
 import org.example.presentation.MemberController
+import org.example.presentation.dto.ChangeAgeRequest
 import org.example.presentation.dto.ChangeGenderRequest
 import org.example.presentation.dto.ChangeNicknameRequest
 import org.junit.jupiter.api.DisplayName
@@ -64,6 +65,23 @@ class MemberControllerUnitTest {
             .`when`(memberService)
             .updateGender(gender, member)
         val result = memberController.updateGender(member, ChangeGenderRequest(gender))
+
+        // Then
+        result shouldBe ResponseEntity<Unit>(HttpStatus.OK)
+    }
+
+    @DisplayName("회원의 나이대를 성공적으로 수정한다.")
+    @Test
+    fun updateAge() {
+        // Given
+        val request = ChangeAgeRequest("30대")
+
+        // When
+        Mockito
+            .doNothing()
+            .`when`(memberService)
+            .updateAge(request, member)
+        val result = memberController.updateAge(member, request)
 
         // Then
         result shouldBe ResponseEntity<Unit>(HttpStatus.OK)
