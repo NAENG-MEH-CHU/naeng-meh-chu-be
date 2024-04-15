@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.example.domain.enums.Age;
 import org.example.domain.enums.Gender;
 
 import java.time.LocalDate;
@@ -32,7 +33,8 @@ public class Member {
     private long ingredients;
 
     @Column
-    private LocalDate age;
+    @Enumerated(EnumType.STRING)
+    private Age age;
 
     @Column
     @Enumerated(EnumType.STRING)
@@ -58,7 +60,7 @@ public class Member {
         this.gender = gender;
     }
 
-    public void updateAge(final LocalDate birth) {
-        this.age = birth;
+    public void updateAge(final Age age) {
+        this.age = age;
     }
 }

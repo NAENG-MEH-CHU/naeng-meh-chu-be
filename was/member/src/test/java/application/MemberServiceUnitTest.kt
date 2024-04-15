@@ -3,11 +3,10 @@ package application
 import io.kotest.matchers.shouldBe
 import org.example.application.MemberService
 import org.example.domain.entity.Member
+import org.example.domain.enums.Age
 import org.example.domain.enums.Gender
 import org.example.domain.repository.MemberRepository
-import org.example.exception.exceptions.MemberNotFoundException
-import org.example.presentation.dto.ChangeBirthRequest
-import org.junit.jupiter.api.Assertions
+import org.example.presentation.dto.ChangeAgeRequest
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -63,7 +62,7 @@ class MemberServiceUnitTest {
     @Test
     fun updateAge() {
         // Given
-        val request = ChangeBirthRequest(1998, 9, 5)
+        val request = ChangeAgeRequest(Age.THIRTIES.type)
 
         // When
         Mockito.`when`(memberRepository.save(member)).thenReturn(member)

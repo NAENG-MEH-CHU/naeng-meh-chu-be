@@ -27,4 +27,17 @@ public enum Age {
     public String getType() {
         return type;
     }
+
+    public static Age getAgeByType(String type) {
+        if(type.equals(TEEN.type)) return TEEN;
+        if(type.equals(TWENTIES.type)) return TWENTIES;
+        if(type.equals(THIRTIES.type)) return THIRTIES;
+        if(type.equals(FORTIES.type)) return FORTIES;
+        if(type.equals(FIFTIES.type)) return FIFTIES;
+        if(type.equals(SIXTIES.type)) return SIXTIES;
+        if(type.equals(SEVENTIES.type)) return SEVENTIES;
+        if(type.equals(EIGHTIES.type)) return EIGHTIES;
+        if(type.equals(NINETIES.type)) return NINETIES;
+        return null;
+    }
 }

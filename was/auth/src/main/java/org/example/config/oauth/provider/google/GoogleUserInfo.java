@@ -3,6 +3,7 @@ package org.example.config.oauth.provider.google;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.example.config.oauth.params.OAuthProvider;
 import org.example.config.oauth.provider.OAuth2UserInfo;
+import org.example.domain.enums.Age;
 import org.example.domain.enums.Gender;
 
 import java.time.LocalDate;
@@ -27,7 +28,7 @@ public class GoogleUserInfo implements OAuth2UserInfo {
     }
 
     @Override
-    public LocalDate getAge() {
+    public Age getAge() {
         return null;
     }
 

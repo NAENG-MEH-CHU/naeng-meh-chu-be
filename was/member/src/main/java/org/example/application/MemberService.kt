@@ -6,10 +6,9 @@ import org.example.domain.enums.Gender
 import org.example.domain.enums.Gender.*
 import org.example.domain.repository.MemberRepository
 import org.example.exception.exceptions.*
-import org.example.presentation.dto.ChangeBirthRequest
+import org.example.presentation.dto.ChangeAgeRequest
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.time.LocalDate
 
 @Service
 @RequiredArgsConstructor
@@ -28,8 +27,7 @@ open class MemberService(private val memberRepository: MemberRepository) {
     }
 
     @Transactional
-    open fun updateBirth(request: ChangeBirthRequest, member: Member) {
-        member.updateAge(parseChangeBirthRequestToLocalDate(request))
+    open fun updateBirth(request: ChangeAgeRequest, member: Member) {
         memberRepository.save(member)
     }
 
@@ -47,28 +45,5 @@ open class MemberService(private val memberRepository: MemberRepository) {
         if(genderString == MALE.value) return MALE;
         if(genderString == FEMALE.value) return FEMALE;
         throw GenderNotValidException()
-    }
-
-    private fun parseChangeBirthRequestToLocalDate(request: ChangeBirthRequest): LocalDate {
-        validateChangeBirthRequest(request)
-        return LocalDate.of(request.year!!, request.month!!, request.day!!)
-    }
-
-    private fun validateChangeBirthRequest(request: ChangeBirthRequest) {
-        if(isBirthInputInvalid(request.year))
-            throw BirthNotValidException(getInvalidInputType(request.year), InvalidInputArea.YEAR)
-        if(isBirthInputInvalid(request.month))
-            throw BirthNotValidException(getInvalidInputType(request.month), InvalidInputArea.MONTH)
-        if(isBirthInputInvalid(request.day))
-            throw BirthNotValidException(getInvalidInputType(request.day), InvalidInputArea.DAY)
-    }
-
-    private fun isBirthInputInvalid(value: Int?): Boolean {
-        return value == 0 || value === null
-    }
-
-    private fun getInvalidInputType(value: Int?): InputValueType {
-        if(value === null) return InputValueType.NULL
-        return InputValueType.ZERO
     }
 }
