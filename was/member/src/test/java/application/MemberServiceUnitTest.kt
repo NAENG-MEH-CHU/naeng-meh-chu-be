@@ -66,7 +66,7 @@ class MemberServiceUnitTest {
 
         // When
         Mockito.`when`(memberRepository.save(member)).thenReturn(member)
-        val result = memberService.updateBirth(request, member)
+        val result = memberService.updateAge(request, member)
 
         // Then
         result shouldBe Unit
