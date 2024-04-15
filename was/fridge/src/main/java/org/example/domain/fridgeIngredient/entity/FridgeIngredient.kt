@@ -18,7 +18,7 @@ open class FridgeIngredient(
     private var expiresAt: LocalDate
 ) {
 
-    constructor(memberId: UUID, ingredientId: Int, expiresAt: LocalDate) : this(null, memberId, ingredientId, expiresAt) {
+    public constructor(memberId: UUID, ingredientId: Int, expiresAt: LocalDate) : this(null, memberId, ingredientId, expiresAt) {
         this.memberId = memberId
         this.ingredientId = ingredientId
         this.expiresAt = expiresAt
