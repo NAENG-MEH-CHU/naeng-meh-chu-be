@@ -88,7 +88,9 @@ public class OAuthLoginService {
     @Transactional
     public String loginThroughApp(final OAuthLoginRequest request, final String provider) {
         OAuthProvider oAuthProvider = findProvider(provider);
-
+        OAuth2UserInfo oAuthUserInfo = requestOAuthInfoService.findThroughToken(oAuthProvider, request.getToken());
+        UUID memberId = findOrCreateUser(oAuthUserInfo);
+        return tokenProvider.createAccessToken(memberId.toString());
     }
 
     private UUID findOrCreateUser(OAuth2UserInfo oAuthUserInfo) {
