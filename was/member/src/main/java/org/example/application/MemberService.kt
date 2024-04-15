@@ -15,6 +15,10 @@ import org.springframework.transaction.annotation.Transactional
 @RequiredArgsConstructor
 open class MemberService(private val memberRepository: MemberRepository) {
 
+    open fun findAgeOptions(): List<String> {
+        return Age.entries.map { age -> age.type };
+    }
+
     @Transactional
     open fun updateNickname(nickname:String, member: Member) {
         member.updateNickname(nickname);
