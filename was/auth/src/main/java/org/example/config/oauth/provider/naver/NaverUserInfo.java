@@ -2,8 +2,11 @@ package org.example.config.oauth.provider.naver;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.example.config.oauth.params.OAuthProvider;
 import org.example.config.oauth.provider.OAuth2UserInfo;
+import org.example.domain.enums.Age;
 import org.example.domain.enums.Gender;
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.Map;
 
 public class NaverUserInfo implements OAuth2UserInfo {
@@ -22,8 +25,8 @@ public class NaverUserInfo implements OAuth2UserInfo {
     }
 
     @Override
-    public int getAge() {
-        return 0;
+    public Age getAge() {
+        return null;
     }
 
     @Override

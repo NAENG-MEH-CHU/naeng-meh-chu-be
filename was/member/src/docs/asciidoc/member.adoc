@@ -1,0 +1,195 @@
+:toc: left
+:source-highlighter: highlightjs
+:sectlinks:
+:toclevels: 2
+:sectlinks:
+:sectnums:
+
+= Member
+
+== 회원 정보 조회
+
+=== 성공
+
+==== 요청
+
+include::{snippets}/member-controller-integration-test/find_member_data/http-request.adoc[]
+include::{snippets}/member-controller-integration-test/find_member_data/request-headers.adoc[]
+
+==== 응답
+
+include::{snippets}/member-controller-integration-test/find_member_data/http-response.adoc[]
+
+=== 토큰이 없을 경우 정보 조회를 실패한다
+
+==== 요청
+
+include::{snippets}/member-controller-integration-test/fail_to_find_member_data_no_token/request-fields.adoc[]
+
+==== 응답
+
+include::{snippets}/member-controller-integration-test/fail_to_find_member_data_no_token/http-response.adoc[]
+
+== 수정 가능한 나이대 조회
+
+=== 성공
+
+==== 요청
+
+include::{snippets}/member-controller-integration-test/find_age_option/http-request.adoc[]
+include::{snippets}/member-controller-integration-test/find_age_option/request-headers.adoc[]
+
+==== 응답
+
+include::{snippets}/member-controller-integration-test/find_age_option/http-response.adoc[]
+
+=== 토큰이 없을 경우 나이대 조회를 실패한다
+
+==== 요청
+
+include::{snippets}/member-controller-integration-test/fail_to_find_age_option_no_token/request-fields.adoc[]
+
+==== 응답
+
+include::{snippets}/member-controller-integration-test/fail_to_find_age_option_no_token/http-response.adoc[]
+
+== 회원 닉네임 수정
+
+=== 성공
+
+==== 요청
+
+include::{snippets}/member-controller-integration-test/update_nickname/http-request.adoc[]
+include::{snippets}/member-controller-integration-test/update_nickname/request-headers.adoc[]
+include::{snippets}/member-controller-integration-test/update_nickname/request-fields.adoc[]
+
+==== 응답
+
+include::{snippets}/member-controller-integration-test/update_nickname/http-response.adoc[]
+
+=== 토큰이 없을 경우 닉네임 수정을 실패한다
+
+==== 요청
+
+include::{snippets}/member-controller-integration-test/fail_to_update_nickname_no_token/request-fields.adoc[]
+
+==== 응답
+
+include::{snippets}/member-controller-integration-test/fail_to_update_nickname_no_token/http-response.adoc[]
+
+=== 닉네임 입력이 없을 경우 닉네임 수정을 실패한다
+
+==== 요청
+
+include::{snippets}/member-controller-integration-test/fail_to_update_nickname_no_nickname/request-headers.adoc[]
+
+==== 응답
+
+include::{snippets}/member-controller-integration-test/fail_to_update_nickname_no_nickname/http-response.adoc[]
+
+== 회원 성별 수정
+
+=== 성공
+
+==== 요청
+
+include::{snippets}/member-controller-integration-test/update_gender/http-request.adoc[]
+include::{snippets}/member-controller-integration-test/update_gender/request-headers.adoc[]
+include::{snippets}/member-controller-integration-test/update_gender/request-fields.adoc[]
+
+==== 응답
+
+include::{snippets}/member-controller-integration-test/update_gender/http-response.adoc[]
+
+=== 토큰이 없을 경우 성별 수정을 실패한다
+
+==== 요청
+
+include::{snippets}/member-controller-integration-test/fail_to_update_gender_no_token/request-fields.adoc[]
+
+==== 응답
+
+include::{snippets}/member-controller-integration-test/fail_to_update_gender_no_token/http-response.adoc[]
+
+=== 성별 입력이 없을 경우 성별 수정을 실패한다
+
+==== 요청
+
+include::{snippets}/member-controller-integration-test/fail_to_update_gender_blank/request-headers.adoc[]
+
+==== 응답
+
+include::{snippets}/member-controller-integration-test/fail_to_update_gender_blank/http-response.adoc[]
+
+=== 성별 입력이 '남성', '여성'이 아닌 경우 성별 수정을 실패한다
+
+include::{snippets}/member-controller-integration-test/fail_to_update_gender_invalid/request-headers.adoc[]
+include::{snippets}/member-controller-integration-test/fail_to_update_gender_invalid/request-fields.adoc[]
+
+==== 응답
+
+include::{snippets}/member-controller-integration-test/fail_to_update_gender_invalid/http-response.adoc[]
+
+== 회원 나이대 수정
+
+=== 성공
+
+==== 요청
+
+include::{snippets}/member-controller-integration-test/update_age/http-request.adoc[]
+include::{snippets}/member-controller-integration-test/update_age/request-headers.adoc[]
+include::{snippets}/member-controller-integration-test/update_age/request-fields.adoc[]
+
+==== 응답
+
+include::{snippets}/member-controller-integration-test/update_age/http-response.adoc[]
+
+=== 토큰이 없을 경우 나이대 수정을 실패한다
+
+==== 요청
+
+include::{snippets}/member-controller-integration-test/fail_to_update_age_no_token/request-fields.adoc[]
+
+==== 응답
+
+include::{snippets}/member-controller-integration-test/fail_to_update_age_no_token/http-response.adoc[]
+
+=== 나이대 입력이 없을 경우 나이대 수정을 실패한다
+
+==== 요청
+
+include::{snippets}/member-controller-integration-test/fail_to_update_age_blank/request-headers.adoc[]
+
+==== 응답
+
+include::{snippets}/member-controller-integration-test/fail_to_update_age_blank/http-response.adoc[]
+
+=== 나이대 입력이 올바르지 않은 경우 수정을 실패한다
+
+include::{snippets}/member-controller-integration-test/fail_to_update_age_invalid/request-headers.adoc[]
+include::{snippets}/member-controller-integration-test/fail_to_update_age_invalid/request-fields.adoc[]
+
+==== 응답
+
+include::{snippets}/member-controller-integration-test/fail_to_update_age_invalid/http-response.adoc[]
+
+== 회원 삭제
+
+=== 성공
+
+==== 요청
+
+include::{snippets}/member-controller-integration-test/delete_member/http-request.adoc[]
+include::{snippets}/member-controller-integration-test/delete_member/request-headers.adoc[]
+
+==== 응답
+
+include::{snippets}/member-controller-integration-test/delete_member/http-response.adoc[]
+
+=== 토큰이 없을 경우 성별 수정을 실패한다
+
+==== 응답
+
+include::{snippets}/member-controller-integration-test/fail_to_delete_member_no_token/http-response.adoc[]
+
+
