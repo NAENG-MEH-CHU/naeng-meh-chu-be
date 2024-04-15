@@ -5,8 +5,10 @@ import io.kotest.matchers.shouldBe
 import org.example.MemberApplication
 import org.example.application.MemberService
 import org.example.domain.entity.Member
+import org.example.domain.enums.Age
 import org.example.domain.enums.Gender
 import org.example.domain.repository.MemberRepository
+import org.example.exception.exceptions.AgeNotValidException
 import org.example.exception.exceptions.GenderNotValidException
 import org.example.exception.exceptions.MemberNotFoundException
 import org.example.presentation.dto.ChangeAgeRequest
@@ -88,7 +90,7 @@ open class MemberServiceIntegrationTest(
         val changedMember = memberRepository.findById(member.id).orElseThrow{ MemberNotFoundException() }
 
         //then
-        changedMember.gender shouldBe  Gender.FEMALE
+        changedMember.age shouldBe Age.THIRTIES
     }
 
     @DisplayName("회원의 나이대 변경을 실패한다. 올바른 나이대 입력이 아니다")
