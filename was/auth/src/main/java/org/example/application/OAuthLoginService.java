@@ -1,5 +1,6 @@
 package org.example.application;
 
+import org.example.config.oauth.params.OAuthProvider;
 import org.example.config.oauth.provider.naver.NaverOAuth2DataResolver;
 import org.example.config.oauth.client.GoogleApiClient;
 import org.example.config.oauth.client.NaverApiClient;
@@ -9,6 +10,7 @@ import org.example.config.oauth.provider.google.GoogleOAuth2DataResolver;
 import org.example.domain.entity.Member;
 import org.example.domain.repository.MemberRepository;
 import org.example.infrastructure.JwtTokenProvider;
+import org.example.presentation.dto.OAuthLoginRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -83,6 +85,12 @@ public class OAuthLoginService {
         return tokenProvider.createAccessToken(memberId.toString());
     }
 
+    @Transactional
+    public String loginThroughApp(final OAuthLoginRequest request, final String provider) {
+        OAuthProvider oAuthProvider = findProvider(provider);
+
+    }
+
     private UUID findOrCreateUser(OAuth2UserInfo oAuthUserInfo) {
         return memberRepository.findByEmail(oAuthUserInfo.getEmail())
                 .map(Member::getId)
@@ -100,5 +108,13 @@ public class OAuthLoginService {
                 .build();
         memberRepository.save(member);
         return member.getId();
+    }
+
+    private OAuthProvider findProvider(final String provider) {
+        if(provider.equals(OAuthProvider.NAVER.getValue())) {
+            return OAuthProvider.NAVER;
+        }
+
+        return OAuthProvider.GOOGLE;
     }
 }
