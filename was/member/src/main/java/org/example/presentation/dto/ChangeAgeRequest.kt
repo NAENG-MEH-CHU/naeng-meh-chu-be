@@ -1,8 +1,8 @@
 package org.example.presentation.dto
 
 import jakarta.validation.constraints.NotBlank
-import jakarta.validation.constraints.NotNull
 import org.example.domain.enums.Age
+import org.example.exception.exceptions.AgeNotValidException
 
 open class ChangeAgeRequest {
 
@@ -15,6 +15,15 @@ open class ChangeAgeRequest {
     constructor(){}
 
     open fun getAge(): Age {
-        return Age.getAgeByType(age)
+        if (age == Age.TEEN.type) return Age.TEEN
+        if (age == Age.TWENTIES.type) return Age.TWENTIES
+        if (age == Age.THIRTIES.type) return Age.THIRTIES
+        if (age == Age.FORTIES.type) return Age.FORTIES
+        if (age == Age.FIFTIES.type) return Age.FIFTIES
+        if (age == Age.SIXTIES.type) return Age.SIXTIES
+        if (age == Age.SEVENTIES.type) return Age.SEVENTIES
+        if (age == Age.EIGHTIES.type) return Age.EIGHTIES
+        if (age == Age.NINETIES.type) return Age.NINETIES
+        throw AgeNotValidException()
     }
 }

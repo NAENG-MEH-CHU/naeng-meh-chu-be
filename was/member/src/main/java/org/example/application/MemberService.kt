@@ -28,6 +28,7 @@ open class MemberService(private val memberRepository: MemberRepository) {
 
     @Transactional
     open fun updateAge(request: ChangeAgeRequest, member: Member) {
+        member.updateAge(request.getAge())
         memberRepository.save(member)
     }
 
