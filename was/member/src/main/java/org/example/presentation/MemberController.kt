@@ -4,6 +4,7 @@ import jakarta.validation.Valid
 import lombok.RequiredArgsConstructor
 import org.example.application.MemberService
 import org.example.domain.entity.Member
+import org.example.presentation.dto.ChangeAgeRequest
 import org.example.presentation.dto.ChangeGenderRequest
 import org.example.presentation.dto.ChangeNicknameRequest
 import org.example.support.JwtLogin
@@ -29,6 +30,12 @@ open class MemberController (private val memberService: MemberService){
     @PatchMapping("/gender")
     open fun updateGender(@JwtLogin member: Member, @RequestBody @Valid request: ChangeGenderRequest): ResponseEntity<Unit> {
         memberService.updateGender(request.getGender(), member)
+        return ResponseEntity(HttpStatus.OK)
+    }
+
+    @PatchMapping("/age")
+    open fun updateAge(@JwtLogin member: Member, @RequestBody @Valid request: ChangeAgeRequest): ResponseEntity<Unit> {
+        memberService.updateAge(request, member)
         return ResponseEntity(HttpStatus.OK)
     }
 
