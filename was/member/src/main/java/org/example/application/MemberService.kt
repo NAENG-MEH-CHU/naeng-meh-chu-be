@@ -102,15 +102,6 @@ open class MemberService(
     }
 
     private fun parseAge(age: String): Age {
-        if (age == Age.TEEN.type) return Age.TEEN
-        if (age == Age.TWENTIES.type) return Age.TWENTIES
-        if (age == Age.THIRTIES.type) return Age.THIRTIES
-        if (age == Age.FORTIES.type) return Age.FORTIES
-        if (age == Age.FIFTIES.type) return Age.FIFTIES
-        if (age == Age.SIXTIES.type) return Age.SIXTIES
-        if (age == Age.SEVENTIES.type) return Age.SEVENTIES
-        if (age == Age.EIGHTIES.type) return Age.EIGHTIES
-        if (age == Age.NINETIES.type) return Age.NINETIES
-        throw AgeNotValidException()
+        return Age.entries.find { it.type == age } ?: throw AgeNotValidException()
     }
 }

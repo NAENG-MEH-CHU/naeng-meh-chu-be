@@ -25,7 +25,8 @@ import org.springframework.boot.test.context.SpringBootTest
 @AutoConfigureMockMvc
 open class MemberServiceIntegrationTest(
         @Autowired private var memberService: MemberService,
-        @Autowired private var memberRepository: MemberRepository){
+        @Autowired private var memberRepository: MemberRepository,
+        @Autowired private var memberReasonRepository: MemberRepository){
 
     private lateinit var member: Member
 
@@ -40,6 +41,8 @@ open class MemberServiceIntegrationTest(
                 .build()
         member = memberRepository.save(member);
     }
+
+
 
     @DisplayName("회원의 닉네임 변경을 성공한다.")
     @Test
