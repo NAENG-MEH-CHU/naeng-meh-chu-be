@@ -501,7 +501,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/member/me HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyM2M0ZmYyZS05MGUwLTRhYWUtYmQ4NS1mZmY4ZmIzZjExMjgiLCJpYXQiOjE3MTMxNTkyNTksImV4cCI6MTcxMzE2Mjg1OX0.08i8h8NmHclY7UUr1eB7lYt1NbgT62lZAY5PSVQn2_I
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyMTBhMzlkMS1lYjEwLTQ5Y2UtYjZjMC1mMmI0NTEwNzZkNDAiLCJpYXQiOjE3MTMyNDAxNDgsImV4cCI6MTcxMzI0Mzc0OH0.hx4RgFcgdOXb_hoh7OEhR2rTddZLfrTFQKI_QCZaBt8
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -570,7 +570,7 @@ Content-Length: 32
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/member/age HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIwMDgzYmQ2OC0wMGFlLTRjOGEtYjcwNC1kMjY2NzAwZDY1OTMiLCJpYXQiOjE3MTMxNTkyNjEsImV4cCI6MTcxMzE2Mjg2MX0.w86wLPB8f01P455t6pn4KB6hoP--L4Pjqip4ouBhss8
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmODIxOGRlNi0wZjliLTQyNTAtOTIyYS0yYjI3YjEwNTE5YTkiLCJpYXQiOjE3MTMyNDAxNTAsImV4cCI6MTcxMzI0Mzc1MH0.tRbr1DiZhWWlPje6VacZdoPKYoycMp0RoDn4qP_Be6I
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -599,9 +599,11 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 83
+Content-Length: 98
 
-[ "10대", "20대", "30대", "40대", "50대", "60대", "70대", "80대", "90대" ]</code></pre>
+{
+  "ages" : [ "10대", "20대", "30대", "40대", "50대", "60대", "70대", "80대", "90대" ]
+}</code></pre>
 </div>
 </div>
 </div>
@@ -640,7 +642,7 @@ Content-Length: 32
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /api/member/nickname HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0YjhkODE5Ny0yZmI1LTQ5M2UtYmM5ZC0yYzUzZTY4MTc1NTMiLCJpYXQiOjE3MTMxNTkyNjEsImV4cCI6MTcxMzE2Mjg2MX0.BiPSbwfWaHrZ8ltm0bMx3VwY4dhb_DsWCZ_2o1N_n38
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJiZTQ0NDM5Ny1iNTEwLTRkZGItYjMwMC0xNDBhMDQ2ZDU0NmIiLCJpYXQiOjE3MTMyNDAxNTAsImV4cCI6MTcxMzI0Mzc1MH0.FGPEPxrVo7xj-MZqTSzuRe3IcV_J70-cQkUl7bIhAnw
 Content-Length: 26
 Host: localhost:8080
 
@@ -782,7 +784,7 @@ Content-Length: 32
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /api/member/gender HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4YTY4NmI4Zi00NWRiLTQ2NmItODc0My0wOWM3ODA4OTEwYTAiLCJpYXQiOjE3MTMxNTkyNTgsImV4cCI6MTcxMzE2Mjg1OH0.Pw4-EtmxwT1ZU7zDQkahAoTdQQFDqWGrsXScyd9sgb4
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjZjI1NDJlNS05ODRmLTQzNzUtYTcwOS1mNzA2YTMxNjlkN2YiLCJpYXQiOjE3MTMyNDAxNDcsImV4cCI6MTcxMzI0Mzc0N30.97KqyWRjQNro1YliJxDuZAkb42N2slkWPEJmw8qE3zo
 Content-Length: 25
 Host: localhost:8080
 
@@ -978,7 +980,7 @@ Content-Length: 42
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /api/member/age HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmZWMyN2RjZC0xNTNkLTRhYzAtYTNlMS0yZDc5NDdlZTkwMmYiLCJpYXQiOjE3MTMxNTkyNjAsImV4cCI6MTcxMzE2Mjg2MH0.lz80qd73tDEyuvAglgf3i5OBby_q1p6-xd3djR79bS4
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmYTRlMzhlNS1lOTZjLTQwMDYtOWRlMi1hM2JmNWE2MGNmYWIiLCJpYXQiOjE3MTMyNDAxNDksImV4cCI6MTcxMzI0Mzc0OX0.qqdvr7k9lD9yXEm0Th1CcxL4fHY8acRrvhk2DUy2y5U
 Content-Length: 21
 Host: localhost:8080
 
@@ -1173,7 +1175,7 @@ Content-Length: 45
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">DELETE /api/member HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmNDg0NWM5ZC0wMTFmLTRjZmItYTEwZi1kOTUzMWNhOWQ5ZmMiLCJpYXQiOjE3MTMxNTkyNTksImV4cCI6MTcxMzE2Mjg1OX0.FqGgXjaEkzmfT-TZKaJngfjiVbiXVPpphO38srYeDdM
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4NmIxYzEwMC03MTY5LTQxMzgtOTdiYS1lYzA2MjZiMDU0YzUiLCJpYXQiOjE3MTMyNDAxNDgsImV4cCI6MTcxMzI0Mzc0OH0.7VjyYjTz2hZFCDJiRViYnzt6tbzbbO6ubJ1yPpPF6TY
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -1226,7 +1228,7 @@ Content-Length: 32
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2024-04-15 14:34:08 +0900
+Last updated 2024-04-16 11:01:55 +0900
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>

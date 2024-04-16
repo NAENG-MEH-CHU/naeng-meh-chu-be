@@ -81,11 +81,11 @@ include::{snippets}/member-controller-integration-test/fail_to_update_nickname_n
 
 ==== 요청
 
-include::{snippets}/member-controller-integration-test/fail_to_update_nickname_no_nickname/request-headers.adoc[]
+include::{snippets}/member-controller-integration-test/fail_to_update_nickname_blank/request-headers.adoc[]
 
 ==== 응답
 
-include::{snippets}/member-controller-integration-test/fail_to_update_nickname_no_nickname/http-response.adoc[]
+include::{snippets}/member-controller-integration-test/fail_to_update_nickname_blank/http-response.adoc[]
 
 == 회원 성별 수정
 
