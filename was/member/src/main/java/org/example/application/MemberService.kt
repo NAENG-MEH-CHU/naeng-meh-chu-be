@@ -27,7 +27,7 @@ open class MemberService(
     }
 
     open fun findAllUsingReasons(): List<String> {
-        return UsingReason.entries.map { reason -> reason.getContent() }
+        return UsingReason.entries.map { reason -> reason.content }
     }
 
     @Transactional
@@ -42,13 +42,13 @@ open class MemberService(
     @Transactional(readOnly = true)
     open fun findMyUsingReasons(member: Member): List<String> {
         return memberReasonRepository.findAllByMemberId(member.id).map {
-            memberReason -> memberReason.reason.getContent()
+            memberReason -> memberReason.reason.content
         }
     }
 
     @Transactional
     open fun deleteMemberReason(member: Member, reasonId: UUID) {
-        val reason = memberReasonRepository.findById(reasonId).orElseThrow { Error("못찾음") }
+        val reason = memberReasonRepository.findById(reasonId).orElseThrow { MemberReasonNotFoundException() }
         memberReasonRepository.delete(reason)
     }
 
@@ -89,14 +89,14 @@ open class MemberService(
 
     private fun getUsingReasonMap(): Map<String, UsingReason> {
         val map = HashMap<String, UsingReason>()
-        UsingReason.entries.forEach { reason -> map[reason.getContent()] = reason }
+        UsingReason.entries.forEach { reason -> map[reason.content] = reason }
         return map
     }
 
     private fun parseReasonToUsingReason(reasonMap: Map<String, UsingReason>, reason: String): UsingReason {
         val usingReason =  reasonMap[reason]
         if(usingReason === null) {
-            throw Error("존재하지 않는 이용사유 요청")
+            throw UsingReasonUnableException()
         }
         return usingReason
     }
