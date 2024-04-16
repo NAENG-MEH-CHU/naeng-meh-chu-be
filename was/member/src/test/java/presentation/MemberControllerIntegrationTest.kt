@@ -53,6 +53,11 @@ class MemberControllerIntegrationTest(
     private var accessToken: String? = null
     private lateinit var mockMvc: MockMvc
 
+    private val FAIL_PREFIX:String = "fail_to_"
+    private val NO_TOKEN = "_no_token"
+    private val INVALID = "_invalid"
+    private val BLANK = "_blank"
+
     @BeforeEach
     fun formerSetup(restDocumentation: RestDocumentationContextProvider) {
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext)
@@ -68,6 +73,36 @@ class MemberControllerIntegrationTest(
                 .build()
         memberRepository.save(member)
         accessToken = jwtTokenProvider.createAccessToken(member.id.toString())
+    }
+
+    @DisplayName("등록 가능한 앱의 이용사유를 조회한다")
+    @Test
+    fun findAllUsingReasons_success() {
+        mockMvc.perform(
+            get("/api/member/reasons")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer $accessToken"))
+            .andExpect(MockMvcResultMatchers.status().isOk)
+            .andDo(customDocument(
+                "find_all_using_reasons",
+                requestHeaders(
+                    headerWithName(HttpHeaders.AUTHORIZATION).description("로그인 후 제공되는 Bearer 토큰")
+                ),
+            )).andReturn()
+    }
+
+    @DisplayName("등록 가능한 앱의 이용사유를 조회를 실패한다. 토큰이 없을 경우")
+    @Test
+    fun findAllUsingReasons_fail_no_token() {
+        mockMvc.perform(
+            get("/api/member/reasons")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer $accessToken"))
+            .andExpect(MockMvcResultMatchers.status().isOk)
+            .andDo(customDocument(
+                createIdentifier("find_all_using_reasons", false, NO_TOKEN),
+                requestHeaders(
+                    headerWithName(HttpHeaders.AUTHORIZATION).description("로그인 후 제공되는 Bearer 토큰")
+                ),
+            )).andReturn()
     }
 
     @DisplayName("회원의 정보 조회를 성공한다")
@@ -92,7 +127,7 @@ class MemberControllerIntegrationTest(
         mockMvc.perform(get("/api/member/me"))
             .andExpect(MockMvcResultMatchers.status().isUnauthorized)
             .andDo(customDocument(
-                "fail_to_find_member_data_no_token",
+                createIdentifier("find_member_data", false, NO_TOKEN),
             )).andReturn();
     }
 
@@ -118,7 +153,7 @@ class MemberControllerIntegrationTest(
         mockMvc.perform(get("/api/member/age"))
             .andExpect(MockMvcResultMatchers.status().isUnauthorized)
             .andDo(customDocument(
-                "fail_to_find_age_option_no_token",
+                createIdentifier("find_age", false, NO_TOKEN),
             )).andReturn();
     }
 
@@ -153,7 +188,7 @@ class MemberControllerIntegrationTest(
                 .content(makeJson(ChangeNicknameRequest(newNickname))))
                 .andExpect(MockMvcResultMatchers.status().isUnauthorized)
                 .andDo(customDocument(
-                        "fail_to_update_nickname_no_token",
+                        createIdentifier("update_nickname", false, NO_TOKEN),
                         requestFields(
                                 fieldWithPath("nickname").description("변경할 닉네임"),
                         ),
@@ -169,7 +204,7 @@ class MemberControllerIntegrationTest(
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest)
                 .andDo(customDocument(
-                        "fail_to_update_nickname_no_nickname",
+                        createIdentifier("update_nickname", false, INVALID),
                         requestHeaders(
                                 headerWithName(HttpHeaders.AUTHORIZATION).description("로그인 후 제공되는 Bearer 토큰")
                         ),
@@ -207,7 +242,7 @@ class MemberControllerIntegrationTest(
             .content(makeJson(ChangeGenderRequest(newGender))))
             .andExpect(MockMvcResultMatchers.status().isUnauthorized)
             .andDo(customDocument(
-                "fail_to_update_gender_no_token",
+                createIdentifier("update_gender", false, NO_TOKEN),
                 requestFields(
                     fieldWithPath("gender").description("변경할 성별(`남성`, `여성` 으로 입력)"),
                 ),
@@ -223,7 +258,7 @@ class MemberControllerIntegrationTest(
             .contentType(MediaType.APPLICATION_JSON))
             .andExpect(MockMvcResultMatchers.status().isBadRequest)
             .andDo(customDocument(
-                "fail_to_update_gender_blank",
+                createIdentifier("update_gender", false, BLANK),
                 requestHeaders(
                     headerWithName(HttpHeaders.AUTHORIZATION).description("로그인 후 제공되는 Bearer 토큰")
                 ),
@@ -240,7 +275,7 @@ class MemberControllerIntegrationTest(
             .content(makeJson(ChangeGenderRequest("중성"))))
             .andExpect(MockMvcResultMatchers.status().isBadRequest)
             .andDo(customDocument(
-                "fail_to_update_gender_invalid",
+                createIdentifier("update_gender", false, INVALID),
                 requestHeaders(
                     headerWithName(HttpHeaders.AUTHORIZATION).description("로그인 후 제공되는 Bearer 토큰")
                 ),
@@ -281,7 +316,7 @@ class MemberControllerIntegrationTest(
             .content(makeJson(request)))
             .andExpect(MockMvcResultMatchers.status().isUnauthorized)
             .andDo(customDocument(
-                "fail_to_update_age_no_token",
+                createIdentifier("update_age", false, NO_TOKEN),
                 requestFields(
                     fieldWithPath("age").description("변경할 나이대"),
                 ),
@@ -297,7 +332,7 @@ class MemberControllerIntegrationTest(
             .contentType(MediaType.APPLICATION_JSON))
             .andExpect(MockMvcResultMatchers.status().isBadRequest)
             .andDo(customDocument(
-                "fail_to_update_age_blank",
+                createIdentifier("update_age", false, BLANK),
                 requestHeaders(
                     headerWithName(HttpHeaders.AUTHORIZATION).description("로그인 후 제공되는 Bearer 토큰")
                 ),
@@ -315,7 +350,7 @@ class MemberControllerIntegrationTest(
             .content(makeJson(request)))
             .andExpect(MockMvcResultMatchers.status().isBadRequest)
             .andDo(customDocument(
-                "fail_to_update_age_invalid",
+                createIdentifier("update_age", false, INVALID),
                 requestHeaders(
                     headerWithName(HttpHeaders.AUTHORIZATION).description("로그인 후 제공되는 Bearer 토큰")
                 ),
@@ -346,7 +381,7 @@ class MemberControllerIntegrationTest(
         mockMvc.perform(delete("/api/member"))
             .andExpect(MockMvcResultMatchers.status().isUnauthorized)
             .andDo(customDocument(
-                "fail_to_delete_member_no_token",
+                createIdentifier("delete_member", false, NO_TOKEN)
             )).andReturn();
     }
 
@@ -362,5 +397,10 @@ class MemberControllerIntegrationTest(
         } catch (e: JsonProcessingException) {
             throw RuntimeException(e)
         }
+    }
+
+    private fun createIdentifier(name: String, succeeded: Boolean, reason: String?): String {
+        if(succeeded) return name;
+        return FAIL_PREFIX + name + reason;
     }
 }
