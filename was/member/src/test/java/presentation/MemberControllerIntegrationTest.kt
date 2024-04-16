@@ -101,7 +101,7 @@ class MemberControllerIntegrationTest(
                 .header(HttpHeaders.AUTHORIZATION, "Bearer $accessToken"))
             .andExpect(MockMvcResultMatchers.status().isOk)
             .andDo(customDocument(
-                createIdentifier("find_all_using_reasons", false, NO_TOKEN),
+                createFailedIdentifier("find_all_using_reasons", NO_TOKEN),
                 requestHeaders(
                     headerWithName(HttpHeaders.AUTHORIZATION).description("로그인 후 제공되는 Bearer 토큰")
                 ),
@@ -131,7 +131,7 @@ class MemberControllerIntegrationTest(
                 .header(HttpHeaders.AUTHORIZATION, "Bearer $accessToken"))
             .andExpect(MockMvcResultMatchers.status().isOk)
             .andDo(customDocument(
-                createIdentifier("find_my_using_reasons", false, NO_TOKEN),
+                createFailedIdentifier("find_my_using_reasons", NO_TOKEN),
                 requestHeaders(
                     headerWithName(HttpHeaders.AUTHORIZATION).description("로그인 후 제공되는 Bearer 토큰")
                 ),
@@ -184,6 +184,48 @@ class MemberControllerIntegrationTest(
             )).andReturn()
     }
 
+    @DisplayName("나의 앱 이용사유 추가를 실패한다. 입력이 없는 경우")
+    @Test
+    fun addUsingReasons_fail_blank() {
+        // given
+
+        // expected
+        mockMvc.perform(
+            post("/api/member/reasons")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer $accessToken"))
+            .andExpect(MockMvcResultMatchers.status().isBadRequest)
+            .andDo(customDocument(
+                createFailedIdentifier("add_using_reason", BLANK),
+                requestHeaders(
+                    headerWithName(HttpHeaders.AUTHORIZATION).description("로그인 후 제공되는 Bearer 토큰")
+                ),
+            )).andReturn()
+    }
+
+    @DisplayName("나의 앱 이용사유 추가를 실패한다. 입력이 이상할 경우")
+    @Test
+    fun addUsingReasons_fail_invalid() {
+        // given
+        val request = AddUsingReasonRequest(listOf("없는거"))
+
+        // expected
+        mockMvc.perform(
+            post("/api/member/reasons")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer $accessToken")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(makeJson(request)))
+            .andExpect(MockMvcResultMatchers.status().isBadRequest)
+            .andDo(customDocument(
+                createFailedIdentifier("add_using_reason", INVALID),
+                requestHeaders(
+                    headerWithName(HttpHeaders.AUTHORIZATION).description("로그인 후 제공되는 Bearer 토큰")
+                ),
+                requestFields(
+                    fieldWithPath("reasons").description("저장할 앱 이용사유들. 배열형으로")
+                )
+            )).andReturn()
+    }
+
     @DisplayName("회원의 정보 조회를 성공한다")
     @Test
     fun findMemberData_success() {
@@ -206,7 +248,7 @@ class MemberControllerIntegrationTest(
         mockMvc.perform(get("/api/member/me"))
             .andExpect(MockMvcResultMatchers.status().isUnauthorized)
             .andDo(customDocument(
-                createIdentifier("find_member_data", false, NO_TOKEN),
+                createFailedIdentifier("find_member_data", NO_TOKEN),
             )).andReturn();
     }
 
@@ -232,7 +274,7 @@ class MemberControllerIntegrationTest(
         mockMvc.perform(get("/api/member/age"))
             .andExpect(MockMvcResultMatchers.status().isUnauthorized)
             .andDo(customDocument(
-                createIdentifier("find_age", false, NO_TOKEN),
+                createFailedIdentifier("find_age", NO_TOKEN),
             )).andReturn();
     }
 
@@ -267,7 +309,7 @@ class MemberControllerIntegrationTest(
                 .content(makeJson(ChangeNicknameRequest(newNickname))))
                 .andExpect(MockMvcResultMatchers.status().isUnauthorized)
                 .andDo(customDocument(
-                        createIdentifier("update_nickname", false, NO_TOKEN),
+                        createFailedIdentifier("update_nickname", NO_TOKEN),
                         requestFields(
                                 fieldWithPath("nickname").description("변경할 닉네임"),
                         ),
@@ -283,7 +325,7 @@ class MemberControllerIntegrationTest(
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest)
                 .andDo(customDocument(
-                        createIdentifier("update_nickname", false, INVALID),
+                        createFailedIdentifier("update_nickname", INVALID),
                         requestHeaders(
                                 headerWithName(HttpHeaders.AUTHORIZATION).description("로그인 후 제공되는 Bearer 토큰")
                         ),
@@ -321,7 +363,7 @@ class MemberControllerIntegrationTest(
             .content(makeJson(ChangeGenderRequest(newGender))))
             .andExpect(MockMvcResultMatchers.status().isUnauthorized)
             .andDo(customDocument(
-                createIdentifier("update_gender", false, NO_TOKEN),
+                createFailedIdentifier("update_gender", NO_TOKEN),
                 requestFields(
                     fieldWithPath("gender").description("변경할 성별(`남성`, `여성` 으로 입력)"),
                 ),
@@ -337,7 +379,7 @@ class MemberControllerIntegrationTest(
             .contentType(MediaType.APPLICATION_JSON))
             .andExpect(MockMvcResultMatchers.status().isBadRequest)
             .andDo(customDocument(
-                createIdentifier("update_gender", false, BLANK),
+                createFailedIdentifier("update_gender", BLANK),
                 requestHeaders(
                     headerWithName(HttpHeaders.AUTHORIZATION).description("로그인 후 제공되는 Bearer 토큰")
                 ),
@@ -354,7 +396,7 @@ class MemberControllerIntegrationTest(
             .content(makeJson(ChangeGenderRequest("중성"))))
             .andExpect(MockMvcResultMatchers.status().isBadRequest)
             .andDo(customDocument(
-                createIdentifier("update_gender", false, INVALID),
+                createFailedIdentifier("update_gender", INVALID),
                 requestHeaders(
                     headerWithName(HttpHeaders.AUTHORIZATION).description("로그인 후 제공되는 Bearer 토큰")
                 ),
@@ -395,7 +437,7 @@ class MemberControllerIntegrationTest(
             .content(makeJson(request)))
             .andExpect(MockMvcResultMatchers.status().isUnauthorized)
             .andDo(customDocument(
-                createIdentifier("update_age", false, NO_TOKEN),
+                createFailedIdentifier("update_age", NO_TOKEN),
                 requestFields(
                     fieldWithPath("age").description("변경할 나이대"),
                 ),
@@ -411,7 +453,7 @@ class MemberControllerIntegrationTest(
             .contentType(MediaType.APPLICATION_JSON))
             .andExpect(MockMvcResultMatchers.status().isBadRequest)
             .andDo(customDocument(
-                createIdentifier("update_age", false, BLANK),
+                createFailedIdentifier("update_age", BLANK),
                 requestHeaders(
                     headerWithName(HttpHeaders.AUTHORIZATION).description("로그인 후 제공되는 Bearer 토큰")
                 ),
@@ -429,7 +471,7 @@ class MemberControllerIntegrationTest(
             .content(makeJson(request)))
             .andExpect(MockMvcResultMatchers.status().isBadRequest)
             .andDo(customDocument(
-                createIdentifier("update_age", false, INVALID),
+                createFailedIdentifier("update_age", INVALID),
                 requestHeaders(
                     headerWithName(HttpHeaders.AUTHORIZATION).description("로그인 후 제공되는 Bearer 토큰")
                 ),
@@ -460,7 +502,7 @@ class MemberControllerIntegrationTest(
         mockMvc.perform(delete("/api/member"))
             .andExpect(MockMvcResultMatchers.status().isUnauthorized)
             .andDo(customDocument(
-                createIdentifier("delete_member", false, NO_TOKEN)
+                createFailedIdentifier("delete_member", NO_TOKEN)
             )).andReturn();
     }
 
@@ -478,8 +520,7 @@ class MemberControllerIntegrationTest(
         }
     }
 
-    private fun createIdentifier(name: String, succeeded: Boolean, reason: String?): String {
-        if(succeeded) return name;
+    private fun createFailedIdentifier(name: String, reason: String?): String {
         return FAIL_PREFIX + name + reason;
     }
 }
