@@ -36,11 +36,13 @@ class MemberController (private val memberService: MemberService){
 
     @GetMapping("/reasons")
     fun findAllUsingReasons(@JwtLogin member: Member): ResponseEntity<UsingReasonsResponse> {
-        return ResponseEntity<UsingReasonsResponse>(UsingReasonsResponse(listOf()), HttpStatus.OK)
+        val response = UsingReasonsResponse(memberService.findAllUsingReasons())
+        return ResponseEntity<UsingReasonsResponse>(response, HttpStatus.OK)
     }
 
     @PostMapping("/reasons")
     fun addUsingReasons(@JwtLogin member: Member, @RequestBody @Valid addUsingReasonRequest: AddUsingReasonRequest): ResponseEntity<Unit> {
+        memberService.addUsingReasons(addUsingReasonRequest.reasons!!, member)
         return ResponseEntity<Unit>(HttpStatus.CREATED)
     }
 
