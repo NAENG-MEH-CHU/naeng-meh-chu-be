@@ -81,7 +81,7 @@ class MemberServiceUnitTest {
             .thenReturn(reasonList)
 
         // then
-        memberService.findMyUsingReasons(member) shouldBe reasonList.map { memberReason -> memberReason.reason.getContent() }
+        memberService.findMyUsingReasons(member) shouldBe reasonList.map { memberReason -> memberReason.reason.content }
     }
 
     @DisplayName("내 이용 사유를 삭제한다")
