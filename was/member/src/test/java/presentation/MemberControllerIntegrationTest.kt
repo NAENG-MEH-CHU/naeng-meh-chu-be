@@ -3,12 +3,15 @@ package presentation
 import RestDocsHelper.customDocument
 import com.fasterxml.jackson.core.JsonProcessingException
 import com.fasterxml.jackson.databind.ObjectMapper
+import io.kotest.matchers.shouldBe
 import org.example.MemberApplication
 import org.example.application.MemberService
 import org.example.domain.entity.Member
+import org.example.domain.enums.UsingReason
 import org.example.domain.repository.MemberRepository
 import org.example.infrastructure.JwtTokenProvider
 import org.example.presentation.MemberController
+import org.example.presentation.dto.request.AddUsingReasonRequest
 import org.example.presentation.dto.request.ChangeAgeRequest
 import org.example.presentation.dto.request.ChangeGenderRequest
 import org.example.presentation.dto.request.ChangeNicknameRequest
@@ -132,6 +135,52 @@ class MemberControllerIntegrationTest(
                 requestHeaders(
                     headerWithName(HttpHeaders.AUTHORIZATION).description("로그인 후 제공되는 Bearer 토큰")
                 ),
+            )).andReturn()
+    }
+
+    @DisplayName("나의 앱 이용사유를 추가한다")
+    @Test
+    fun addUsingReasons_success() {
+        // given
+        val request = AddUsingReasonRequest(listOf(UsingReason.HEALTH.content))
+
+        // expected
+        mockMvc.perform(
+            post("/api/member/reasons")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer $accessToken")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(makeJson(request)))
+            .andExpect(MockMvcResultMatchers.status().isCreated)
+            .andDo(customDocument(
+                "add_using_reason",
+                requestHeaders(
+                    headerWithName(HttpHeaders.AUTHORIZATION).description("로그인 후 제공되는 Bearer 토큰")
+                ),
+                requestFields(
+                    fieldWithPath("reasons").description("저장할 앱 이용사유들. 배열형으로")
+                )
+            )).andReturn()
+
+        memberService.findMyUsingReasons(member).size shouldBe 1
+    }
+
+    @DisplayName("나의 앱 이용사유 추가를 실패한다. 토큰이 없을 경우")
+    @Test
+    fun addUsingReasons_fail_no_token() {
+        // given
+        val request = AddUsingReasonRequest(listOf(UsingReason.HEALTH.content))
+
+        // expected
+        mockMvc.perform(
+            post("/api/member/reasons")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(makeJson(request)))
+            .andExpect(MockMvcResultMatchers.status().isUnauthorized)
+            .andDo(customDocument(
+                "add_using_reason",
+                requestFields(
+                    fieldWithPath("reasons").description("저장할 앱 이용사유들. 배열형으로")
+                )
             )).andReturn()
     }
 
