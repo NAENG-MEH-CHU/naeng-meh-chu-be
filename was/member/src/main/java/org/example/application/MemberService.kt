@@ -10,7 +10,7 @@ import org.example.domain.enums.UsingReason
 import org.example.domain.repository.MemberReasonRepository
 import org.example.domain.repository.MemberRepository
 import org.example.exception.exceptions.*
-import org.example.presentation.dto.ChangeAgeRequest
+import org.example.presentation.dto.request.ChangeAgeRequest
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.util.UUID

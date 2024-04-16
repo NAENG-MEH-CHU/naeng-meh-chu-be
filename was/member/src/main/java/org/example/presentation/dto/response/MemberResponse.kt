@@ -1,4 +1,4 @@
-package org.example.presentation.dto
+package org.example.presentation.dto.response
 
 import org.example.domain.entity.Member
 

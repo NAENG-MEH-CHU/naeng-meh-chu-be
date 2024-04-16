@@ -1,4 +1,4 @@
-package org.example.presentation.dto
+package org.example.presentation.dto.request
 
 import jakarta.validation.constraints.NotBlank
 open class ChangeNicknameRequest {

@@ -9,7 +9,7 @@ import org.example.domain.enums.Gender
 import org.example.domain.enums.UsingReason
 import org.example.domain.repository.MemberReasonRepository
 import org.example.domain.repository.MemberRepository
-import org.example.presentation.dto.ChangeAgeRequest
+import org.example.presentation.dto.request.ChangeAgeRequest
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith

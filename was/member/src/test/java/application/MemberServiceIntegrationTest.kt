@@ -13,9 +13,8 @@ import org.example.domain.enums.UsingReason
 import org.example.domain.repository.MemberReasonRepository
 import org.example.domain.repository.MemberRepository
 import org.example.exception.exceptions.*
-import org.example.presentation.dto.ChangeAgeRequest
+import org.example.presentation.dto.request.ChangeAgeRequest
 import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
