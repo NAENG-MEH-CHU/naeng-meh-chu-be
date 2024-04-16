@@ -53,7 +53,7 @@ class MemberControllerIntegrationTest(
     private var accessToken: String? = null
     private lateinit var mockMvc: MockMvc
 
-    private val FAIL_PREFIX:String = "fail_to_"
+    private val FAIL_PREFIX = "fail_to_"
     private val NO_TOKEN = "_no_token"
     private val INVALID = "_invalid"
     private val BLANK = "_blank"
@@ -99,6 +99,36 @@ class MemberControllerIntegrationTest(
             .andExpect(MockMvcResultMatchers.status().isOk)
             .andDo(customDocument(
                 createIdentifier("find_all_using_reasons", false, NO_TOKEN),
+                requestHeaders(
+                    headerWithName(HttpHeaders.AUTHORIZATION).description("로그인 후 제공되는 Bearer 토큰")
+                ),
+            )).andReturn()
+    }
+
+    @DisplayName("나의 앱의 이용사유를 조회한다")
+    @Test
+    fun findMyUsingReasons_success() {
+        mockMvc.perform(
+            get("/api/member/reasons/me")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer $accessToken"))
+            .andExpect(MockMvcResultMatchers.status().isOk)
+            .andDo(customDocument(
+                "find_my_using_reasons",
+                requestHeaders(
+                    headerWithName(HttpHeaders.AUTHORIZATION).description("로그인 후 제공되는 Bearer 토큰")
+                ),
+            )).andReturn()
+    }
+
+    @DisplayName("나의 앱의 이용사유를 조회를 실패한다. 토큰이 없을 경우")
+    @Test
+    fun findMyUsingReasons_fail_no_token() {
+        mockMvc.perform(
+            get("/api/member/reasons/me")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer $accessToken"))
+            .andExpect(MockMvcResultMatchers.status().isOk)
+            .andDo(customDocument(
+                createIdentifier("find_my_using_reasons", false, NO_TOKEN),
                 requestHeaders(
                     headerWithName(HttpHeaders.AUTHORIZATION).description("로그인 후 제공되는 Bearer 토큰")
                 ),
