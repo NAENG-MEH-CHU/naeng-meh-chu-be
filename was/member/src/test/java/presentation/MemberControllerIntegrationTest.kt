@@ -7,7 +7,11 @@ import io.kotest.matchers.shouldBe
 import org.example.MemberApplication
 import org.example.application.MemberService
 import org.example.domain.entity.Member
+import org.example.domain.entity.MemberReason
+import org.example.domain.enums.Age
+import org.example.domain.enums.Gender
 import org.example.domain.enums.UsingReason
+import org.example.domain.repository.MemberReasonRepository
 import org.example.domain.repository.MemberRepository
 import org.example.infrastructure.JwtTokenProvider
 import org.example.presentation.MemberController
@@ -38,6 +42,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 import org.springframework.test.web.servlet.setup.DefaultMockMvcBuilder
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import org.springframework.web.context.WebApplicationContext
+import java.util.*
 
 
 @SpringBootTest(classes = [MemberApplication::class])
@@ -49,6 +54,7 @@ class MemberControllerIntegrationTest(
         @Autowired private val memberService: MemberService,
         @Autowired private val memberRepository: MemberRepository,
         @Autowired private val jwtTokenProvider: JwtTokenProvider,
+        @Autowired private val memberReasonRepository: MemberReasonRepository,
         @Autowired private val webApplicationContext: WebApplicationContext
 ) {
 
@@ -60,6 +66,8 @@ class MemberControllerIntegrationTest(
     private val NO_TOKEN = "_no_token"
     private val INVALID = "_invalid"
     private val BLANK = "_blank"
+    private val FORBIDDEN = "_forbidden"
+    private val NOT_FOUND = "_not_found"
 
     @BeforeEach
     fun formerSetup(restDocumentation: RestDocumentationContextProvider) {
@@ -276,6 +284,99 @@ class MemberControllerIntegrationTest(
             .andDo(customDocument(
                 createFailedIdentifier("find_age", NO_TOKEN),
             )).andReturn();
+    }
+
+    @DisplayName("회원의 앱 이용사유 삭제를 성공한다.")
+    @Test
+    fun deleteUsingReason_success() {
+        // given
+        val memberReason = memberReasonRepository.save(MemberReason(member.id, UsingReason.HEALTH)).id
+
+        // expected
+        mockMvc.perform(
+            delete("/api/member/reasons?id=${memberReason}")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer $accessToken"))
+            .andExpect(MockMvcResultMatchers.status().isNoContent)
+            .andDo(customDocument(
+                "delete_member",
+                requestHeaders(
+                    headerWithName(HttpHeaders.AUTHORIZATION).description("로그인 후 제공되는 Bearer 토큰")
+                ),
+            )).andReturn()
+    }
+
+    @DisplayName("회원의 앱 이용사유 삭제를 실패한다. 토큰이 없을 경우")
+    @Test
+    fun deleteUsingReason_fail_no_token() {
+        // given
+        val memberReason = memberReasonRepository.save(MemberReason(member.id, UsingReason.HEALTH)).id
+
+        // expected
+        mockMvc.perform(
+            delete("/api/member/reasons?id=${memberReason}"))
+            .andExpect(MockMvcResultMatchers.status().isUnauthorized)
+            .andDo(customDocument(
+                createFailedIdentifier("delete_member", NO_TOKEN),
+            )).andReturn()
+    }
+
+    @DisplayName("회원의 앱 이용사유 삭제를 실패한다. 파라미터가 없는 경우")
+    @Test
+    fun deleteUsingReason_fail_blank() {
+        // given
+        val memberReason = memberReasonRepository.save(MemberReason(member.id, UsingReason.HEALTH)).id
+
+        // expected
+        mockMvc.perform(
+            delete("/api/member/reasons")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer $accessToken"))
+            .andExpect(MockMvcResultMatchers.status().isBadRequest)
+            .andDo(customDocument(
+                createFailedIdentifier("delete_member", BLANK),
+                requestHeaders(
+                    headerWithName(HttpHeaders.AUTHORIZATION).description("로그인 후 제공되는 Bearer 토큰")
+                ),
+            )).andReturn()
+    }
+
+    @DisplayName("회원의 앱 이용사유 삭제를 실패한다. 데이터가 없는 경우")
+    @Test
+    fun deleteUsingReason_fail_INVALID() {
+        // given
+        val memberReason = memberReasonRepository.save(MemberReason(member.id, UsingReason.HEALTH)).id
+
+        // expected
+        mockMvc.perform(
+            delete("/api/member/reasons?id=${UUID.randomUUID()}")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer $accessToken"))
+            .andExpect(MockMvcResultMatchers.status().isNotFound)
+            .andDo(customDocument(
+                createFailedIdentifier("delete_member", NOT_FOUND),
+                requestHeaders(
+                    headerWithName(HttpHeaders.AUTHORIZATION).description("로그인 후 제공되는 Bearer 토큰")
+                ),
+            )).andReturn()
+    }
+
+    @DisplayName("회원의 앱 이용사유 삭제를 실패한다. 다른 사람의 데이터를 삭제하려 한 경우")
+    @Test
+    fun deleteUsingReason_fail_forbidden() {
+        // given
+        val other = Member.builder().nickname("other").age(Age.TWENTIES).gender(Gender.MALE).email("other@other.com").build();
+
+        val memberReason = memberReasonRepository.save(MemberReason(memberRepository.save(other).id, UsingReason.HEALTH)).id
+
+        // expected
+        mockMvc.perform(
+            delete("/api/member/reasons?id=${memberReason}")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer $accessToken"))
+            .andExpect(MockMvcResultMatchers.status().isForbidden)
+            .andDo(customDocument(
+                createFailedIdentifier("delete_member", FORBIDDEN),
+                requestHeaders(
+                    headerWithName(HttpHeaders.AUTHORIZATION).description("로그인 후 제공되는 Bearer 토큰")
+                ),
+            )).andReturn()
     }
 
     @DisplayName("회원의 닉네임 수정을 성공한다")
