@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
+import java.util.*
 
 @RestController
 @RequestMapping("/api/member")
@@ -48,11 +49,13 @@ class MemberController (private val memberService: MemberService){
 
     @GetMapping("/reasons/me")
     fun findMyUsingReasons(@JwtLogin member: Member): ResponseEntity<UsingReasonsResponse> {
-        return ResponseEntity<UsingReasonsResponse>(UsingReasonsResponse(listOf()), HttpStatus.OK)
+        val responseData = memberService.findMyUsingReasons(member)
+        return ResponseEntity<UsingReasonsResponse>(UsingReasonsResponse(responseData), HttpStatus.OK)
     }
 
     @DeleteMapping("/reasons")
     fun deleteMemberReason(@JwtLogin member: Member, @RequestParam(name = "id") id: String): ResponseEntity<Unit> {
+        memberService.deleteMemberReason(member, UUID.fromString(id))
         return ResponseEntity<Unit>(HttpStatus.NO_CONTENT)
     }
 

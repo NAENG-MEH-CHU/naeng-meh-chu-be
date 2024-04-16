@@ -49,6 +49,9 @@ open class MemberService(
     @Transactional
     open fun deleteMemberReason(member: Member, reasonId: UUID) {
         val reason = memberReasonRepository.findById(reasonId).orElseThrow { MemberReasonNotFoundException() }
+        if(reason.memberId.toString() != member.id.toString()) {
+            throw MemberForbiddenException()
+        }
         memberReasonRepository.delete(reason)
     }
 
