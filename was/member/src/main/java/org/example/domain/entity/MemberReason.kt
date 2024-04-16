@@ -10,7 +10,7 @@ open class MemberReason{
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    val id: UUID?
+    var id: UUID?
 
     @Column(nullable = false)
     val memberId: UUID
@@ -19,11 +19,13 @@ open class MemberReason{
     @Enumerated(value = EnumType.STRING)
     val reason: UsingReason
 
-    constructor(id: UUID?, memberId: UUID, reason: UsingReason) {
+    protected constructor(id: UUID?, memberId: UUID, reason: UsingReason) {
         this.memberId = memberId
         this.reason = reason
         this.id = id
     }
+
+    constructor(memberId: UUID, reason: UsingReason): this(null, memberId, reason) {}
 
     protected constructor() : this(null, UUID.randomUUID(), UsingReason.DIET) {}
 }
