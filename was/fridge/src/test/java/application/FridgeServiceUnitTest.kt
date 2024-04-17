@@ -58,6 +58,8 @@ class FridgeServiceUnitTest {
         // when
         Mockito.`when`(ingredientRepository.existsById(request.ingredientId))
             .thenReturn(true)
+        Mockito.`when`(fridgeIngredientRepository.existsByIngredientIdAndMemberId(request.ingredientId, member.id))
+            .thenReturn(false)
         Mockito.`when`(fridgeIngredientRepository.save(Mockito.any(FridgeIngredient::class.java)))
             .thenReturn(fridgeIngredient)
         Mockito.doNothing().`when`(publisher).publishEvent(Mockito.any(AddIngredientEvent::class.java))
@@ -89,10 +91,8 @@ class FridgeServiceUnitTest {
         // when
         Mockito.`when`(ingredientRepository.existsById(request.ingredientId))
             .thenReturn(true)
-        Mockito.`when`(fridgeIngredientRepository.save(Mockito.any(FridgeIngredient::class.java)))
-            .thenReturn(fridgeIngredient)
-        Mockito.doThrow(IngredientAlreadyInException())
-            .`when`(publisher).publishEvent(Mockito.any(AddIngredientEvent::class.java))
+        Mockito.`when`(fridgeIngredientRepository.existsByIngredientIdAndMemberId(request.ingredientId, member.id))
+            .thenReturn(true)
 
         // then
         shouldThrow<IngredientAlreadyInException> { fridgeService.addIngredient(request, member) }
