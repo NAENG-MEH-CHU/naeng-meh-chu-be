@@ -20,4 +20,12 @@ open class Ingredient{
 
     @Column
     private lateinit var name: String
+
+    open fun getId(): Int? {
+        return id;
+    }
+
+    open fun getName(): String {
+        return name
+    }
 }

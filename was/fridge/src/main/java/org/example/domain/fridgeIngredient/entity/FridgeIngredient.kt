@@ -24,7 +24,7 @@ open class FridgeIngredient(
         this.expiresAt = expiresAt
     }
 
-    protected constructor(): this(null, UUID.randomUUID(), 0, LocalDate.now()){}
+    constructor(): this(null, UUID.randomUUID(), 0, LocalDate.now()){}
 
     open fun getIngredientId(): Int {
         return ingredientId
