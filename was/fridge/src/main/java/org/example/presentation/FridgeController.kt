@@ -18,6 +18,7 @@ open class FridgeController( private val fridgeService: FridgeService ) {
 
     @PostMapping("")
     open fun addIngredient(@JwtLogin member: Member, @RequestBody @Valid request: AddIngredientRequest): ResponseEntity<Unit> {
+        fridgeService.addIngredient(request, member)
         return ResponseEntity(HttpStatus.CREATED)
     }
 }
