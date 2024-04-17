@@ -33,15 +33,7 @@ public class AuthExceptionHandler {
         return new ResponseEntity<String>(exception.getMessage(), HttpStatus.FORBIDDEN);
     }
 
-    @ExceptionHandler(IngredientAlreadyInException.class)
-    public ResponseEntity<String> handlerIngredientAlreadyInException(final IngredientAlreadyInException exception) {
-        return new ResponseEntity<String>(exception.getMessage(), HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler(IngredientNotInException.class)
-    public ResponseEntity<String> handlerIngredientNotInException(final IngredientNotInException exception) {
-        return new ResponseEntity<String>(exception.getMessage(), HttpStatus.BAD_REQUEST);
-    }private ResponseEntity<String> getNotFoundResponse(final String message) {
+    private ResponseEntity<String> getNotFoundResponse(final String message) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(message);
     }
 

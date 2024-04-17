@@ -42,8 +42,8 @@ class FridgeControllerUnitTest {
         val request = AddIngredientRequest(1, 2017, 3, 1)
 
         //when
-        Mockito.`when`(fridgeService.addIngredient(request, member))
-            .thenReturn(Unit)
+        Mockito.doNothing().`when`(fridgeService).addIngredient(request, member)
+
 
         //then
         fridgeController.addIngredient(member, request) shouldBe ResponseEntity(HttpStatus.CREATED)
