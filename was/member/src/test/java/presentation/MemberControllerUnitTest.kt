@@ -5,9 +5,9 @@ import org.example.application.MemberService
 import org.example.domain.entity.Member
 import org.example.domain.enums.Gender
 import org.example.presentation.MemberController
-import org.example.presentation.dto.ChangeAgeRequest
-import org.example.presentation.dto.ChangeGenderRequest
-import org.example.presentation.dto.ChangeNicknameRequest
+import org.example.presentation.dto.request.ChangeAgeRequest
+import org.example.presentation.dto.request.ChangeGenderRequest
+import org.example.presentation.dto.request.ChangeNicknameRequest
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -15,7 +15,6 @@ import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.junit.jupiter.MockitoExtension
-import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 

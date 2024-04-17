@@ -1,5 +1,6 @@
 package org.example.exception;
 
+import org.example.exception.exceptions.MemberForbiddenException;
 import org.example.exception.exceptions.NeedToLoginException;
 import org.example.exception.exceptions.MemberNotFoundException;
 import org.example.exception.exceptions.TokenExpiredException;
@@ -24,6 +25,11 @@ public class AuthExceptionHandler {
     @ExceptionHandler(TokenExpiredException.class)
     public ResponseEntity<String> handlerTokenExpiredException(final TokenExpiredException exception) {
         return getGoneResponse(exception.getMessage());
+    }
+
+    @ExceptionHandler(MemberForbiddenException.class)
+    public ResponseEntity<String> handlerMemberForbiddenException(final MemberForbiddenException exception) {
+        return new ResponseEntity<String>(exception.getMessage(), HttpStatus.FORBIDDEN);
     }
 
     private ResponseEntity<String> getNotFoundResponse(final String message) {
