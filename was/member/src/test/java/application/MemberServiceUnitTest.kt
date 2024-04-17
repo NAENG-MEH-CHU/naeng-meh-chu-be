@@ -77,7 +77,7 @@ class MemberServiceUnitTest {
         val reasonList = UsingReason.entries.map { each -> MemberReason(member.id, each) }
 
         // when
-        Mockito.`when`(memberReasonRepository.findAllByMemberId(Mockito.any(UUID::class.java)))
+        Mockito.`when`(memberReasonRepository.findAllByMemberId(member.id))
             .thenReturn(reasonList)
 
         // then

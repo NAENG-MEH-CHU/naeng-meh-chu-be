@@ -185,7 +185,7 @@ class MemberControllerIntegrationTest(
                 .content(makeJson(request)))
             .andExpect(MockMvcResultMatchers.status().isUnauthorized)
             .andDo(customDocument(
-                "add_using_reason",
+                createFailedIdentifier("add_using_reason", NO_TOKEN),
                 requestFields(
                     fieldWithPath("reasons").description("저장할 앱 이용사유들. 배열형으로")
                 )
@@ -298,7 +298,7 @@ class MemberControllerIntegrationTest(
                 .header(HttpHeaders.AUTHORIZATION, "Bearer $accessToken"))
             .andExpect(MockMvcResultMatchers.status().isNoContent)
             .andDo(customDocument(
-                "delete_member",
+                "delete_using_reason",
                 requestHeaders(
                     headerWithName(HttpHeaders.AUTHORIZATION).description("로그인 후 제공되는 Bearer 토큰")
                 ),
@@ -316,7 +316,7 @@ class MemberControllerIntegrationTest(
             delete("/api/member/reasons?id=${memberReason}"))
             .andExpect(MockMvcResultMatchers.status().isUnauthorized)
             .andDo(customDocument(
-                createFailedIdentifier("delete_member", NO_TOKEN),
+                createFailedIdentifier("delete_using_reason", NO_TOKEN),
             )).andReturn()
     }
 
@@ -332,7 +332,7 @@ class MemberControllerIntegrationTest(
                 .header(HttpHeaders.AUTHORIZATION, "Bearer $accessToken"))
             .andExpect(MockMvcResultMatchers.status().isBadRequest)
             .andDo(customDocument(
-                createFailedIdentifier("delete_member", BLANK),
+                createFailedIdentifier("delete_using_reason", BLANK),
                 requestHeaders(
                     headerWithName(HttpHeaders.AUTHORIZATION).description("로그인 후 제공되는 Bearer 토큰")
                 ),
@@ -351,7 +351,7 @@ class MemberControllerIntegrationTest(
                 .header(HttpHeaders.AUTHORIZATION, "Bearer $accessToken"))
             .andExpect(MockMvcResultMatchers.status().isNotFound)
             .andDo(customDocument(
-                createFailedIdentifier("delete_member", NOT_FOUND),
+                createFailedIdentifier("delete_using_reason", NOT_FOUND),
                 requestHeaders(
                     headerWithName(HttpHeaders.AUTHORIZATION).description("로그인 후 제공되는 Bearer 토큰")
                 ),
@@ -372,7 +372,7 @@ class MemberControllerIntegrationTest(
                 .header(HttpHeaders.AUTHORIZATION, "Bearer $accessToken"))
             .andExpect(MockMvcResultMatchers.status().isForbidden)
             .andDo(customDocument(
-                createFailedIdentifier("delete_member", FORBIDDEN),
+                createFailedIdentifier("delete_using_reason", FORBIDDEN),
                 requestHeaders(
                     headerWithName(HttpHeaders.AUTHORIZATION).description("로그인 후 제공되는 Bearer 토큰")
                 ),
@@ -426,7 +426,7 @@ class MemberControllerIntegrationTest(
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest)
                 .andDo(customDocument(
-                        createFailedIdentifier("update_nickname", INVALID),
+                        createFailedIdentifier("update_nickname", BLANK),
                         requestHeaders(
                                 headerWithName(HttpHeaders.AUTHORIZATION).description("로그인 후 제공되는 Bearer 토큰")
                         ),
