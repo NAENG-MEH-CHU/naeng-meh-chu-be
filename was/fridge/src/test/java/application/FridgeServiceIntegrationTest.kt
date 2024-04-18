@@ -1,6 +1,7 @@
 package application
 
 import io.kotest.assertions.throwables.shouldThrow
+import io.kotest.matchers.equality.shouldBeEqualUsingFields
 import io.kotest.matchers.shouldBe
 import org.example.FridgeApplication
 import org.example.application.FridgeService
@@ -13,6 +14,8 @@ import org.example.domain.repository.MemberRepository
 import org.example.exception.exceptions.IngredientAlreadyInException
 import org.example.exception.exceptions.IngredientNotFoundException
 import org.example.presentation.dto.request.AddIngredientRequest
+import org.example.presentation.dto.response.IngredientsResponse
+import org.example.presentation.dto.response.SingleIngredientResponse
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
@@ -75,9 +78,6 @@ class FridgeServiceIntegrationTest(
         shouldThrow<IngredientAlreadyInException> { fridgeService.addIngredient(request, member) }
     }
 
-
-
-
     @DisplayName("존재하지 않는 재료로 냉장고에 재료를 추가하려하면 예외처리한다.")
     @Test
     fun addIngredient_fail_ingredient_not_found() {
@@ -88,6 +88,18 @@ class FridgeServiceIntegrationTest(
 
         // then
         shouldThrow<IngredientNotFoundException> { fridgeService.addIngredient(request, member) }
+    }
+
+    @DisplayName("전체 재료를 조회하면 모든 재료를 불러온다")
+    @Test
+    fun findAllIngredients_success() {
+        // given
+        val singleResponse = SingleIngredientResponse(ingredient.getId()!!, ingredient.getName())
+
+        // when
+
+        // then
+        fridgeService.findAllIngredients() shouldBeEqualUsingFields IngredientsResponse(listOf(singleResponse))
     }
 
     @AfterEach
