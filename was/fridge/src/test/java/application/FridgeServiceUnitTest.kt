@@ -58,7 +58,7 @@ class FridgeServiceUnitTest {
         // when
         Mockito.`when`(ingredientRepository.existsById(request.ingredientId))
             .thenReturn(true)
-        Mockito.`when`(fridgeIngredientRepository.existsByIngredientIdAndMemberId(request.ingredientId, member.id))
+        Mockito.`when`(fridgeIngredientRepository.existsByIngredientIdAndMemberId(request.ingredientId!!, member.id))
             .thenReturn(false)
         Mockito.`when`(fridgeIngredientRepository.save(Mockito.any(FridgeIngredient::class.java)))
             .thenReturn(fridgeIngredient)
@@ -91,7 +91,7 @@ class FridgeServiceUnitTest {
         // when
         Mockito.`when`(ingredientRepository.existsById(request.ingredientId))
             .thenReturn(true)
-        Mockito.`when`(fridgeIngredientRepository.existsByIngredientIdAndMemberId(request.ingredientId, member.id))
+        Mockito.`when`(fridgeIngredientRepository.existsByIngredientIdAndMemberId(request.ingredientId!!, member.id))
             .thenReturn(true)
 
         // then
