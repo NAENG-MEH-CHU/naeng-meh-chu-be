@@ -25,4 +25,9 @@ public class RequestOAuthInfoService {
         String accessToken = client.requestAccessToken(params);
         return client.requestOAuthInfo(accessToken);
     }
+
+    public OAuth2UserInfo findThroughToken(OAuthProvider provider, String token) {
+        OAuthClient client = clients.get(provider);
+        return client.requestOAuthInfo(token);
+    }
 }

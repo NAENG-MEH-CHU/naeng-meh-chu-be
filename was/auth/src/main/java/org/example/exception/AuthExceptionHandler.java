@@ -4,6 +4,7 @@ import org.example.exception.exceptions.MemberForbiddenException;
 import org.example.exception.exceptions.NeedToLoginException;
 import org.example.exception.exceptions.MemberNotFoundException;
 import org.example.exception.exceptions.TokenExpiredException;
+import org.example.exception.exceptions.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;

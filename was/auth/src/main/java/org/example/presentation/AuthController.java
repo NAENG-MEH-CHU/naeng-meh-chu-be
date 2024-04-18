@@ -1,11 +1,15 @@
 package org.example.presentation;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.Value;
 import org.example.application.JwtAuthService;
 import org.example.application.OAuthLoginService;
 import org.example.config.oauth.params.OAuthLoginParams;
 import org.example.domain.entity.Member;
+import org.example.presentation.dto.OAuthLoginRequest;
+import org.example.presentation.dto.TokenResponse;
 import org.example.support.JwtLogin;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,19 +32,26 @@ public class AuthController {
     }
 
     @GetMapping("/{provider}/callback")
-    public ResponseEntity<String> loginCallback(@RequestParam String code,
-                                                @RequestParam(required = false) String state,
-                                                @PathVariable("provider") String provider) {
+    public ResponseEntity<TokenResponse> loginCallback(@RequestParam String code,
+                                                       @RequestParam(required = false) String state,
+                                                       @PathVariable("provider") String provider) {
         OAuthLoginParams param = AuthControllerUtil.createOAuthLoginParams(code, state);
-        String authToken = oAuthLoginService.login(param);
-        return new ResponseEntity<>(AuthControllerUtil.addPrefixToToken(authToken), HttpStatus.CREATED);
+        String token = AuthControllerUtil.addPrefixToToken(oAuthLoginService.login(param));
+        return new ResponseEntity<>(TokenResponse.of(token), HttpStatus.CREATED);
+    }
+
+    @PostMapping("/login/{provider}")
+    public ResponseEntity<TokenResponse> loginThroughApp(@RequestBody @Valid final OAuthLoginRequest request,
+                                                         @PathVariable("provider") String provider) {
+        String token = AuthControllerUtil.addPrefixToToken(oAuthLoginService.loginThroughApp(request, provider));
+        return new ResponseEntity<>(TokenResponse.of(token), HttpStatus.CREATED);
     }
 
     @GetMapping("/reissue")
-    public ResponseEntity<String> reissue(HttpServletRequest request) {
+    public ResponseEntity<TokenResponse> reissue(HttpServletRequest request) {
         String token = request.getHeader("Authorization");
-        String reissuedToken = jwtAuthService.reissue(token);
-        return new ResponseEntity<>(reissuedToken, HttpStatus.OK);
+        String reissuedToken = AuthControllerUtil.addPrefixToToken(jwtAuthService.reissue(token));
+        return new ResponseEntity<>(TokenResponse.of(reissuedToken), HttpStatus.CREATED);
     }
 
     private String getUrlByProvider(final String provider) throws UnsupportedEncodingException {
