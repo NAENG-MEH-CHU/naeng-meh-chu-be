@@ -200,7 +200,7 @@ class FridgeControllerIntegrationTest(
                 .content(makeJson(request)))
             .andExpect(MockMvcResultMatchers.status().isBadRequest)
             .andDo(customDocument(
-                createFailedIdentifier("add_ingredient", "_invalid"),
+                createFailedIdentifier("add_ingredient", INVALID),
                 HeaderDocumentation.requestHeaders(
                     HeaderDocumentation.headerWithName(HttpHeaders.AUTHORIZATION).description("로그인 후 제공되는 Bearer 토큰")
                 ),
