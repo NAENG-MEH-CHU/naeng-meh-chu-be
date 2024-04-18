@@ -1,6 +1,7 @@
 package application
 
 import io.kotest.assertions.throwables.shouldThrow
+import io.kotest.matchers.equality.shouldBeEqualUsingFields
 import io.kotest.matchers.shouldBe
 import org.example.application.FridgeService
 import org.example.domain.entity.Member
@@ -8,10 +9,13 @@ import org.example.domain.enums.Gender
 import org.example.domain.event.AddIngredientEvent
 import org.example.domain.fridgeIngredient.entity.FridgeIngredient
 import org.example.domain.fridgeIngredient.repository.FridgeIngredientRepository
+import org.example.domain.ingredient.entity.Ingredient
 import org.example.domain.ingredient.repository.IngredientRepository
 import org.example.exception.exceptions.IngredientAlreadyInException
 import org.example.exception.exceptions.IngredientNotFoundException
 import org.example.presentation.dto.request.AddIngredientRequest
+import org.example.presentation.dto.response.IngredientsResponse
+import org.example.presentation.dto.response.SingleIngredientResponse
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -96,5 +100,18 @@ class FridgeServiceUnitTest {
 
         // then
         shouldThrow<IngredientAlreadyInException> { fridgeService.addIngredient(request, member) }
+    }
+
+    @DisplayName("전체 재료를 조회한다")
+    @Test
+    fun findAllIngredients_success() {
+        // given
+
+        // when
+        Mockito.`when`(ingredientRepository.findAll())
+            .thenReturn(listOf())
+
+        // then
+        fridgeService.findAllIngredients() shouldBeEqualUsingFields IngredientsResponse(listOf())
     }
 }
