@@ -11,7 +11,7 @@ import org.example.domain.fridgeIngredient.repository.FridgeIngredientRepository
 import org.example.domain.ingredient.repository.IngredientRepository
 import org.example.exception.exceptions.IngredientAlreadyInException
 import org.example.exception.exceptions.IngredientNotFoundException
-import org.example.presentation.dto.AddIngredientRequest
+import org.example.presentation.dto.request.AddIngredientRequest
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith

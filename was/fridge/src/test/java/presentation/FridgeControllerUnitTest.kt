@@ -7,7 +7,7 @@ import org.example.domain.entity.Member
 import org.example.domain.enums.Gender
 import org.example.exception.exceptions.IngredientNotFoundException
 import org.example.presentation.FridgeController
-import org.example.presentation.dto.AddIngredientRequest
+import org.example.presentation.dto.request.AddIngredientRequest
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith

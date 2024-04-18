@@ -12,7 +12,7 @@ import org.example.domain.ingredient.repository.IngredientRepository
 import org.example.domain.repository.MemberRepository
 import org.example.infrastructure.JwtTokenProvider
 import org.example.presentation.FridgeController
-import org.example.presentation.dto.AddIngredientRequest
+import org.example.presentation.dto.request.AddIngredientRequest
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName

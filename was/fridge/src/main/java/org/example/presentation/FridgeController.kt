@@ -3,7 +3,7 @@ package org.example.presentation
 import jakarta.validation.Valid
 import org.example.application.FridgeService
 import org.example.domain.entity.Member
-import org.example.presentation.dto.AddIngredientRequest
+import org.example.presentation.dto.request.AddIngredientRequest
 import org.example.support.JwtLogin
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
