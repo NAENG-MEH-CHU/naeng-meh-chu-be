@@ -7,7 +7,8 @@ import org.example.domain.entity.Member
 import org.example.domain.enums.Gender
 import org.example.exception.exceptions.IngredientNotFoundException
 import org.example.presentation.FridgeController
-import org.example.presentation.dto.AddIngredientRequest
+import org.example.presentation.dto.request.AddIngredientRequest
+import org.example.presentation.dto.response.IngredientsResponse
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -60,5 +61,20 @@ class FridgeControllerUnitTest {
 
         //then
         shouldThrow<IngredientNotFoundException> { fridgeController.addIngredient(member, request) }
+    }
+
+    @DisplayName("전체 재료 조회를 성공한다.")
+    @Test
+    fun findAllIngredients_success() {
+        // given
+        val ingredients = IngredientsResponse(listOf())
+
+        // when
+        Mockito.`when`(fridgeService.findAllIngredients())
+            .thenReturn(ingredients)
+
+        // then
+        val response = fridgeController.findAllIngredients(member)
+        response.statusCode shouldBe HttpStatus.OK
     }
 }

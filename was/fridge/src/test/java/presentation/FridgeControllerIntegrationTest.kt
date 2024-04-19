@@ -12,7 +12,7 @@ import org.example.domain.ingredient.repository.IngredientRepository
 import org.example.domain.repository.MemberRepository
 import org.example.infrastructure.JwtTokenProvider
 import org.example.presentation.FridgeController
-import org.example.presentation.dto.AddIngredientRequest
+import org.example.presentation.dto.request.AddIngredientRequest
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
@@ -210,6 +210,38 @@ class FridgeControllerIntegrationTest(
                     PayloadDocumentation.fieldWithPath("month").description("유통기한의 월"),
                     PayloadDocumentation.fieldWithPath("day").description("유통기한의 일"),
                 ),
+            )).andReturn()
+    }
+
+    @DisplayName("전체 재료를 조회한다.")
+    @Test
+    fun findAllIngredients_success() {
+        // given
+
+        // expected
+        mockMvc.perform(
+            RestDocumentationRequestBuilders.get("/api/fridge")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer $accessToken"))
+            .andExpect(MockMvcResultMatchers.status().isOk)
+            .andDo(customDocument(
+                "find_all_ingredients",
+                HeaderDocumentation.requestHeaders(
+                    HeaderDocumentation.headerWithName(HttpHeaders.AUTHORIZATION).description("로그인 후 제공되는 Bearer 토큰")
+                ),
+            )).andReturn()
+    }
+
+    @DisplayName("전체 재료를 조회를 실패한다. 토큰이 없을 경우")
+    @Test
+    fun findAllIngredients_fail_no_token() {
+        // given
+
+        // expected
+        mockMvc.perform(
+            RestDocumentationRequestBuilders.get("/api/fridge"))
+            .andExpect(MockMvcResultMatchers.status().isUnauthorized)
+            .andDo(customDocument(
+                createFailedIdentifier("find_all_ingredients", NO_TOKEN),
             )).andReturn()
     }
 
