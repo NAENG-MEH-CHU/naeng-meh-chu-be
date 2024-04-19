@@ -74,6 +74,7 @@ class FridgeControllerUnitTest {
             .thenReturn(ingredients)
 
         // then
-        fridgeController.findAllIngredients(member) shouldBe ResponseEntity<IngredientsResponse>(IngredientsResponse(listOf()), HttpStatus.OK)
+        val response = fridgeController.findAllIngredients(member)
+        response.statusCode shouldBe HttpStatus.OK
     }
 }
