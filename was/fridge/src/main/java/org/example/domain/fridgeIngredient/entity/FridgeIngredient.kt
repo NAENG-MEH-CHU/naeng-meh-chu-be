@@ -14,11 +14,13 @@ class FridgeIngredient(
     val memberId: UUID,
     @Column(nullable = false)
     val ingredientId: Int,
+    @Column(nullable = false)
+    val name: String,
     @Column
     val expiresAt: LocalDate
 ) {
 
-    constructor(memberId: UUID, ingredientId: Int, expiresAt: LocalDate) : this(null, memberId, ingredientId, expiresAt) {}
+    constructor(memberId: UUID, ingredientId: Int, name:String, expiresAt: LocalDate) : this(null, memberId, ingredientId, name, expiresAt) {}
 
-    constructor(): this(null, UUID.randomUUID(), 0, LocalDate.now()){}
+    protected constructor(): this(UUID.randomUUID(), 0,"",  LocalDate.now()){}
 }

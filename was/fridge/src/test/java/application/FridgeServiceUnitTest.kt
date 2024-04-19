@@ -51,7 +51,7 @@ class FridgeServiceUnitTest {
         .ingredients(0)
         .build();
 
-    private var fridgeIngredient = FridgeIngredient(member.id, 1, LocalDate.now())
+    private var fridgeIngredient = FridgeIngredient(member.id, 1, "test", LocalDate.now())
 
     @DisplayName("회원의 재료 추가에 성공한다.")
     @Test
