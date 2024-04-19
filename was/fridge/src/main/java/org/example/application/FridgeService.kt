@@ -40,7 +40,7 @@ open class FridgeService(
     @Transactional(readOnly = true)
     open fun findAllIngredients(): IngredientsResponse {
         return IngredientsResponse(ingredientRepository.findAll()
-            .map{ ingredient -> SingleIngredientResponse(ingredient.getId()!!, ingredient.getName()) })
+            .map{ ingredient -> SingleIngredientResponse(ingredient.id, ingredient.name) })
     }
 
     private fun validateExistence(member: Member, ingredientId: Int) {

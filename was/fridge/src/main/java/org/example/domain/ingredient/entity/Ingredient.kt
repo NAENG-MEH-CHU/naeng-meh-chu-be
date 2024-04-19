@@ -5,27 +5,13 @@ import java.util.UUID
 
 @Entity
 @Table(name = "Ingredient")
-open class Ingredient{
-
-    constructor(id: Int?, name: String) {
-        this.id = id
-        this.name = name
-    }
-
-    constructor(){}
-
+class Ingredient(
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private var id: Int? = null
+    val id: Int = 0,
 
     @Column
-    private lateinit var name: String
-
-    open fun getId(): Int? {
-        return id;
-    }
-
-    open fun getName(): String {
-        return name
-    }
+    val name: String
+){
+    constructor(): this(0, ""){}
 }
