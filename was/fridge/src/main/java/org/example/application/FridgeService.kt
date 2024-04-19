@@ -26,13 +26,13 @@ open class FridgeService(
 
     @Transactional
     open fun addIngredient(request: AddIngredientRequest, member: Member) {
-        if(!ingredientRepository.existsById(request.ingredientId!!)) {
-            throw IngredientNotFoundException()
-        }
-        validateExistence(member, request.ingredientId)
+
+        val ingredient = ingredientRepository.findById(request.ingredientId!!)
+            .orElseThrow { IngredientNotFoundException() }
+        validateExistence(member, ingredient.id)
 
         val date = LocalDate.of(request.year!!, request.month!!, request.day!!)
-        val fridgeIngredient = FridgeIngredient(member.id, request.ingredientId, date)
+        val fridgeIngredient = FridgeIngredient(member.id, ingredient.id, ingredient.name, date)
         fridgeIngredientRepository.save(fridgeIngredient)
         publisher.publishEvent(AddIngredientEvent.of(member, request.ingredientId))
     }

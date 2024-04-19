@@ -50,7 +50,7 @@ class FridgeServiceUnitTest {
         .email("test@test.com")
         .ingredients(0)
         .build();
-
+    private var ingredient = Ingredient(1, "test")
     private var fridgeIngredient = FridgeIngredient(member.id, 1, "test", LocalDate.now())
 
     @DisplayName("회원의 재료 추가에 성공한다.")
@@ -60,8 +60,8 @@ class FridgeServiceUnitTest {
         val request = AddIngredientRequest(1, 2017, 3, 1)
 
         // when
-        Mockito.`when`(ingredientRepository.existsById(request.ingredientId))
-            .thenReturn(true)
+        Mockito.`when`(ingredientRepository.findById(request.ingredientId))
+            .thenReturn(Optional.of(ingredient))
         Mockito.`when`(fridgeIngredientRepository.existsByIngredientIdAndMemberId(request.ingredientId!!, member.id))
             .thenReturn(false)
         Mockito.`when`(fridgeIngredientRepository.save(Mockito.any(FridgeIngredient::class.java)))
@@ -79,9 +79,9 @@ class FridgeServiceUnitTest {
         val request = AddIngredientRequest(1, 2017, 3, 1)
 
         // when
-        Mockito.`when`(ingredientRepository.existsById(request.ingredientId))
-            .thenReturn(false)
 
+        Mockito.`when`(ingredientRepository.findById(request.ingredientId))
+            .thenReturn(Optional.empty())
         // then
         shouldThrow<IngredientNotFoundException> { fridgeService.addIngredient(request, member) }
     }
@@ -93,8 +93,8 @@ class FridgeServiceUnitTest {
         val request = AddIngredientRequest(1, 2017, 3, 1)
 
         // when
-        Mockito.`when`(ingredientRepository.existsById(request.ingredientId))
-            .thenReturn(true)
+        Mockito.`when`(ingredientRepository.findById(request.ingredientId))
+            .thenReturn(Optional.of(ingredient))
         Mockito.`when`(fridgeIngredientRepository.existsByIngredientIdAndMemberId(request.ingredientId!!, member.id))
             .thenReturn(true)
 
