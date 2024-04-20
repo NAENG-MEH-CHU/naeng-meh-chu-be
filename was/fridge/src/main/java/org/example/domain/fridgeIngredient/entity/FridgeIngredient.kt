@@ -2,35 +2,30 @@ package org.example.domain.fridgeIngredient.entity
 
 import jakarta.persistence.*
 import java.time.LocalDate
+import java.time.temporal.ChronoUnit
 import java.util.*
 
 @Entity
 @Table(name = "FridgeIngredient")
-open class FridgeIngredient(
+class FridgeIngredient(
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private var id: UUID? = null,
+    val id: UUID = UUID.randomUUID(),
     @Column(nullable = false)
-    private var memberId: UUID,
+    val memberId: UUID,
     @Column(nullable = false)
-    private var ingredientId: Int,
+    val ingredientId: Int,
+    @Column(nullable = false)
+    val name: String,
     @Column
-    private var expiresAt: LocalDate
+    val expiresAt: LocalDate
 ) {
 
-    public constructor(memberId: UUID, ingredientId: Int, expiresAt: LocalDate) : this(null, memberId, ingredientId, expiresAt) {
-        this.memberId = memberId
-        this.ingredientId = ingredientId
-        this.expiresAt = expiresAt
-    }
+    constructor(memberId: UUID, ingredientId: Int, name:String, expiresAt: LocalDate) : this(UUID.randomUUID(), memberId, ingredientId, name, expiresAt) {}
 
-    constructor(): this(null, UUID.randomUUID(), 0, LocalDate.now()){}
+    protected constructor(): this(UUID.randomUUID(), 0,"",  LocalDate.now()){}
 
-    open fun getIngredientId(): Int {
-        return ingredientId
-    }
-
-    open fun getExpiresAt(): LocalDate {
-        return expiresAt
+    fun getDueDate(): Int { // D-day -n으로 나온다. 이미 지나면 +로 나온다.
+        return -1 * ChronoUnit.DAYS.between(LocalDate.now(), expiresAt).toInt()
     }
 }

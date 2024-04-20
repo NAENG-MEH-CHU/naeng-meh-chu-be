@@ -78,14 +78,14 @@ class FridgeControllerIntegrationTest(
         memberRepository.save(member)
         accessToken = jwtTokenProvider.createAccessToken(member.id.toString())
 
-        ingredient = ingredientRepository.save(Ingredient(null, "고기"))
+        ingredient = ingredientRepository.save(Ingredient(0, "고기"))
     }
 
     @DisplayName("내 냉장고에 재료를 성공적으로 추가한다.")
     @Test
     fun addIngredient_success() {
         // given
-        val request = AddIngredientRequest(ingredient.getId()!!, 2018, 3, 1)
+        val request = AddIngredientRequest(ingredient.id, 2018, 3, 1)
 
         // expected
         mockMvc.perform(
@@ -112,7 +112,7 @@ class FridgeControllerIntegrationTest(
     @Test
     fun addIngredient_fail_no_token() {
         // given
-        val request = AddIngredientRequest(ingredient.getId()!!, 2018, 3, 1)
+        val request = AddIngredientRequest(ingredient.id, 2018, 3, 1)
 
         // expected
         mockMvc.perform(
@@ -189,7 +189,7 @@ class FridgeControllerIntegrationTest(
     @Test
     fun addIngredient_fail_already_in() {
         // given
-        val request = AddIngredientRequest(ingredient.getId()!!, 2018, 3, 1)
+        val request = AddIngredientRequest(ingredient.id, 2018, 3, 1)
         fridgeService.addIngredient(request, member)
 
         // expected

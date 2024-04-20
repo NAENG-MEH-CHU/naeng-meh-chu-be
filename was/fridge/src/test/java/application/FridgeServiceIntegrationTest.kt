@@ -45,14 +45,14 @@ class FridgeServiceIntegrationTest(
             .email("test@test.com")
             .ingredients(0)
             .build())
-        ingredient = ingredientRepository.save(Ingredient(null, "계란"))
+        ingredient = ingredientRepository.save(Ingredient(1, "계란"))
     }
 
     @DisplayName("냉장고에 재료를 추가한다.")
     @Test
     fun addIngredient_success() {
         // given
-        var ingredientId = ingredient.getId()
+        var ingredientId = ingredient.id
         if(ingredientId === null) ingredientId = 1
         val request = AddIngredientRequest(ingredientId, 2017, 3, 1)
 
@@ -67,7 +67,7 @@ class FridgeServiceIntegrationTest(
     @Test
     fun addIngredient_fail_ingredient_already_in() {
         // given
-        var ingredientId = ingredient.getId()
+        var ingredientId = ingredient.id
         if(ingredientId === null) ingredientId = 1
         val request = AddIngredientRequest(ingredientId, 2017, 3, 1)
         fridgeService.addIngredient(request, member)
@@ -94,7 +94,7 @@ class FridgeServiceIntegrationTest(
     @Test
     fun findAllIngredients_success() {
         // given
-        val singleResponse = SingleIngredientResponse(ingredient.getId()!!, ingredient.getName())
+        val singleResponse = SingleIngredientResponse(ingredient.id, ingredient.name)
 
         // when
 
