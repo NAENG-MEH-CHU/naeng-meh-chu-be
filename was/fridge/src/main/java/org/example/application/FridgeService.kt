@@ -10,7 +10,9 @@ import org.example.exception.exceptions.IngredientAlreadyInException
 import org.example.exception.exceptions.IngredientNotFoundException
 import org.example.presentation.dto.request.AddIngredientRequest
 import org.example.presentation.dto.response.IngredientsResponse
+import org.example.presentation.dto.response.MyIngredientsResponse
 import org.example.presentation.dto.response.SingleIngredientResponse
+import org.example.presentation.dto.response.SingleMyIngredientResponse
 import org.springframework.context.ApplicationEventPublisher
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -41,6 +43,13 @@ open class FridgeService(
     open fun findAllIngredients(): IngredientsResponse {
         return IngredientsResponse(ingredientRepository.findAll()
             .map{ ingredient -> SingleIngredientResponse(ingredient.id, ingredient.name) })
+    }
+
+    @Transactional(readOnly = true)
+    open fun findMyIngredients(member: Member): MyIngredientsResponse {
+        val myIngredients =  fridgeIngredientRepository.findAllByMemberId(member.id)
+            .map{ fridgeIngredient -> SingleMyIngredientResponse(fridgeIngredient) }
+        return MyIngredientsResponse(myIngredients)
     }
 
     private fun validateExistence(member: Member, ingredientId: Int) {

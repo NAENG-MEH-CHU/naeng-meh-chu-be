@@ -7,4 +7,6 @@ import java.util.UUID
 interface FridgeIngredientRepository: JpaRepository<FridgeIngredient, UUID> {
 
     fun existsByIngredientIdAndMemberId(ingredientId: Int, memberId: UUID): Boolean
+
+    fun findAllByMemberId(memberId: UUID): List<FridgeIngredient>
 }

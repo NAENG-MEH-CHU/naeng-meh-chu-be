@@ -102,6 +102,16 @@ class FridgeServiceIntegrationTest(
         fridgeService.findAllIngredients() shouldBeEqualUsingFields IngredientsResponse(listOf(singleResponse))
     }
 
+    @DisplayName("나의 재료 조회를 성공한다")
+    fun findMyIngredients_success() {
+        // given
+
+
+        // when
+
+        // then
+    }
+
     @AfterEach
     fun afterWork() {
         memberRepository.delete(member)

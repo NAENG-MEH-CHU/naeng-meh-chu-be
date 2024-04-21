@@ -15,6 +15,7 @@ import org.example.exception.exceptions.IngredientAlreadyInException
 import org.example.exception.exceptions.IngredientNotFoundException
 import org.example.presentation.dto.request.AddIngredientRequest
 import org.example.presentation.dto.response.IngredientsResponse
+import org.example.presentation.dto.response.MyIngredientsResponse
 import org.example.presentation.dto.response.SingleIngredientResponse
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
@@ -113,5 +114,18 @@ class FridgeServiceUnitTest {
 
         // then
         fridgeService.findAllIngredients() shouldBeEqualUsingFields IngredientsResponse(listOf())
+    }
+
+    @DisplayName("나의 재료들을 조회한다")
+    @Test
+    fun findMyIngredients_success() {
+        // given
+
+        // when
+        Mockito.`when`(fridgeIngredientRepository.findAllByMemberId(member.id))
+            .thenReturn(listOf())
+
+        // then
+        fridgeService.findMyIngredients(member)::class shouldBe MyIngredientsResponse::class
     }
 }
