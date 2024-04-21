@@ -245,6 +245,42 @@ class FridgeControllerIntegrationTest(
             )).andReturn()
     }
 
+    @DisplayName("전체 재료를 조회한다.")
+    @Test
+    fun findMyIngredients_success() {
+        // given
+        val request = AddIngredientRequest(ingredient.id, 2018, 3, 1)
+        fridgeService.addIngredient(request, member)
+
+        // expected
+        mockMvc.perform(
+            RestDocumentationRequestBuilders.get("/api/fridge/mine")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer $accessToken"))
+            .andExpect(MockMvcResultMatchers.status().isOk)
+            .andDo(customDocument(
+                "find_my_ingredients",
+                HeaderDocumentation.requestHeaders(
+                    HeaderDocumentation.headerWithName(HttpHeaders.AUTHORIZATION).description("로그인 후 제공되는 Bearer 토큰")
+                ),
+            )).andReturn()
+    }
+
+    @DisplayName("전체 재료를 조회를 실패한다. 토큰이 없을 경우")
+    @Test
+    fun findMyIngredients_fail_no_token() {
+        // given
+        val request = AddIngredientRequest(ingredient.id, 2018, 3, 1)
+        fridgeService.addIngredient(request, member)
+
+        // expected
+        mockMvc.perform(
+            RestDocumentationRequestBuilders.get("/api/fridge/mine"))
+            .andExpect(MockMvcResultMatchers.status().isUnauthorized)
+            .andDo(customDocument(
+                createFailedIdentifier("find_my_ingredients", NO_TOKEN),
+            )).andReturn()
+    }
+
     @AfterEach
     fun deleteAll() {
         memberRepository.deleteAll()
