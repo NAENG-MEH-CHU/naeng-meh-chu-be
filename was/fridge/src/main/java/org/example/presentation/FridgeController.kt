@@ -5,6 +5,7 @@ import org.example.application.FridgeService
 import org.example.domain.entity.Member
 import org.example.presentation.dto.request.AddIngredientRequest
 import org.example.presentation.dto.response.IngredientsResponse
+import org.example.presentation.dto.response.MyIngredientsResponse
 import org.example.support.JwtLogin
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -27,5 +28,10 @@ open class FridgeController( private val fridgeService: FridgeService ) {
     @GetMapping("")
     fun findAllIngredients(@JwtLogin member: Member): ResponseEntity<IngredientsResponse> {
         return ResponseEntity(fridgeService.findAllIngredients(), HttpStatus.OK)
+    }
+
+    @GetMapping("mine")
+    fun findMyIngredients(@JwtLogin member: Member): ResponseEntity<MyIngredientsResponse> {
+        return ResponseEntity(fridgeService.findMyIngredients(member), HttpStatus.OK)
     }
 }

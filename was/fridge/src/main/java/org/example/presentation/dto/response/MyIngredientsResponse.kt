@@ -1,4 +1,4 @@
 package org.example.presentation.dto.response
 
-class MyIngredientsResponse(myIngredients: List<SingleMyIngredientResponse>) {
+class MyIngredientsResponse(val myIngredients: List<SingleMyIngredientResponse>) {
 }

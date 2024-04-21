@@ -9,6 +9,7 @@ import org.example.exception.exceptions.IngredientNotFoundException
 import org.example.presentation.FridgeController
 import org.example.presentation.dto.request.AddIngredientRequest
 import org.example.presentation.dto.response.IngredientsResponse
+import org.example.presentation.dto.response.MyIngredientsResponse
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -75,6 +76,21 @@ class FridgeControllerUnitTest {
 
         // then
         val response = fridgeController.findAllIngredients(member)
+        response.statusCode shouldBe HttpStatus.OK
+    }
+
+    @DisplayName("나의 재료 조회를 성공한다.")
+    @Test
+    fun findMyIngredients_success() {
+        // given
+        val ingredients = MyIngredientsResponse(listOf())
+
+        // when
+        Mockito.`when`(fridgeService.findMyIngredients(member))
+            .thenReturn(ingredients)
+
+        // then
+        val response = fridgeController.findMyIngredients(member)
         response.statusCode shouldBe HttpStatus.OK
     }
 }

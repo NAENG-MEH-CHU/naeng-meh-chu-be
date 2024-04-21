@@ -102,6 +102,20 @@ class FridgeServiceIntegrationTest(
         fridgeService.findAllIngredients() shouldBeEqualUsingFields IngredientsResponse(listOf(singleResponse))
     }
 
+    @DisplayName("나의 재료 조회를 성공한다")
+    @Test
+    fun findMyIngredients_success() {
+        // given
+        val request = AddIngredientRequest(ingredient.id, 2017, 3, 1)
+        fridgeService.addIngredient(request, member)
+
+        // when
+        val result = fridgeService.findMyIngredients(member)
+
+        // then
+        result.myIngredients.size shouldBe 1
+    }
+
     @AfterEach
     fun afterWork() {
         memberRepository.delete(member)
