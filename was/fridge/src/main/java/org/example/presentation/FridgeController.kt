@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import java.util.*
 
 @RestController
 @RequestMapping("/api/fridge")
@@ -39,6 +40,8 @@ class FridgeController( private val fridgeService: FridgeService ) {
 
     @DeleteMapping("/{id}")
     fun deleteMyIngredient(@JwtLogin member: Member, @PathVariable("id") id: String): ResponseEntity<Unit> {
+        val fridgeIngredientId = UUID.fromString(id)
+        fridgeService.deleteFridgeIngredient(fridgeIngredientId, member)
         return ResponseEntity(HttpStatus.NO_CONTENT)
     }
 }

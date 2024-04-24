@@ -102,15 +102,15 @@ class FridgeControllerUnitTest {
     @Test
     fun deleteFridgeIngredient_success() {
         // given
+        val uuid = UUID.randomUUID()
 
         // when
         Mockito.doNothing()
             .`when`(fridgeService)
-            .deleteFridgeIngredient(UUID.randomUUID(), member)
-
+            .deleteFridgeIngredient(uuid, member)
 
         // then
-        fridgeController.deleteMyIngredient(member, UUID.randomUUID().toString()) shouldBe ResponseEntity(HttpStatus.NO_CONTENT)
+        fridgeController.deleteMyIngredient(member, uuid.toString()) shouldBe ResponseEntity(HttpStatus.NO_CONTENT)
     }
 
     @DisplayName("나의 재료 삭제를 실패한다. 데이터가 없을 때")
