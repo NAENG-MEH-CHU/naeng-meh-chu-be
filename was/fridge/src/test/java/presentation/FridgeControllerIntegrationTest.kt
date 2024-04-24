@@ -245,7 +245,7 @@ class FridgeControllerIntegrationTest(
             )).andReturn()
     }
 
-    @DisplayName("전체 재료를 조회한다.")
+    @DisplayName("내 재료를 조회한다.")
     @Test
     fun findMyIngredients_success() {
         // given
@@ -265,7 +265,7 @@ class FridgeControllerIntegrationTest(
             )).andReturn()
     }
 
-    @DisplayName("전체 재료를 조회를 실패한다. 토큰이 없을 경우")
+    @DisplayName("내 재료를 조회를 실패한다. 토큰이 없을 경우")
     @Test
     fun findMyIngredients_fail_no_token() {
         // given
