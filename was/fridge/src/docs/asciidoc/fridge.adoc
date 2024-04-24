@@ -104,7 +104,7 @@ include::{snippets}/fridge-controller-integration-test/find_my_ingredients/reque
 
 include::{snippets}/fridge-controller-integration-test/find_my_ingredients/http-response.adoc[]
 
-=== 내 냉장고재료 추가를 실패한다. 토큰이 없을 때
+=== 내 냉장고 재료 조회를 실패한다. 토큰이 없을 때
 
 ==== 요청
 
