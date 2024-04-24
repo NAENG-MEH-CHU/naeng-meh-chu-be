@@ -6,6 +6,7 @@ import org.example.domain.event.AddIngredientEvent
 import org.example.domain.fridgeIngredient.entity.FridgeIngredient
 import org.example.domain.fridgeIngredient.repository.FridgeIngredientRepository
 import org.example.domain.ingredient.repository.IngredientRepository
+import org.example.exception.exceptions.FridgeIngredientNotFoundException
 import org.example.exception.exceptions.IngredientAlreadyInException
 import org.example.exception.exceptions.IngredientNotFoundException
 import org.example.presentation.dto.request.AddIngredientRequest
@@ -17,6 +18,7 @@ import org.springframework.context.ApplicationEventPublisher
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDate
+import java.util.UUID
 
 @Service
 @RequiredArgsConstructor
@@ -50,6 +52,11 @@ open class FridgeService(
         val myIngredients =  fridgeIngredientRepository.findAllByMemberId(member.id)
             .map{ fridgeIngredient -> SingleMyIngredientResponse(fridgeIngredient) }
         return MyIngredientsResponse(myIngredients)
+    }
+
+    @Transactional
+    open fun deleteFridgeIngredient(fridgeIngredientId: UUID, member: Member) {
+
     }
 
     private fun validateExistence(member: Member, ingredientId: Int) {

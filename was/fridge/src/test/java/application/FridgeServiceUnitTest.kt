@@ -128,4 +128,43 @@ class FridgeServiceUnitTest {
         // then
         fridgeService.findMyIngredients(member)::class shouldBe MyIngredientsResponse::class
     }
+
+    @DisplayName("나의 재료 삭제를 성공한다")
+    @Test
+    fun deleteFridgeIngredient_success() {
+        // given
+
+        // when
+        Mockito.`when`(fridgeIngredientRepository.findById(fridgeIngredient.id))
+            .thenReturn(Optional.of(fridgeIngredient))
+
+        // then
+        fridgeService.deleteFridgeIngredient(fridgeIngredient.id, member) shouldBe Unit
+    }
+
+    @DisplayName("나의 재료 삭제를 실패한다. 데이터가 없을 때")
+    @Test
+    fun deleteFridgeIngredient_not_found() {
+        // given
+
+        // when
+        Mockito.`when`(fridgeIngredientRepository.findById(fridgeIngredient.id))
+            .thenReturn(Optional.of(fridgeIngredient))
+
+        // then
+        fridgeService.deleteFridgeIngredient(fridgeIngredient.id, member) shouldBe Unit
+    }
+
+    @DisplayName("나의 재료 삭제를 실패한다. member의 재료가 아닐 때")
+    @Test
+    fun deleteFridgeIngredient_forbidden() {
+        // given
+
+        // when
+        Mockito.`when`(fridgeIngredientRepository.findById(fridgeIngredient.id))
+            .thenReturn(Optional.of(fridgeIngredient))
+
+        // then
+        fridgeService.deleteFridgeIngredient(fridgeIngredient.id, member) shouldBe Unit
+    }
 }
