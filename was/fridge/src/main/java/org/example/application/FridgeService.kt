@@ -3,9 +3,11 @@ package org.example.application
 import lombok.RequiredArgsConstructor
 import org.example.domain.entity.Member
 import org.example.domain.event.AddIngredientEvent
+import org.example.domain.event.RemoveIngredientEvent
 import org.example.domain.fridgeIngredient.entity.FridgeIngredient
 import org.example.domain.fridgeIngredient.repository.FridgeIngredientRepository
 import org.example.domain.ingredient.repository.IngredientRepository
+import org.example.exception.exceptions.FridgeIngredientForbiddenException
 import org.example.exception.exceptions.FridgeIngredientNotFoundException
 import org.example.exception.exceptions.IngredientAlreadyInException
 import org.example.exception.exceptions.IngredientNotFoundException
@@ -56,7 +58,13 @@ open class FridgeService(
 
     @Transactional
     open fun deleteFridgeIngredient(fridgeIngredientId: UUID, member: Member) {
+        val myIngredient = fridgeIngredientRepository.findById(fridgeIngredientId)
+            .orElseThrow { FridgeIngredientNotFoundException() }
 
+        if(!myIngredient.equalsMemberId(member.id)) throw FridgeIngredientForbiddenException()
+
+        publisher.publishEvent(RemoveIngredientEvent.of(member, myIngredient.ingredientId))
+        fridgeIngredientRepository.delete(myIngredient)
     }
 
     private fun validateExistence(member: Member, ingredientId: Int) {
