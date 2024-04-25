@@ -28,11 +28,10 @@ import org.springframework.http.HttpHeaders
 import org.springframework.http.MediaType
 import org.springframework.restdocs.RestDocumentationContextProvider
 import org.springframework.restdocs.RestDocumentationExtension
-import org.springframework.restdocs.headers.HeaderDocumentation
+import org.springframework.restdocs.headers.HeaderDocumentation.*
 import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation
-import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*
-import org.springframework.restdocs.payload.PayloadDocumentation
+import org.springframework.restdocs.payload.PayloadDocumentation.*
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 import org.springframework.test.web.servlet.setup.DefaultMockMvcBuilder
@@ -111,14 +110,14 @@ class FridgeControllerIntegrationTest(
             .andExpect(MockMvcResultMatchers.status().isCreated)
             .andDo(customDocument(
                 "add_ingredient",
-                HeaderDocumentation.requestHeaders(
-                    HeaderDocumentation.headerWithName(HttpHeaders.AUTHORIZATION).description("로그인 후 제공되는 Bearer 토큰")
+                requestHeaders(
+                    headerWithName(HttpHeaders.AUTHORIZATION).description("로그인 후 제공되는 Bearer 토큰")
                 ),
-                PayloadDocumentation.requestFields(
-                    PayloadDocumentation.fieldWithPath("ingredientId").description("냉장고에 추가할 재료 id"),
-                    PayloadDocumentation.fieldWithPath("year").description("유통기한의 년도"),
-                    PayloadDocumentation.fieldWithPath("month").description("유통기한의 월"),
-                    PayloadDocumentation.fieldWithPath("day").description("유통기한의 일"),
+                requestFields(
+                    fieldWithPath("ingredientId").description("냉장고에 추가할 재료 id"),
+                    fieldWithPath("year").description("유통기한의 년도"),
+                    fieldWithPath("month").description("유통기한의 월"),
+                    fieldWithPath("day").description("유통기한의 일"),
                 ),
             )).andReturn()
     }
@@ -137,11 +136,11 @@ class FridgeControllerIntegrationTest(
             .andExpect(MockMvcResultMatchers.status().isUnauthorized)
             .andDo(customDocument(
                 createFailedIdentifier("add_ingredient", NO_TOKEN),
-                PayloadDocumentation.requestFields(
-                    PayloadDocumentation.fieldWithPath("ingredientId").description("냉장고에 추가할 재료 id"),
-                    PayloadDocumentation.fieldWithPath("year").description("유통기한의 년도"),
-                    PayloadDocumentation.fieldWithPath("month").description("유통기한의 월"),
-                    PayloadDocumentation.fieldWithPath("day").description("유통기한의 일"),
+                requestFields(
+                    fieldWithPath("ingredientId").description("냉장고에 추가할 재료 id"),
+                    fieldWithPath("year").description("유통기한의 년도"),
+                    fieldWithPath("month").description("유통기한의 월"),
+                    fieldWithPath("day").description("유통기한의 일"),
                 ),
             )).andReturn()
     }
@@ -161,14 +160,14 @@ class FridgeControllerIntegrationTest(
             .andExpect(MockMvcResultMatchers.status().isNotFound)
             .andDo(customDocument(
                 createFailedIdentifier("add_ingredient", NOT_FOUND),
-                HeaderDocumentation.requestHeaders(
-                    HeaderDocumentation.headerWithName(HttpHeaders.AUTHORIZATION).description("로그인 후 제공되는 Bearer 토큰")
+                requestHeaders(
+                    headerWithName(HttpHeaders.AUTHORIZATION).description("로그인 후 제공되는 Bearer 토큰")
                 ),
-                PayloadDocumentation.requestFields(
-                    PayloadDocumentation.fieldWithPath("ingredientId").description("냉장고에 추가할 재료 id"),
-                    PayloadDocumentation.fieldWithPath("year").description("유통기한의 년도"),
-                    PayloadDocumentation.fieldWithPath("month").description("유통기한의 월"),
-                    PayloadDocumentation.fieldWithPath("day").description("유통기한의 일"),
+                requestFields(
+                    fieldWithPath("ingredientId").description("냉장고에 추가할 재료 id"),
+                    fieldWithPath("year").description("유통기한의 년도"),
+                    fieldWithPath("month").description("유통기한의 월"),
+                    fieldWithPath("day").description("유통기한의 일"),
                 ),
             )).andReturn()
     }
@@ -188,14 +187,14 @@ class FridgeControllerIntegrationTest(
             .andExpect(MockMvcResultMatchers.status().isBadRequest)
             .andDo(customDocument(
                 createFailedIdentifier("add_ingredient", BLANK),
-                HeaderDocumentation.requestHeaders(
-                    HeaderDocumentation.headerWithName(HttpHeaders.AUTHORIZATION).description("로그인 후 제공되는 Bearer 토큰")
+                requestHeaders(
+                    headerWithName(HttpHeaders.AUTHORIZATION).description("로그인 후 제공되는 Bearer 토큰")
                 ),
-                PayloadDocumentation.requestFields(
-                    PayloadDocumentation.fieldWithPath("ingredientId").description("냉장고에 추가할 재료 id"),
-                    PayloadDocumentation.fieldWithPath("year").description("유통기한의 년도"),
-                    PayloadDocumentation.fieldWithPath("month").description("유통기한의 월"),
-                    PayloadDocumentation.fieldWithPath("day").description("유통기한의 일"),
+                requestFields(
+                    fieldWithPath("ingredientId").description("냉장고에 추가할 재료 id"),
+                    fieldWithPath("year").description("유통기한의 년도"),
+                    fieldWithPath("month").description("유통기한의 월"),
+                    fieldWithPath("day").description("유통기한의 일"),
                 ),
             )).andReturn()
     }
@@ -216,14 +215,14 @@ class FridgeControllerIntegrationTest(
             .andExpect(MockMvcResultMatchers.status().isBadRequest)
             .andDo(customDocument(
                 createFailedIdentifier("add_ingredient", INVALID),
-                HeaderDocumentation.requestHeaders(
-                    HeaderDocumentation.headerWithName(HttpHeaders.AUTHORIZATION).description("로그인 후 제공되는 Bearer 토큰")
+                requestHeaders(
+                    headerWithName(HttpHeaders.AUTHORIZATION).description("로그인 후 제공되는 Bearer 토큰")
                 ),
-                PayloadDocumentation.requestFields(
-                    PayloadDocumentation.fieldWithPath("ingredientId").description("냉장고에 추가할 재료 id"),
-                    PayloadDocumentation.fieldWithPath("year").description("유통기한의 년도"),
-                    PayloadDocumentation.fieldWithPath("month").description("유통기한의 월"),
-                    PayloadDocumentation.fieldWithPath("day").description("유통기한의 일"),
+                requestFields(
+                    fieldWithPath("ingredientId").description("냉장고에 추가할 재료 id"),
+                    fieldWithPath("year").description("유통기한의 년도"),
+                    fieldWithPath("month").description("유통기한의 월"),
+                    fieldWithPath("day").description("유통기한의 일"),
                 ),
             )).andReturn()
     }
@@ -240,8 +239,8 @@ class FridgeControllerIntegrationTest(
             .andExpect(MockMvcResultMatchers.status().isOk)
             .andDo(customDocument(
                 "find_all_ingredients",
-                HeaderDocumentation.requestHeaders(
-                    HeaderDocumentation.headerWithName(HttpHeaders.AUTHORIZATION).description("로그인 후 제공되는 Bearer 토큰")
+                requestHeaders(
+                    headerWithName(HttpHeaders.AUTHORIZATION).description("로그인 후 제공되는 Bearer 토큰")
                 ),
             )).andReturn()
     }
@@ -275,8 +274,8 @@ class FridgeControllerIntegrationTest(
             .andExpect(MockMvcResultMatchers.status().isOk)
             .andDo(customDocument(
                 "find_my_ingredients",
-                HeaderDocumentation.requestHeaders(
-                    HeaderDocumentation.headerWithName(HttpHeaders.AUTHORIZATION).description("로그인 후 제공되는 Bearer 토큰")
+                requestHeaders(
+                    headerWithName(HttpHeaders.AUTHORIZATION).description("로그인 후 제공되는 Bearer 토큰")
                 ),
             )).andReturn()
     }
@@ -312,8 +311,8 @@ class FridgeControllerIntegrationTest(
             .andExpect(MockMvcResultMatchers.status().isNoContent)
             .andDo(customDocument(
                 "delete_my_ingredient",
-                HeaderDocumentation.requestHeaders(
-                    HeaderDocumentation.headerWithName(HttpHeaders.AUTHORIZATION).description("로그인 후 제공되는 Bearer 토큰")
+                requestHeaders(
+                    headerWithName(HttpHeaders.AUTHORIZATION).description("로그인 후 제공되는 Bearer 토큰")
                 ),
             )).andReturn()
     }
@@ -348,6 +347,9 @@ class FridgeControllerIntegrationTest(
             .andExpect(MockMvcResultMatchers.status().isNotFound)
             .andDo(customDocument(
                 createFailedIdentifier("delete_my_ingredient", NOT_FOUND),
+                requestHeaders(
+                    headerWithName(HttpHeaders.AUTHORIZATION).description("로그인 후 제공되는 Bearer 토큰")
+                ),
             )).andReturn()
     }
 
@@ -366,6 +368,9 @@ class FridgeControllerIntegrationTest(
             .andExpect(MockMvcResultMatchers.status().isForbidden)
             .andDo(customDocument(
                 createFailedIdentifier("delete_my_ingredient", FORBIDDEN),
+                requestHeaders(
+                    headerWithName(HttpHeaders.AUTHORIZATION).description("로그인 후 제공되는 Bearer 토큰")
+                ),
             )).andReturn()
     }
 
