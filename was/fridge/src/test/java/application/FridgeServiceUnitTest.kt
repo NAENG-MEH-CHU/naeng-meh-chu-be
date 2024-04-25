@@ -5,12 +5,15 @@ import io.kotest.matchers.equality.shouldBeEqualUsingFields
 import io.kotest.matchers.shouldBe
 import org.example.application.FridgeService
 import org.example.domain.entity.Member
+import org.example.domain.enums.Age
 import org.example.domain.enums.Gender
 import org.example.domain.event.AddIngredientEvent
 import org.example.domain.fridgeIngredient.entity.FridgeIngredient
 import org.example.domain.fridgeIngredient.repository.FridgeIngredientRepository
 import org.example.domain.ingredient.entity.Ingredient
 import org.example.domain.ingredient.repository.IngredientRepository
+import org.example.exception.exceptions.FridgeIngredientForbiddenException
+import org.example.exception.exceptions.FridgeIngredientNotFoundException
 import org.example.exception.exceptions.IngredientAlreadyInException
 import org.example.exception.exceptions.IngredientNotFoundException
 import org.example.presentation.dto.request.AddIngredientRequest
@@ -127,5 +130,55 @@ class FridgeServiceUnitTest {
 
         // then
         fridgeService.findMyIngredients(member)::class shouldBe MyIngredientsResponse::class
+    }
+
+    @DisplayName("나의 재료 삭제를 성공한다")
+    @Test
+    fun deleteFridgeIngredient_success() {
+        // given
+
+        // when
+        Mockito.`when`(fridgeIngredientRepository.findById(fridgeIngredient.id))
+            .thenReturn(Optional.of(fridgeIngredient))
+
+        // then
+        fridgeService.deleteFridgeIngredient(fridgeIngredient.id, member) shouldBe Unit
+    }
+
+    @DisplayName("나의 재료 삭제를 실패한다. 데이터가 없을 때")
+    @Test
+    fun deleteFridgeIngredient_not_found() {
+        // given
+
+        // when
+        Mockito.`when`(fridgeIngredientRepository.findById(fridgeIngredient.id))
+            .thenReturn(Optional.empty())
+
+        // then
+        shouldThrow<FridgeIngredientNotFoundException> {
+            fridgeService.deleteFridgeIngredient(fridgeIngredient.id, member)
+        }
+    }
+
+    @DisplayName("나의 재료 삭제를 실패한다. member의 재료가 아닐 때")
+    @Test
+    fun deleteFridgeIngredient_forbidden() {
+        // given
+        val other = Member.builder()
+            .id(UUID.randomUUID())
+            .email("other@other.com")
+            .nickname("other")
+            .age(Age.THIRTIES)
+            .ingredients(0)
+            .build()
+
+        // when
+        Mockito.`when`(fridgeIngredientRepository.findById(fridgeIngredient.id))
+            .thenReturn(Optional.of(fridgeIngredient))
+
+        // then
+        shouldThrow<FridgeIngredientForbiddenException> {
+            fridgeService.deleteFridgeIngredient(fridgeIngredient.id, other)
+        }
     }
 }

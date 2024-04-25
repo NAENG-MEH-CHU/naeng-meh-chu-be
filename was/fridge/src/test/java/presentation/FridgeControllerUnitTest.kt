@@ -4,7 +4,10 @@ import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import org.example.application.FridgeService
 import org.example.domain.entity.Member
+import org.example.domain.enums.Age
 import org.example.domain.enums.Gender
+import org.example.exception.exceptions.FridgeIngredientForbiddenException
+import org.example.exception.exceptions.FridgeIngredientNotFoundException
 import org.example.exception.exceptions.IngredientNotFoundException
 import org.example.presentation.FridgeController
 import org.example.presentation.dto.request.AddIngredientRequest
@@ -19,6 +22,7 @@ import org.mockito.Mockito
 import org.mockito.junit.jupiter.MockitoExtension
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import java.util.*
 
 @ExtendWith(MockitoExtension::class)
 class FridgeControllerUnitTest {
@@ -92,5 +96,54 @@ class FridgeControllerUnitTest {
         // then
         val response = fridgeController.findMyIngredients(member)
         response.statusCode shouldBe HttpStatus.OK
+    }
+
+    @DisplayName("나의 재료 삭제를 성공한다")
+    @Test
+    fun deleteFridgeIngredient_success() {
+        // given
+        val uuid = UUID.randomUUID()
+
+        // when
+        Mockito.doNothing()
+            .`when`(fridgeService)
+            .deleteFridgeIngredient(uuid, member)
+
+        // then
+        fridgeController.deleteMyIngredient(member, uuid.toString()) shouldBe ResponseEntity(HttpStatus.NO_CONTENT)
+    }
+
+    @DisplayName("나의 재료 삭제를 실패한다. 데이터가 없을 때")
+    @Test
+    fun deleteFridgeIngredient_not_found() {
+        // given
+        val uuid = UUID.randomUUID()
+
+        // when
+        Mockito.doThrow(FridgeIngredientNotFoundException())
+            .`when`(fridgeService).deleteFridgeIngredient(uuid, member)
+
+        // then
+        shouldThrow<FridgeIngredientNotFoundException> {
+            fridgeController.deleteMyIngredient(member, uuid.toString())
+        }
+    }
+
+    @DisplayName("나의 재료 삭제를 실패한다. member의 재료가 아닐 때")
+    @Test
+    fun deleteFridgeIngredient_forbidden() {
+        // given
+        val uuid = UUID.randomUUID()
+
+        // when
+        Mockito.doThrow(FridgeIngredientForbiddenException())
+            .`when`(fridgeService).deleteFridgeIngredient(uuid, member)
+
+        // then
+
+        // then
+        shouldThrow<FridgeIngredientForbiddenException> {
+            fridgeController.deleteMyIngredient(member, uuid.toString())
+        }
     }
 }

@@ -6,6 +6,8 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import org.example.FridgeApplication
 import org.example.application.FridgeService
 import org.example.domain.entity.Member
+import org.example.domain.enums.Age
+import org.example.domain.fridgeIngredient.entity.FridgeIngredient
 import org.example.domain.fridgeIngredient.repository.FridgeIngredientRepository
 import org.example.domain.ingredient.entity.Ingredient
 import org.example.domain.ingredient.repository.IngredientRepository
@@ -26,15 +28,17 @@ import org.springframework.http.HttpHeaders
 import org.springframework.http.MediaType
 import org.springframework.restdocs.RestDocumentationContextProvider
 import org.springframework.restdocs.RestDocumentationExtension
-import org.springframework.restdocs.headers.HeaderDocumentation
+import org.springframework.restdocs.headers.HeaderDocumentation.*
 import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation
-import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders
-import org.springframework.restdocs.payload.PayloadDocumentation
+import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*
+import org.springframework.restdocs.payload.PayloadDocumentation.*
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 import org.springframework.test.web.servlet.setup.DefaultMockMvcBuilder
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import org.springframework.web.context.WebApplicationContext
+import java.time.LocalDate
+import java.util.*
 
 @SpringBootTest(classes = [FridgeApplication::class])
 @ExtendWith(RestDocumentationExtension::class)
@@ -51,9 +55,11 @@ class FridgeControllerIntegrationTest(
 ) {
 
     private lateinit var member: Member
-    private var accessToken: String? = null
+    private lateinit var other: Member
+    private lateinit var accessToken: String
     private lateinit var mockMvc: MockMvc
     private lateinit var ingredient: Ingredient
+    private lateinit var otherToken: String
 
     private val FAIL_PREFIX = "fail_to_"
     private val NO_TOKEN = "_no_token"
@@ -76,7 +82,15 @@ class FridgeControllerIntegrationTest(
             .ingredients(0)
             .build()
         memberRepository.save(member)
+        other = memberRepository.save(Member
+            .builder()
+            .nickname("other")
+            .email("other@other.com")
+            .ingredients(0)
+            .age(Age.THIRTIES)
+            .build())
         accessToken = jwtTokenProvider.createAccessToken(member.id.toString())
+        otherToken = jwtTokenProvider.createAccessToken(other.id.toString())
 
         ingredient = ingredientRepository.save(Ingredient(0, "고기"))
     }
@@ -89,21 +103,21 @@ class FridgeControllerIntegrationTest(
 
         // expected
         mockMvc.perform(
-            RestDocumentationRequestBuilders.post("/api/fridge")
+            post("/api/fridge")
             .header(HttpHeaders.AUTHORIZATION, "Bearer $accessToken")
             .contentType(MediaType.APPLICATION_JSON)
             .content(makeJson(request)))
             .andExpect(MockMvcResultMatchers.status().isCreated)
             .andDo(customDocument(
                 "add_ingredient",
-                HeaderDocumentation.requestHeaders(
-                    HeaderDocumentation.headerWithName(HttpHeaders.AUTHORIZATION).description("로그인 후 제공되는 Bearer 토큰")
+                requestHeaders(
+                    headerWithName(HttpHeaders.AUTHORIZATION).description("로그인 후 제공되는 Bearer 토큰")
                 ),
-                PayloadDocumentation.requestFields(
-                    PayloadDocumentation.fieldWithPath("ingredientId").description("냉장고에 추가할 재료 id"),
-                    PayloadDocumentation.fieldWithPath("year").description("유통기한의 년도"),
-                    PayloadDocumentation.fieldWithPath("month").description("유통기한의 월"),
-                    PayloadDocumentation.fieldWithPath("day").description("유통기한의 일"),
+                requestFields(
+                    fieldWithPath("ingredientId").description("냉장고에 추가할 재료 id"),
+                    fieldWithPath("year").description("유통기한의 년도"),
+                    fieldWithPath("month").description("유통기한의 월"),
+                    fieldWithPath("day").description("유통기한의 일"),
                 ),
             )).andReturn()
     }
@@ -116,17 +130,17 @@ class FridgeControllerIntegrationTest(
 
         // expected
         mockMvc.perform(
-            RestDocumentationRequestBuilders.post("/api/fridge")
+            post("/api/fridge")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(makeJson(request)))
             .andExpect(MockMvcResultMatchers.status().isUnauthorized)
             .andDo(customDocument(
                 createFailedIdentifier("add_ingredient", NO_TOKEN),
-                PayloadDocumentation.requestFields(
-                    PayloadDocumentation.fieldWithPath("ingredientId").description("냉장고에 추가할 재료 id"),
-                    PayloadDocumentation.fieldWithPath("year").description("유통기한의 년도"),
-                    PayloadDocumentation.fieldWithPath("month").description("유통기한의 월"),
-                    PayloadDocumentation.fieldWithPath("day").description("유통기한의 일"),
+                requestFields(
+                    fieldWithPath("ingredientId").description("냉장고에 추가할 재료 id"),
+                    fieldWithPath("year").description("유통기한의 년도"),
+                    fieldWithPath("month").description("유통기한의 월"),
+                    fieldWithPath("day").description("유통기한의 일"),
                 ),
             )).andReturn()
     }
@@ -139,21 +153,21 @@ class FridgeControllerIntegrationTest(
 
         // expected
         mockMvc.perform(
-            RestDocumentationRequestBuilders.post("/api/fridge")
+            post("/api/fridge")
                 .header(HttpHeaders.AUTHORIZATION, "Bearer $accessToken")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(makeJson(request)))
             .andExpect(MockMvcResultMatchers.status().isNotFound)
             .andDo(customDocument(
                 createFailedIdentifier("add_ingredient", NOT_FOUND),
-                HeaderDocumentation.requestHeaders(
-                    HeaderDocumentation.headerWithName(HttpHeaders.AUTHORIZATION).description("로그인 후 제공되는 Bearer 토큰")
+                requestHeaders(
+                    headerWithName(HttpHeaders.AUTHORIZATION).description("로그인 후 제공되는 Bearer 토큰")
                 ),
-                PayloadDocumentation.requestFields(
-                    PayloadDocumentation.fieldWithPath("ingredientId").description("냉장고에 추가할 재료 id"),
-                    PayloadDocumentation.fieldWithPath("year").description("유통기한의 년도"),
-                    PayloadDocumentation.fieldWithPath("month").description("유통기한의 월"),
-                    PayloadDocumentation.fieldWithPath("day").description("유통기한의 일"),
+                requestFields(
+                    fieldWithPath("ingredientId").description("냉장고에 추가할 재료 id"),
+                    fieldWithPath("year").description("유통기한의 년도"),
+                    fieldWithPath("month").description("유통기한의 월"),
+                    fieldWithPath("day").description("유통기한의 일"),
                 ),
             )).andReturn()
     }
@@ -166,21 +180,21 @@ class FridgeControllerIntegrationTest(
 
         // expected
         mockMvc.perform(
-            RestDocumentationRequestBuilders.post("/api/fridge")
+            post("/api/fridge")
                 .header(HttpHeaders.AUTHORIZATION, "Bearer $accessToken")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(makeJson(request)))
             .andExpect(MockMvcResultMatchers.status().isBadRequest)
             .andDo(customDocument(
                 createFailedIdentifier("add_ingredient", BLANK),
-                HeaderDocumentation.requestHeaders(
-                    HeaderDocumentation.headerWithName(HttpHeaders.AUTHORIZATION).description("로그인 후 제공되는 Bearer 토큰")
+                requestHeaders(
+                    headerWithName(HttpHeaders.AUTHORIZATION).description("로그인 후 제공되는 Bearer 토큰")
                 ),
-                PayloadDocumentation.requestFields(
-                    PayloadDocumentation.fieldWithPath("ingredientId").description("냉장고에 추가할 재료 id"),
-                    PayloadDocumentation.fieldWithPath("year").description("유통기한의 년도"),
-                    PayloadDocumentation.fieldWithPath("month").description("유통기한의 월"),
-                    PayloadDocumentation.fieldWithPath("day").description("유통기한의 일"),
+                requestFields(
+                    fieldWithPath("ingredientId").description("냉장고에 추가할 재료 id"),
+                    fieldWithPath("year").description("유통기한의 년도"),
+                    fieldWithPath("month").description("유통기한의 월"),
+                    fieldWithPath("day").description("유통기한의 일"),
                 ),
             )).andReturn()
     }
@@ -194,21 +208,21 @@ class FridgeControllerIntegrationTest(
 
         // expected
         mockMvc.perform(
-            RestDocumentationRequestBuilders.post("/api/fridge")
+            post("/api/fridge")
                 .header(HttpHeaders.AUTHORIZATION, "Bearer $accessToken")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(makeJson(request)))
             .andExpect(MockMvcResultMatchers.status().isBadRequest)
             .andDo(customDocument(
                 createFailedIdentifier("add_ingredient", INVALID),
-                HeaderDocumentation.requestHeaders(
-                    HeaderDocumentation.headerWithName(HttpHeaders.AUTHORIZATION).description("로그인 후 제공되는 Bearer 토큰")
+                requestHeaders(
+                    headerWithName(HttpHeaders.AUTHORIZATION).description("로그인 후 제공되는 Bearer 토큰")
                 ),
-                PayloadDocumentation.requestFields(
-                    PayloadDocumentation.fieldWithPath("ingredientId").description("냉장고에 추가할 재료 id"),
-                    PayloadDocumentation.fieldWithPath("year").description("유통기한의 년도"),
-                    PayloadDocumentation.fieldWithPath("month").description("유통기한의 월"),
-                    PayloadDocumentation.fieldWithPath("day").description("유통기한의 일"),
+                requestFields(
+                    fieldWithPath("ingredientId").description("냉장고에 추가할 재료 id"),
+                    fieldWithPath("year").description("유통기한의 년도"),
+                    fieldWithPath("month").description("유통기한의 월"),
+                    fieldWithPath("day").description("유통기한의 일"),
                 ),
             )).andReturn()
     }
@@ -220,13 +234,13 @@ class FridgeControllerIntegrationTest(
 
         // expected
         mockMvc.perform(
-            RestDocumentationRequestBuilders.get("/api/fridge")
+            get("/api/fridge")
                 .header(HttpHeaders.AUTHORIZATION, "Bearer $accessToken"))
             .andExpect(MockMvcResultMatchers.status().isOk)
             .andDo(customDocument(
                 "find_all_ingredients",
-                HeaderDocumentation.requestHeaders(
-                    HeaderDocumentation.headerWithName(HttpHeaders.AUTHORIZATION).description("로그인 후 제공되는 Bearer 토큰")
+                requestHeaders(
+                    headerWithName(HttpHeaders.AUTHORIZATION).description("로그인 후 제공되는 Bearer 토큰")
                 ),
             )).andReturn()
     }
@@ -238,7 +252,8 @@ class FridgeControllerIntegrationTest(
 
         // expected
         mockMvc.perform(
-            RestDocumentationRequestBuilders.get("/api/fridge"))
+            get("/api/fridge")
+        )
             .andExpect(MockMvcResultMatchers.status().isUnauthorized)
             .andDo(customDocument(
                 createFailedIdentifier("find_all_ingredients", NO_TOKEN),
@@ -254,13 +269,13 @@ class FridgeControllerIntegrationTest(
 
         // expected
         mockMvc.perform(
-            RestDocumentationRequestBuilders.get("/api/fridge/mine")
+            get("/api/fridge/mine")
                 .header(HttpHeaders.AUTHORIZATION, "Bearer $accessToken"))
             .andExpect(MockMvcResultMatchers.status().isOk)
             .andDo(customDocument(
                 "find_my_ingredients",
-                HeaderDocumentation.requestHeaders(
-                    HeaderDocumentation.headerWithName(HttpHeaders.AUTHORIZATION).description("로그인 후 제공되는 Bearer 토큰")
+                requestHeaders(
+                    headerWithName(HttpHeaders.AUTHORIZATION).description("로그인 후 제공되는 Bearer 토큰")
                 ),
             )).andReturn()
     }
@@ -274,10 +289,88 @@ class FridgeControllerIntegrationTest(
 
         // expected
         mockMvc.perform(
-            RestDocumentationRequestBuilders.get("/api/fridge/mine"))
+            get("/api/fridge/mine")
+        )
             .andExpect(MockMvcResultMatchers.status().isUnauthorized)
             .andDo(customDocument(
                 createFailedIdentifier("find_my_ingredients", NO_TOKEN),
+            )).andReturn()
+    }
+
+    @DisplayName("내 재료를 삭제한다.")
+    @Test
+    fun deleteMyIngredient_success() {
+        // given
+        val fridgeIngredient = fridgeIngredientRepository
+            .save(FridgeIngredient(member.id, ingredient.id, "계란", LocalDate.now()))
+
+        // expected
+        mockMvc.perform(
+            delete("/api/fridge/${fridgeIngredient.id}")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer $accessToken"))
+            .andExpect(MockMvcResultMatchers.status().isNoContent)
+            .andDo(customDocument(
+                "delete_my_ingredient",
+                requestHeaders(
+                    headerWithName(HttpHeaders.AUTHORIZATION).description("로그인 후 제공되는 Bearer 토큰")
+                ),
+            )).andReturn()
+    }
+
+    @DisplayName("내 재료를 삭제를 실패한다. 토큰이 없을 경우")
+    @Test
+    fun deleteMyIngredient_fail_no_token() {
+        // given
+        val fridgeIngredient = fridgeIngredientRepository
+            .save(FridgeIngredient(member.id, ingredient.id, "계란", LocalDate.now()))
+
+        // expected
+        mockMvc.perform(
+            delete("/api/fridge/${fridgeIngredient.id}")
+        )
+            .andExpect(MockMvcResultMatchers.status().isUnauthorized)
+            .andDo(customDocument(
+                createFailedIdentifier("delete_my_ingredient", NO_TOKEN),
+            )).andReturn()
+    }
+
+    @DisplayName("내 재료를 삭제를 실패한다. 재료가 없는 경우")
+    @Test
+    fun deleteMyIngredient_fail_not_found() {
+        // given
+
+        // expected
+        mockMvc.perform(
+            delete("/api/fridge/${UUID.randomUUID()}")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer $accessToken")
+        )
+            .andExpect(MockMvcResultMatchers.status().isNotFound)
+            .andDo(customDocument(
+                createFailedIdentifier("delete_my_ingredient", NOT_FOUND),
+                requestHeaders(
+                    headerWithName(HttpHeaders.AUTHORIZATION).description("로그인 후 제공되는 Bearer 토큰")
+                ),
+            )).andReturn()
+    }
+
+    @DisplayName("내 재료를 삭제를 실패한다. 내 재료가 아닌 경우")
+    @Test
+    fun deleteMyIngredient_fail_forbidden() {
+        // given
+        val fridgeIngredient = fridgeIngredientRepository
+            .save(FridgeIngredient(member.id, ingredient.id, "계란", LocalDate.now()))
+
+        // expected
+        mockMvc.perform(
+            delete("/api/fridge/${fridgeIngredient.id}")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer $otherToken")
+        )
+            .andExpect(MockMvcResultMatchers.status().isForbidden)
+            .andDo(customDocument(
+                createFailedIdentifier("delete_my_ingredient", FORBIDDEN),
+                requestHeaders(
+                    headerWithName(HttpHeaders.AUTHORIZATION).description("로그인 후 제공되는 Bearer 토큰")
+                ),
             )).andReturn()
     }
 

@@ -28,4 +28,8 @@ class FridgeIngredient(
     fun getDueDate(): Int { // D-day -n으로 나온다. 이미 지나면 +로 나온다.
         return -1 * ChronoUnit.DAYS.between(LocalDate.now(), expiresAt).toInt()
     }
+
+    fun equalsMemberId(memberId: UUID): Boolean {
+        return memberId == this.memberId
+    }
 }

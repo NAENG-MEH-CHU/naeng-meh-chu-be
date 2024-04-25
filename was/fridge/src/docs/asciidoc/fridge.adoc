@@ -113,3 +113,48 @@ include::{snippets}/fridge-controller-integration-test/fail_to_find_my_ingredien
 ==== 응답
 
 include::{snippets}/fridge-controller-integration-test/fail_to_find_my_ingredients_no_token/http-response.adoc[]
+
+== 나의 재료 삭제
+
+=== 성공
+
+==== 요청
+
+include::{snippets}/fridge-controller-integration-test/delete_my_ingredient/http-request.adoc[]
+include::{snippets}/fridge-controller-integration-test/delete_my_ingredient/request-headers.adoc[]
+
+==== 응답
+
+include::{snippets}/fridge-controller-integration-test/delete_my_ingredient/http-response.adoc[]
+
+=== 내 냉장고 재료 삭제를 실패한다. 토큰이 없을 때
+
+==== 요청
+
+include::{snippets}/fridge-controller-integration-test/fail_to_delete_my_ingredient_no_token/http-request.adoc[]
+
+==== 응답
+
+include::{snippets}/fridge-controller-integration-test/fail_to_delete_my_ingredient_no_token/http-response.adoc[]
+
+=== 내 냉장고 재료 삭제를 실패한다. 재료가 없을 때
+
+==== 요청
+
+include::{snippets}/fridge-controller-integration-test/fail_to_delete_my_ingredient_not_found/http-request.adoc[]
+include::{snippets}/fridge-controller-integration-test/fail_to_delete_my_ingredient_not_found/request-headers.adoc[]
+
+==== 응답
+
+include::{snippets}/fridge-controller-integration-test/fail_to_delete_my_ingredient_not_found/http-response.adoc[]
+
+=== 내 냉장고 재료 삭제를 실패한다. 권한이 없을 때
+
+==== 요청
+
+include::{snippets}/fridge-controller-integration-test/fail_to_delete_my_ingredient_forbidden/http-request.adoc[]
+include::{snippets}/fridge-controller-integration-test/fail_to_delete_my_ingredient_forbidden/request-headers.adoc[]
+
+==== 응답
+
+include::{snippets}/fridge-controller-integration-test/fail_to_delete_my_ingredient_forbidden/http-response.adoc[]

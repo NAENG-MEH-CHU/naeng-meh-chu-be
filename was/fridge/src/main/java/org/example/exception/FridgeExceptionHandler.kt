@@ -1,5 +1,6 @@
 package org.example.exception
 
+import org.example.exception.exceptions.FridgeIngredientForbiddenException
 import org.example.exception.exceptions.FridgeIngredientNotFoundException
 import org.example.exception.exceptions.IngredientAlreadyInException
 import org.example.exception.exceptions.IngredientNotFoundException
@@ -24,5 +25,10 @@ open class FridgeExceptionHandler {
     @ExceptionHandler(IngredientAlreadyInException::class)
     fun handlerIngredientAlreadyInException(exception: IngredientAlreadyInException): ResponseEntity<String> {
         return ResponseEntity<String>(exception.message, HttpStatus.BAD_REQUEST)
+    }
+
+    @ExceptionHandler(FridgeIngredientForbiddenException::class)
+    fun handlerFridgeIngredientForbiddenException(exception: FridgeIngredientForbiddenException): ResponseEntity<String> {
+        return ResponseEntity<String>(exception.message, HttpStatus.FORBIDDEN)
     }
 }

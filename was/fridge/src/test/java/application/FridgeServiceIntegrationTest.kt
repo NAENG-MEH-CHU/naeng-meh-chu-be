@@ -6,11 +6,15 @@ import io.kotest.matchers.shouldBe
 import org.example.FridgeApplication
 import org.example.application.FridgeService
 import org.example.domain.entity.Member
+import org.example.domain.enums.Age
 import org.example.domain.enums.Gender
+import org.example.domain.fridgeIngredient.entity.FridgeIngredient
 import org.example.domain.fridgeIngredient.repository.FridgeIngredientRepository
 import org.example.domain.ingredient.entity.Ingredient
 import org.example.domain.ingredient.repository.IngredientRepository
 import org.example.domain.repository.MemberRepository
+import org.example.exception.exceptions.FridgeIngredientForbiddenException
+import org.example.exception.exceptions.FridgeIngredientNotFoundException
 import org.example.exception.exceptions.IngredientAlreadyInException
 import org.example.exception.exceptions.IngredientNotFoundException
 import org.example.presentation.dto.request.AddIngredientRequest
@@ -23,6 +27,8 @@ import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
+import java.time.LocalDate
+import java.util.*
 
 @SpringBootTest(classes = [FridgeApplication::class])
 @AutoConfigureMockMvc
@@ -35,6 +41,7 @@ class FridgeServiceIntegrationTest(
 
     private lateinit var member: Member
     private lateinit var ingredient: Ingredient
+    private lateinit var other: Member
 
     @BeforeEach
     fun init() {
@@ -43,6 +50,13 @@ class FridgeServiceIntegrationTest(
             .age(null)
             .gender(Gender.MALE)
             .email("test@test.com")
+            .ingredients(0)
+            .build())
+        other = memberRepository.save(Member.builder()
+            .id(UUID.randomUUID())
+            .email("other@other.com")
+            .nickname("other")
+            .age(Age.THIRTIES)
             .ingredients(0)
             .build())
         ingredient = ingredientRepository.save(Ingredient(1, "계란"))
@@ -116,10 +130,52 @@ class FridgeServiceIntegrationTest(
         result.myIngredients.size shouldBe 1
     }
 
+    @DisplayName("나의 재료 삭제를 성공한다")
+    @Test
+    fun deleteMyIngredient_success() {
+        // given
+        val fridgeIngredient = fridgeIngredientRepository
+            .save(FridgeIngredient(member.id, ingredient.id, "계란", LocalDate.now()))
+
+        // when
+
+        // then
+        fridgeService.deleteFridgeIngredient(fridgeIngredient.id, member) shouldBe Unit
+    }
+
+    @DisplayName("나의 재료 삭제를 실패한다. 재료가 없을 때")
+    @Test
+    fun deleteMyIngredient_fail_not_found() {
+        // given
+
+        // when
+
+        // then
+        shouldThrow<FridgeIngredientNotFoundException> {
+            fridgeService.deleteFridgeIngredient(UUID.randomUUID(), member)
+        }
+    }
+
+    @DisplayName("나의 재료 삭제를 실패한다. 권한이 없을 때")
+    @Test
+    fun deleteMyIngredient_fail_forbidden() {
+        // given
+        val fridgeIngredient = fridgeIngredientRepository
+            .save(FridgeIngredient(member.id, ingredient.id, "계란", LocalDate.now()))
+
+
+        // when
+
+        // then
+        shouldThrow<FridgeIngredientForbiddenException> {
+            fridgeService.deleteFridgeIngredient(fridgeIngredient.id, other)
+        }
+    }
+
     @AfterEach
     fun afterWork() {
-        memberRepository.delete(member)
-        ingredientRepository.delete(ingredient)
+        memberRepository.deleteAll()
+        ingredientRepository.deleteAll()
         fridgeIngredientRepository.deleteAll()
     }
 }
