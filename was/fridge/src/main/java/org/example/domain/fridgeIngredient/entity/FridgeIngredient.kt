@@ -6,7 +6,9 @@ import java.time.temporal.ChronoUnit
 import java.util.*
 
 @Entity
-@Table(name = "FridgeIngredient", indexes = [Index(name = "expiresAt",columnList = "expiresAt"), Index(name = "ingredientId", columnList = "ingredientId")])
+@Table(name = "FridgeIngredient", indexes = [Index(name = "idx_expiresAt", columnList = "expiresAt, memberId"),
+    Index(name = "idx_memberId", columnList = "memberId"),
+    Index(name = "ingredientId", columnList = "ingredientId")])
 class FridgeIngredient(
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
