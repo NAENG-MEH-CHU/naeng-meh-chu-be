@@ -297,6 +297,71 @@ class FridgeControllerIntegrationTest(
             )).andReturn()
     }
 
+    @DisplayName("유통기한 임박 재료를 조회한다. 등록 기간이 범위 내면 데이터가 반환된다.")
+    @Test
+    fun findUpcomingIngredients_success_in_due_days() {
+        // given
+        val deadLine = LocalDate.now().plusDays(2L)
+        val request = AddIngredientRequest(ingredient.id, deadLine.year, deadLine.monthValue, deadLine.dayOfMonth)
+        fridgeService.addIngredient(request, member)
+
+        // expected
+        mockMvc.perform(
+            get("/api/fridge/upcoming/3")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer $accessToken"))
+            .andExpect(MockMvcResultMatchers.status().isOk)
+            .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(MockMvcResultMatchers.jsonPath("$.myIngredients").isArray)
+            .andExpect(MockMvcResultMatchers.jsonPath("$.myIngredients.length()").value(1))
+            .andDo(customDocument(
+                "find_upcoming_ingredients",
+                requestHeaders(
+                    headerWithName(HttpHeaders.AUTHORIZATION).description("로그인 후 제공되는 Bearer 토큰")
+                ),
+            )).andReturn()
+    }
+
+    @DisplayName("유통기한 임박 재료를 조회한다. 등록 기간이 범위 밖이면 데이터가 반횐되지 않는다.")
+    @Test
+    fun findUpcomingIngredients_success_out_due_days() {
+        // given
+        val deadLine = LocalDate.now().plusDays(2L)
+        val request = AddIngredientRequest(ingredient.id, deadLine.year, deadLine.monthValue, deadLine.dayOfMonth)
+        fridgeService.addIngredient(request, member)
+
+        // expected
+        mockMvc.perform(
+            get("/api/fridge/upcoming/1")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer $accessToken"))
+            .andExpect(MockMvcResultMatchers.status().isOk)
+            .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(MockMvcResultMatchers.jsonPath("$.myIngredients").isArray)
+            .andExpect(MockMvcResultMatchers.jsonPath("$.myIngredients.length()").value(0))
+            .andDo(customDocument(
+                "find_upcoming_ingredients_due_date_out",
+                requestHeaders(
+                    headerWithName(HttpHeaders.AUTHORIZATION).description("로그인 후 제공되는 Bearer 토큰")
+                ),
+            )).andReturn()
+    }
+
+    @DisplayName("유통기한 임박 재료를 조회를 실패한다. 토큰이 없을 경우")
+    @Test
+    fun findUpcomingIngredients_fail_no_token() {
+        // given
+        val request = AddIngredientRequest(ingredient.id, 2018, 3, 1)
+        fridgeService.addIngredient(request, member)
+
+        // expected
+        mockMvc.perform(
+            get("/api/fridge/upcoming/1")
+        )
+            .andExpect(MockMvcResultMatchers.status().isUnauthorized)
+            .andDo(customDocument(
+                createFailedIdentifier("find_upcoming_ingredients", NO_TOKEN),
+            )).andReturn()
+    }
+
     @DisplayName("내 재료를 삭제한다.")
     @Test
     fun deleteMyIngredient_success() {

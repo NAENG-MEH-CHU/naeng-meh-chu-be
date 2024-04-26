@@ -98,6 +98,21 @@ class FridgeControllerUnitTest {
         response.statusCode shouldBe HttpStatus.OK
     }
 
+    @DisplayName("나의 재료 조회를 성공한다.")
+    @Test
+    fun findUpcomingIngredients_success() {
+        // given
+        val ingredients = MyIngredientsResponse(listOf())
+
+        // when
+        Mockito.`when`(fridgeService.findUpcomingIngredients(member, 3L))
+            .thenReturn(ingredients)
+
+        // then
+        val response = fridgeController.findUpcomingIngredients(member, 3L)
+        response.statusCode shouldBe HttpStatus.OK
+    }
+
     @DisplayName("나의 재료 삭제를 성공한다")
     @Test
     fun deleteFridgeIngredient_success() {
