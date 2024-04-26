@@ -12,6 +12,6 @@ interface FridgeIngredientRepository: JpaRepository<FridgeIngredient, UUID> {
 
     fun findAllByMemberId(memberId: UUID): List<FridgeIngredient>
 
-    @Query("select f from FridgeIngredient f where f.expiresAt <= ?1 order by f.expiresAt ASC")
-    fun findFridgeIngredientsExpiresWithin(endDate: LocalDate): List<FridgeIngredient>
+    @Query("select f from FridgeIngredient f where f.memberId = ?2 and f.expiresAt <= ?1 order by f.expiresAt ASC")
+    fun findFridgeIngredientsExpiresWithin(endDate: LocalDate, memberId: UUID): List<FridgeIngredient>
 }

@@ -56,6 +56,14 @@ open class FridgeService(
         return MyIngredientsResponse(myIngredients)
     }
 
+    @Transactional(readOnly = true)
+    open fun findUpcomingIngredients(member: Member, rangeDays: Long): MyIngredientsResponse {
+        val deadline = LocalDate.now().plusDays(rangeDays)
+        val upcomingIngredients = fridgeIngredientRepository.findFridgeIngredientsExpiresWithin(deadline, member.id)
+            .map { each -> SingleMyIngredientResponse(each) }
+        return MyIngredientsResponse(upcomingIngredients)
+    }
+
     @Transactional
     open fun deleteFridgeIngredient(fridgeIngredientId: UUID, member: Member) {
         val myIngredient = fridgeIngredientRepository.findById(fridgeIngredientId)
