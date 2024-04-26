@@ -38,6 +38,11 @@ class FridgeController( private val fridgeService: FridgeService ) {
         return ResponseEntity(fridgeService.findMyIngredients(member), HttpStatus.OK)
     }
 
+    @GetMapping("/upcoming/{days}")
+    fun findUpcomingIngredients(@JwtLogin member: Member, @PathVariable("days") days: Long): ResponseEntity<MyIngredientsResponse> {
+        return ResponseEntity(fridgeService.findUpcomingIngredients(member, days), HttpStatus.OK)
+    }
+
     @DeleteMapping("/{id}")
     fun deleteMyIngredient(@JwtLogin member: Member, @PathVariable("id") id: String): ResponseEntity<Unit> {
         val fridgeIngredientId = UUID.fromString(id)

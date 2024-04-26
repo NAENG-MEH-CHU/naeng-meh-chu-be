@@ -6,18 +6,20 @@ import java.time.temporal.ChronoUnit
 import java.util.*
 
 @Entity
-@Table(name = "FridgeIngredient")
+@Table(name = "FridgeIngredient", indexes = [Index(name = "idx_expiresAt", columnList = "expiresAt, memberId"),
+    Index(name = "idx_memberId", columnList = "memberId"),
+    Index(name = "ingredientId", columnList = "ingredientId")])
 class FridgeIngredient(
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     val id: UUID = UUID.randomUUID(),
     @Column(nullable = false)
     val memberId: UUID,
-    @Column(nullable = false)
+    @Column(nullable = false, name = "ingredientId")
     val ingredientId: Int,
     @Column(nullable = false)
     val name: String,
-    @Column
+    @Column(name = "expiresAt")
     val expiresAt: LocalDate
 ) {
 

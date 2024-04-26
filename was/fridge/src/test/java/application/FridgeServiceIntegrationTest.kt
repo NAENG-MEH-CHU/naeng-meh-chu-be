@@ -130,6 +130,36 @@ class FridgeServiceIntegrationTest(
         result.myIngredients.size shouldBe 1
     }
 
+    @DisplayName("유통기한 임박 재료 조회를 성공한다")
+    @Test
+    fun findUpcomingIngredients_success() {
+        // given
+        val now = LocalDate.now()
+        val request = AddIngredientRequest(ingredient.id, now.year, now.monthValue, now.dayOfMonth + 3)
+        fridgeService.addIngredient(request, member)
+
+        // when
+        val result = fridgeService.findUpcomingIngredients(member, 4)
+
+        // then
+        result.myIngredients.size shouldBe 1
+    }
+
+    @DisplayName("유통기한 임박 재료 조회를 성공한다. 범위를 벗어나면 조회되지 않는다")
+    @Test
+    fun findUpcomingIngredients_success_not_in_case() {
+        // given
+        val now = LocalDate.now()
+        val request = AddIngredientRequest(ingredient.id, now.year, now.monthValue, now.dayOfMonth + 3)
+        fridgeService.addIngredient(request, member)
+
+        // when
+        val result = fridgeService.findUpcomingIngredients(member, 2)
+
+        // then
+        result.myIngredients.size shouldBe 0
+    }
+
     @DisplayName("나의 재료 삭제를 성공한다")
     @Test
     fun deleteMyIngredient_success() {
