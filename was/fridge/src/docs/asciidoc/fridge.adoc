@@ -114,6 +114,40 @@ include::{snippets}/fridge-controller-integration-test/fail_to_find_my_ingredien
 
 include::{snippets}/fridge-controller-integration-test/fail_to_find_my_ingredients_no_token/http-response.adoc[]
 
+== 유통기한 임박 재료 조회
+
+=== 성공
+
+==== 요청
+
+include::{snippets}/fridge-controller-integration-test/find_upcoming_ingredients/http-request.adoc[]
+include::{snippets}/fridge-controller-integration-test/find_upcoming_ingredients/request-headers.adoc[]
+
+==== 응답
+
+include::{snippets}/fridge-controller-integration-test/find_upcoming_ingredients/http-response.adoc[]
+
+=== 성공2. 요청한 날짜수에서 벗어나면 조회되지 않는다
+
+==== 요청
+
+include::{snippets}/fridge-controller-integration-test/find_upcoming_ingredients_due_date_out/http-request.adoc[]
+include::{snippets}/fridge-controller-integration-test/find_upcoming_ingredients_due_date_out/request-headers.adoc[]
+
+==== 응답
+
+include::{snippets}/fridge-controller-integration-test/find_upcoming_ingredients_due_date_out/http-response.adoc[]
+
+=== 유통기한 임박 냉장고 재료 조회를 실패한다. 토큰이 없을 때
+
+==== 요청
+
+include::{snippets}/fridge-controller-integration-test/fail_to_find_upcoming_ingredients_no_token/http-request.adoc[]
+
+==== 응답
+
+include::{snippets}/fridge-controller-integration-test/fail_to_find_upcoming_ingredients_no_token/http-response.adoc[]
+
 == 나의 재료 삭제
 
 === 성공
