@@ -132,6 +132,19 @@ class FridgeServiceUnitTest {
         fridgeService.findMyIngredients(member)::class shouldBe MyIngredientsResponse::class
     }
 
+    @DisplayName("유통기한 임박 재료들을 조회한다")
+    @Test
+    fun findUpcomingIngredients_success() {
+        // given
+
+        // when
+        Mockito.`when`(fridgeIngredientRepository.findFridgeIngredientsExpiresWithin(LocalDate.now(), member.id))
+            .thenReturn(listOf())
+
+        // then
+        fridgeService.findUpcomingIngredients(member, 0L)::class shouldBe MyIngredientsResponse::class
+    }
+
     @DisplayName("나의 재료 삭제를 성공한다")
     @Test
     fun deleteFridgeIngredient_success() {
