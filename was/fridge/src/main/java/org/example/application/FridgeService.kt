@@ -2,8 +2,6 @@ package org.example.application
 
 import lombok.RequiredArgsConstructor
 import org.example.domain.entity.Member
-import org.example.domain.event.AddIngredientEvent
-import org.example.domain.event.RemoveIngredientEvent
 import org.example.domain.fridgeIngredient.entity.FridgeIngredient
 import org.example.domain.fridgeIngredient.repository.FridgeIngredientRepository
 import org.example.domain.ingredient.repository.IngredientRepository
@@ -16,7 +14,6 @@ import org.example.presentation.dto.response.IngredientsResponse
 import org.example.presentation.dto.response.MyIngredientsResponse
 import org.example.presentation.dto.response.SingleIngredientResponse
 import org.example.presentation.dto.response.SingleMyIngredientResponse
-import org.springframework.context.ApplicationEventPublisher
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDate
@@ -27,7 +24,7 @@ import java.util.UUID
 open class FridgeService(
     private val ingredientRepository: IngredientRepository,
     private val fridgeIngredientRepository: FridgeIngredientRepository,
-    private val publisher: ApplicationEventPublisher
+    private val publisher: FridgeEventPublisher
 ) {
 
     @Transactional
@@ -40,7 +37,7 @@ open class FridgeService(
         val date = LocalDate.of(request.year!!, request.month!!, request.day!!)
         val fridgeIngredient = FridgeIngredient(member.id, ingredient.id, ingredient.name, date)
         fridgeIngredientRepository.save(fridgeIngredient)
-        publisher.publishEvent(AddIngredientEvent.of(member, request.ingredientId))
+        publisher.addIngredient(member.id, ingredient.id)
     }
 
     @Transactional(readOnly = true)
@@ -70,8 +67,7 @@ open class FridgeService(
             .orElseThrow { FridgeIngredientNotFoundException() }
 
         if(!myIngredient.equalsMemberId(member.id)) throw FridgeIngredientForbiddenException()
-
-        publisher.publishEvent(RemoveIngredientEvent.of(member, myIngredient.ingredientId))
+        publisher.removeIngredient(member.id, myIngredient.ingredientId)
         fridgeIngredientRepository.delete(myIngredient)
     }
 

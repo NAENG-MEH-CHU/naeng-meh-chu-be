@@ -2,12 +2,13 @@ package org.example.domain.event;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.example.domain.entity.Member;
+
+import java.util.UUID;
 
 @AllArgsConstructor(staticName = "of")
 @Getter
 public class RemoveIngredientEvent {
 
-    private Member member;
+    private UUID memberId;
     private int ingredientId;
 }

@@ -4,6 +4,7 @@ import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.equality.shouldBeEqualUsingFields
 import io.kotest.matchers.shouldBe
 import org.example.FridgeApplication
+import org.example.application.FridgeEventPublisher
 import org.example.application.FridgeService
 import org.example.domain.entity.Member
 import org.example.domain.enums.Age
@@ -36,7 +37,8 @@ class FridgeServiceIntegrationTest(
     @Autowired private var memberRepository: MemberRepository,
     @Autowired private var ingredientRepository: IngredientRepository,
     @Autowired private var fridgeIngredientRepository: FridgeIngredientRepository,
-    @Autowired private var fridgeService: FridgeService
+    @Autowired private var fridgeService: FridgeService,
+    @Autowired private var fridgeEventPublisher: FridgeEventPublisher
 ) {
 
     private lateinit var member: Member
