@@ -25,8 +25,10 @@ class MemberRecipe(
     val memberAge: Age,
     @Column
     val gender: Gender,
+    @Column
+    val deleted: Boolean
 ) {
-    constructor() : this(UUID.randomUUID(), UUID.randomUUID(), UUID.randomUUID(), LocalDateTime.now(), Age.THIRTIES, Gender.MALE) {}
+    constructor() : this(UUID.randomUUID(), UUID.randomUUID(), UUID.randomUUID(), LocalDateTime.now(), Age.THIRTIES, Gender.MALE, false) {}
 
-    constructor(recipeId: UUID, memberId: UUID, memberAge: Age, gender: Gender): this(UUID.randomUUID(), recipeId, memberId, LocalDateTime.now(), memberAge, gender)
+    constructor(recipeId: UUID, memberId: UUID, memberAge: Age, gender: Gender): this(UUID.randomUUID(), recipeId, memberId, LocalDateTime.now(), memberAge, gender, false)
 }
