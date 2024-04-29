@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.18">
-<title>Member</title>
+<title>Fridge</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /*! Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -439,81 +439,47 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article toc2 toc-left">
 <div id="header">
-<h1>Member</h1>
+<h1>Fridge</h1>
 <div class="details">
 <span id="revnumber">version 0.0.1-SNAPSHOT</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#_회원_정보_조회">1. 회원 정보 조회</a>
+<li><a href="#_냉장고에_재료_추가">1. 냉장고에 재료 추가</a>
 <ul class="sectlevel2">
 <li><a href="#_성공">1.1. 성공</a></li>
-<li><a href="#_토큰이_없을_경우_정보_조회를_실패한다">1.2. 토큰이 없을 경우 정보 조회를 실패한다</a></li>
+<li><a href="#_내_냉장고재료_추가를_실패한다_토큰이_없을_때">1.2. 내 냉장고재료 추가를 실패한다. 토큰이 없을 때</a></li>
+<li><a href="#_내_냉장고에_재료_추가를_실패한다_존재하지_않는_재료">1.3. 내 냉장고에 재료 추가를 실패한다. 존재하지 않는 재료</a></li>
+<li><a href="#_내_냉장고에_재료_추가를_실패한다_재료_id년월일중에_하나라도_null일_경우">1.4. 내 냉장고에 재료 추가를 실패한다. 재료 id/년/월/일중에 하나라도 null일 경우</a></li>
+<li><a href="#_내_냉장고에_재료_추가를_실패한다_재료가_이미_냉장고에_있는_경우">1.5. 내 냉장고에 재료 추가를 실패한다. 재료가 이미 냉장고에 있는 경우</a></li>
 </ul>
 </li>
-<li><a href="#_수정_가능한_나이대_조회">2. 수정 가능한 나이대 조회</a>
+<li><a href="#_전체_재료_조회">2. 전체 재료 조회</a>
 <ul class="sectlevel2">
 <li><a href="#_성공_2">2.1. 성공</a></li>
-<li><a href="#_토큰이_없을_경우_나이대_조회를_실패한다">2.2. 토큰이 없을 경우 나이대 조회를 실패한다</a></li>
+<li><a href="#_내_냉장고재료_추가를_실패한다_토큰이_없을_때_2">2.2. 내 냉장고재료 추가를 실패한다. 토큰이 없을 때</a></li>
 </ul>
 </li>
-<li><a href="#_회원_닉네임_수정">3. 회원 닉네임 수정</a>
+<li><a href="#_나의_재료_조회">3. 나의 재료 조회</a>
 <ul class="sectlevel2">
 <li><a href="#_성공_3">3.1. 성공</a></li>
-<li><a href="#_토큰이_없을_경우_닉네임_수정을_실패한다">3.2. 토큰이 없을 경우 닉네임 수정을 실패한다</a></li>
-<li><a href="#_닉네임_입력이_없을_경우_닉네임_수정을_실패한다">3.3. 닉네임 입력이 없을 경우 닉네임 수정을 실패한다</a></li>
+<li><a href="#_내_냉장고_재료_조회를_실패한다_토큰이_없을_때">3.2. 내 냉장고 재료 조회를 실패한다. 토큰이 없을 때</a></li>
 </ul>
 </li>
-<li><a href="#_회원_성별_수정">4. 회원 성별 수정</a>
+<li><a href="#_유통기한_임박_재료_조회">4. 유통기한 임박 재료 조회</a>
 <ul class="sectlevel2">
 <li><a href="#_성공_4">4.1. 성공</a></li>
-<li><a href="#_토큰이_없을_경우_성별_수정을_실패한다">4.2. 토큰이 없을 경우 성별 수정을 실패한다</a></li>
-<li><a href="#_성별_입력이_없을_경우_성별_수정을_실패한다">4.3. 성별 입력이 없을 경우 성별 수정을 실패한다</a></li>
-<li><a href="#_성별_입력이_남성_여성이_아닌_경우_성별_수정을_실패한다">4.4. 성별 입력이 '남성', '여성&#8217;이 아닌 경우 성별 수정을 실패한다</a></li>
+<li><a href="#_성공2_요청한_날짜수에서_벗어나면_조회되지_않는다">4.2. 성공2. 요청한 날짜수에서 벗어나면 조회되지 않는다</a></li>
+<li><a href="#_유통기한_임박_냉장고_재료_조회를_실패한다_토큰이_없을_때">4.3. 유통기한 임박 냉장고 재료 조회를 실패한다. 토큰이 없을 때</a></li>
 </ul>
 </li>
-<li><a href="#_회원_나이대_수정">5. 회원 나이대 수정</a>
+<li><a href="#_나의_재료_삭제">5. 나의 재료 삭제</a>
 <ul class="sectlevel2">
 <li><a href="#_성공_5">5.1. 성공</a></li>
-<li><a href="#_토큰이_없을_경우_나이대_수정을_실패한다">5.2. 토큰이 없을 경우 나이대 수정을 실패한다</a></li>
-<li><a href="#_나이대_입력이_없을_경우_나이대_수정을_실패한다">5.3. 나이대 입력이 없을 경우 나이대 수정을 실패한다</a></li>
-<li><a href="#_나이대_입력이_올바르지_않은_경우_수정을_실패한다">5.4. 나이대 입력이 올바르지 않은 경우 수정을 실패한다</a></li>
-</ul>
-</li>
-<li><a href="#_회원_삭제">6. 회원 삭제</a>
-<ul class="sectlevel2">
-<li><a href="#_성공_6">6.1. 성공</a></li>
-<li><a href="#_토큰이_없을_경우_성별_수정을_실패한다_2">6.2. 토큰이 없을 경우 성별 수정을 실패한다</a></li>
-</ul>
-</li>
-<li><a href="#_모든_앱_이용_사유_조회">7. 모든 앱 이용 사유 조회</a>
-<ul class="sectlevel2">
-<li><a href="#_성공_7">7.1. 성공</a></li>
-<li><a href="#_토큰이_없을_경우_조회를_실패한다">7.2. 토큰이 없을 경우 조회를 실패한다</a></li>
-</ul>
-</li>
-<li><a href="#_나의_앱_이용_사유_조회">8. 나의 앱 이용 사유 조회</a>
-<ul class="sectlevel2">
-<li><a href="#_성공_8">8.1. 성공</a></li>
-<li><a href="#_토큰이_없을_경우_조회를_실패한다_2">8.2. 토큰이 없을 경우 조회를 실패한다</a></li>
-</ul>
-</li>
-<li><a href="#_나의_앱_이용_사유_추가">9. 나의 앱 이용 사유 추가</a>
-<ul class="sectlevel2">
-<li><a href="#_성공_9">9.1. 성공</a></li>
-<li><a href="#_토큰이_없을_경우_추가를_실패한다">9.2. 토큰이 없을 경우 추가를 실패한다</a></li>
-<li><a href="#_body의_입력이_없는_경우_추가를_실패한다">9.3. body의 입력이 없는 경우 추가를 실패한다.</a></li>
-<li><a href="#_body의_입력이_올바르지_않은_경우_추가를_실패한다">9.4. body의 입력이 올바르지 않은 경우 추가를 실패한다.</a></li>
-</ul>
-</li>
-<li><a href="#_나의_앱_이용_사유_삭제">10. 나의 앱 이용 사유 삭제</a>
-<ul class="sectlevel2">
-<li><a href="#_성공_10">10.1. 성공</a></li>
-<li><a href="#_토큰이_없을_경우_실패한다">10.2. 토큰이 없을 경우 실패한다</a></li>
-<li><a href="#_파라미터가_없을_경우_실패한다">10.3. 파라미터가 없을 경우 실패한다</a></li>
-<li><a href="#_db에_데이터가_없을_경우_실패한다">10.4. DB에 데이터가 없을 경우 실패한다</a></li>
-<li><a href="#_다른_사람의_데이터를_삭제하려_한_경우_실패한다">10.5. 다른 사람의 데이터를 삭제하려 한 경우 실패한다</a></li>
+<li><a href="#_내_냉장고_재료_삭제를_실패한다_토큰이_없을_때">5.2. 내 냉장고 재료 삭제를 실패한다. 토큰이 없을 때</a></li>
+<li><a href="#_내_냉장고_재료_삭제를_실패한다_재료가_없을_때">5.3. 내 냉장고 재료 삭제를 실패한다. 재료가 없을 때</a></li>
+<li><a href="#_내_냉장고_재료_삭제를_실패한다_권한이_없을_때">5.4. 내 냉장고 재료 삭제를 실패한다. 권한이 없을 때</a></li>
 </ul>
 </li>
 </ul>
@@ -521,7 +487,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="_회원_정보_조회"><a class="link" href="#_회원_정보_조회">1. 회원 정보 조회</a></h2>
+<h2 id="_냉장고에_재료_추가"><a class="link" href="#_냉장고에_재료_추가">1. 냉장고에 재료 추가</a></h2>
 <div class="sectionbody">
 <div class="sect2">
 <h3 id="_성공"><a class="link" href="#_성공">1.1. 성공</a></h3>
@@ -529,9 +495,18 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h4 id="_요청"><a class="link" href="#_요청">1.1.1. 요청</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/member/me HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1YzkyMjExOS0yZGMzLTRiNzItOTc2YS01MWY3MzNkNDk4OWYiLCJpYXQiOjE3MTM1MTEzNDgsImV4cCI6MTcxMzUxNDk0OH0._5MKB-7FPzeqcJ1a8AJXkDaauuFU-ezFG471JO3v2GM
-Host: localhost:8080</code></pre>
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/fridge HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4NjIxOGQwNy1mOGFiLTQ1NDktOWJhNi1lZTg0ZjlhYWU1MmIiLCJpYXQiOjE3MTQzNzA4NDMsImV4cCI6MTcxNDM3NDQ0M30.ZMPzlwwhwiGpQZrDqIr-tS58SsXtgCsUxm6Q0JQYufc
+Content-Length: 69
+Host: localhost:8080
+
+{
+  "ingredientId" : 3,
+  "year" : 2018,
+  "month" : 3,
+  "day" : 1
+}</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -549,6 +524,42 @@ Host: localhost:8080</code></pre>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Authorization</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">로그인 후 제공되는 Bearer 토큰</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ingredientId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">냉장고에 추가할 재료 id</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>year</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">유통기한의 년도</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>month</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">유통기한의 월</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>day</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">유통기한의 일</p></td>
 </tr>
 </tbody>
 </table>
@@ -557,22 +568,78 @@ Host: localhost:8080</code></pre>
 <h4 id="_응답"><a class="link" href="#_응답">1.1.2. 응답</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
-Content-Type: application/json
-Content-Length: 3
-
-{ }</code></pre>
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers</code></pre>
 </div>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_토큰이_없을_경우_정보_조회를_실패한다"><a class="link" href="#_토큰이_없을_경우_정보_조회를_실패한다">1.2. 토큰이 없을 경우 정보 조회를 실패한다</a></h3>
+<h3 id="_내_냉장고재료_추가를_실패한다_토큰이_없을_때"><a class="link" href="#_내_냉장고재료_추가를_실패한다_토큰이_없을_때">1.2. 내 냉장고재료 추가를 실패한다. 토큰이 없을 때</a></h3>
 <div class="sect3">
-<h4 id="_응답_2"><a class="link" href="#_응답_2">1.2.1. 응답</a></h4>
+<h4 id="_요청_2"><a class="link" href="#_요청_2">1.2.1. 요청</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/fridge HTTP/1.1
+Content-Type: application/json
+Content-Length: 69
+Host: localhost:8080
+
+{
+  "ingredientId" : 2,
+  "year" : 2018,
+  "month" : 3,
+  "day" : 1
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ingredientId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">냉장고에 추가할 재료 id</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>year</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">유통기한의 년도</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>month</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">유통기한의 월</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>day</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">유통기한의 일</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_응답_2"><a class="link" href="#_응답_2">1.2.2. 응답</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 401 Unauthorized
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: text/plain;charset=UTF-8
 Content-Length: 32
 
@@ -581,19 +648,288 @@ Content-Length: 32
 </div>
 </div>
 </div>
+<div class="sect2">
+<h3 id="_내_냉장고에_재료_추가를_실패한다_존재하지_않는_재료"><a class="link" href="#_내_냉장고에_재료_추가를_실패한다_존재하지_않는_재료">1.3. 내 냉장고에 재료 추가를 실패한다. 존재하지 않는 재료</a></h3>
+<div class="sect3">
+<h4 id="_요청_3"><a class="link" href="#_요청_3">1.3.1. 요청</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/fridge HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyNGQzNTRhZS04YTcwLTQ0YzQtYjA5YS03ZGI1NDU5ZDM1MGUiLCJpYXQiOjE3MTQzNzA4NDYsImV4cCI6MTcxNDM3NDQ0Nn0.rFJIwj5Y8qWL0caM-5PWoSFlOQ--nnptxWrdwN0XaT8
+Content-Length: 73
+Host: localhost:8080
+
+{
+  "ingredientId" : 10000,
+  "year" : 2018,
+  "month" : 3,
+  "day" : 1
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Authorization</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">로그인 후 제공되는 Bearer 토큰</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ingredientId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">냉장고에 추가할 재료 id</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>year</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">유통기한의 년도</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>month</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">유통기한의 월</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>day</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">유통기한의 일</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_응답_3"><a class="link" href="#_응답_3">1.3.2. 응답</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 404 Not Found
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: text/plain;charset=UTF-8
+Content-Length: 48
+
+냉장고에 재료가 존재하지 않습니다</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_내_냉장고에_재료_추가를_실패한다_재료_id년월일중에_하나라도_null일_경우"><a class="link" href="#_내_냉장고에_재료_추가를_실패한다_재료_id년월일중에_하나라도_null일_경우">1.4. 내 냉장고에 재료 추가를 실패한다. 재료 id/년/월/일중에 하나라도 null일 경우</a></h3>
+<div class="sect3">
+<h4 id="_요청_4"><a class="link" href="#_요청_4">1.4.1. 요청</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/fridge HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIwYmU0OGQxMS02YzQ2LTRiNWItOGZjYS1kZmQyMWQ0NDdiMjUiLCJpYXQiOjE3MTQzNzA4NDQsImV4cCI6MTcxNDM3NDQ0NH0.7Zxy0NC3GQFT9l1qyS3GiG0N4nj8W8PXABkTSUUpDPg
+Content-Length: 72
+Host: localhost:8080
+
+{
+  "ingredientId" : null,
+  "year" : 2017,
+  "month" : 3,
+  "day" : 1
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Authorization</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">로그인 후 제공되는 Bearer 토큰</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ingredientId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Null</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">냉장고에 추가할 재료 id</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>year</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">유통기한의 년도</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>month</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">유통기한의 월</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>day</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">유통기한의 일</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_응답_4"><a class="link" href="#_응답_4">1.4.2. 응답</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 400 Bad Request
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_내_냉장고에_재료_추가를_실패한다_재료가_이미_냉장고에_있는_경우"><a class="link" href="#_내_냉장고에_재료_추가를_실패한다_재료가_이미_냉장고에_있는_경우">1.5. 내 냉장고에 재료 추가를 실패한다. 재료가 이미 냉장고에 있는 경우</a></h3>
+<div class="sect3">
+<h4 id="_요청_5"><a class="link" href="#_요청_5">1.5.1. 요청</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/fridge HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI3OTc0MWJkNi00MmRkLTQzOTctODAzMi00NzY2MWRkYWJmMGEiLCJpYXQiOjE3MTQzNzA4NDgsImV4cCI6MTcxNDM3NDQ0OH0.YJv8SDUz1noiKUfc2P34uXDLvgB07VfCwNR4mql558s
+Content-Length: 70
+Host: localhost:8080
+
+{
+  "ingredientId" : 13,
+  "year" : 2018,
+  "month" : 3,
+  "day" : 1
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Authorization</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">로그인 후 제공되는 Bearer 토큰</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ingredientId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">냉장고에 추가할 재료 id</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>year</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">유통기한의 년도</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>month</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">유통기한의 월</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>day</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">유통기한의 일</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_응답_5"><a class="link" href="#_응답_5">1.5.2. 응답</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 400 Bad Request
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: text/plain;charset=UTF-8
+Content-Length: 35
+
+이미 존재하는 재료입니다</code></pre>
+</div>
+</div>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_수정_가능한_나이대_조회"><a class="link" href="#_수정_가능한_나이대_조회">2. 수정 가능한 나이대 조회</a></h2>
+<h2 id="_전체_재료_조회"><a class="link" href="#_전체_재료_조회">2. 전체 재료 조회</a></h2>
 <div class="sectionbody">
 <div class="sect2">
 <h3 id="_성공_2"><a class="link" href="#_성공_2">2.1. 성공</a></h3>
 <div class="sect3">
-<h4 id="_요청_2"><a class="link" href="#_요청_2">2.1.1. 요청</a></h4>
+<h4 id="_요청_6"><a class="link" href="#_요청_6">2.1.1. 요청</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/member/age HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkZGY2ZjA1YS1iNDI4LTQ0YzctYmNmNi01ZmMyMzA2ODNlN2EiLCJpYXQiOjE3MTM1MTEzNTEsImV4cCI6MTcxMzUxNDk1MX0.uzujs7O56HX8eZfVo7kzHjaFu8Du34frjuFa74IZqSE
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/fridge HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZjM0ZmFmNC1hYjc5LTQ4N2ItOTQ2Yy0wMjE5NzgzYWM4ODQiLCJpYXQiOjE3MTQzNzA4NDksImV4cCI6MTcxNDM3NDQ0OX0.yUrvhzlMVS7nP-X8HebrnU43QUPqnkIbOq4aAlgNbqQ
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -617,44 +953,62 @@ Host: localhost:8080</code></pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_응답_3"><a class="link" href="#_응답_3">2.1.2. 응답</a></h4>
+<h4 id="_응답_6"><a class="link" href="#_응답_6">2.1.2. 응답</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: application/json
-Content-Length: 98
+Content-Length: 3
 
-{
-  "ages" : [ "10대", "20대", "30대", "40대", "50대", "60대", "70대", "80대", "90대" ]
-}</code></pre>
+{ }</code></pre>
 </div>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_토큰이_없을_경우_나이대_조회를_실패한다"><a class="link" href="#_토큰이_없을_경우_나이대_조회를_실패한다">2.2. 토큰이 없을 경우 나이대 조회를 실패한다</a></h3>
+<h3 id="_내_냉장고재료_추가를_실패한다_토큰이_없을_때_2"><a class="link" href="#_내_냉장고재료_추가를_실패한다_토큰이_없을_때_2">2.2. 내 냉장고재료 추가를 실패한다. 토큰이 없을 때</a></h3>
+<div class="sect3">
+<h4 id="_요청_7"><a class="link" href="#_요청_7">2.2.1. 요청</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/fridge HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_응답_7"><a class="link" href="#_응답_7">2.2.2. 응답</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 401 Unauthorized
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: text/plain;charset=UTF-8
+Content-Length: 32
 
+로그인 후 이용해주세요</code></pre>
+</div>
+</div>
+</div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_회원_닉네임_수정"><a class="link" href="#_회원_닉네임_수정">3. 회원 닉네임 수정</a></h2>
+<h2 id="_나의_재료_조회"><a class="link" href="#_나의_재료_조회">3. 나의 재료 조회</a></h2>
 <div class="sectionbody">
 <div class="sect2">
 <h3 id="_성공_3"><a class="link" href="#_성공_3">3.1. 성공</a></h3>
 <div class="sect3">
-<h4 id="_요청_3"><a class="link" href="#_요청_3">3.1.1. 요청</a></h4>
+<h4 id="_요청_8"><a class="link" href="#_요청_8">3.1.1. 요청</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /api/member/nickname HTTP/1.1
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyYjBkN2Q4NS02Y2E4LTQzOGYtOTBlNi05ODE3NGI3OGNlYzUiLCJpYXQiOjE3MTM1MTEzNTEsImV4cCI6MTcxMzUxNDk1MX0.RKBqxvGVNsFMeIxqdvj3qkbJkNV67atHNrC_RLGHRWE
-Content-Length: 26
-Host: localhost:8080
-
-{
-  "nickname" : "after"
-}</code></pre>
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/fridge/mine HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1MTgyN2I2MS1jYjI0LTQyMWItOGIzYS05OGYxMGY0ODNiZDciLCJpYXQiOjE3MTQzNzA4NDQsImV4cCI6MTcxNDM3NDQ0NH0.pdYUFFlpkfKfHGIYmC4SAqd43JSR9_FWVuDUCzCxU2A
+Host: localhost:8080</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -675,68 +1029,49 @@ Host: localhost:8080
 </tr>
 </tbody>
 </table>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Path</th>
-<th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nickname</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">변경할 닉네임</p></td>
-</tr>
-</tbody>
-</table>
 </div>
 <div class="sect3">
-<h4 id="_응답_4"><a class="link" href="#_응답_4">3.1.2. 응답</a></h4>
+<h4 id="_응답_8"><a class="link" href="#_응답_8">3.1.2. 응답</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK</code></pre>
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json
+Content-Length: 151
+
+{
+  "myIngredients" : [ {
+    "id" : "2e831370-27cd-483b-b6ef-c15114c55188",
+    "name" : "고기",
+    "ingredientId" : 6,
+    "dueDay" : 2251
+  } ]
+}</code></pre>
 </div>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_토큰이_없을_경우_닉네임_수정을_실패한다"><a class="link" href="#_토큰이_없을_경우_닉네임_수정을_실패한다">3.2. 토큰이 없을 경우 닉네임 수정을 실패한다</a></h3>
+<h3 id="_내_냉장고_재료_조회를_실패한다_토큰이_없을_때"><a class="link" href="#_내_냉장고_재료_조회를_실패한다_토큰이_없을_때">3.2. 내 냉장고 재료 조회를 실패한다. 토큰이 없을 때</a></h3>
 <div class="sect3">
-<h4 id="_요청_4"><a class="link" href="#_요청_4">3.2.1. 요청</a></h4>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Path</th>
-<th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nickname</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">변경할 닉네임</p></td>
-</tr>
-</tbody>
-</table>
+<h4 id="_요청_9"><a class="link" href="#_요청_9">3.2.1. 요청</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/fridge/mine HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
 </div>
 <div class="sect3">
-<h4 id="_응답_5"><a class="link" href="#_응답_5">3.2.2. 응답</a></h4>
+<h4 id="_응답_9"><a class="link" href="#_응답_9">3.2.2. 응답</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 401 Unauthorized
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: text/plain;charset=UTF-8
 Content-Length: 32
 
@@ -745,58 +1080,20 @@ Content-Length: 32
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_닉네임_입력이_없을_경우_닉네임_수정을_실패한다"><a class="link" href="#_닉네임_입력이_없을_경우_닉네임_수정을_실패한다">3.3. 닉네임 입력이 없을 경우 닉네임 수정을 실패한다</a></h3>
-<div class="sect3">
-<h4 id="_요청_5"><a class="link" href="#_요청_5">3.3.1. 요청</a></h4>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Name</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Authorization</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">로그인 후 제공되는 Bearer 토큰</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="sect3">
-<h4 id="_응답_6"><a class="link" href="#_응답_6">3.3.2. 응답</a></h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 400 Bad Request</code></pre>
-</div>
-</div>
-</div>
-</div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_회원_성별_수정"><a class="link" href="#_회원_성별_수정">4. 회원 성별 수정</a></h2>
+<h2 id="_유통기한_임박_재료_조회"><a class="link" href="#_유통기한_임박_재료_조회">4. 유통기한 임박 재료 조회</a></h2>
 <div class="sectionbody">
 <div class="sect2">
 <h3 id="_성공_4"><a class="link" href="#_성공_4">4.1. 성공</a></h3>
 <div class="sect3">
-<h4 id="_요청_6"><a class="link" href="#_요청_6">4.1.1. 요청</a></h4>
+<h4 id="_요청_10"><a class="link" href="#_요청_10">4.1.1. 요청</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /api/member/gender HTTP/1.1
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIwYWQ0NWJiYS0xNGY5LTQ1Y2UtYTY1Ny0wNTYwNjBiN2JlMzgiLCJpYXQiOjE3MTM1MTEzNDcsImV4cCI6MTcxMzUxNDk0N30.hlm-v0ZMiNKd8IcG-VRw8YsyzJ6E-2QtW2Pyl9P4G5A
-Content-Length: 25
-Host: localhost:8080
-
-{
-  "gender" : "여성"
-}</code></pre>
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/fridge/upcoming/3 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0YTFmY2Y3Ny02YTM0LTQ0YzctOGMyZC0wZDczYjhhNjM0MDAiLCJpYXQiOjE3MTQzNzA4NDEsImV4cCI6MTcxNDM3NDQ0MX0.fXeHZ3eUP11JxrLGNRh-3ppjBqFR0DGsijtdt-NvYkw
+Host: localhost:8080</code></pre>
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -817,68 +1114,97 @@ Host: localhost:8080
 </tr>
 </tbody>
 </table>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Path</th>
-<th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>gender</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">변경할 성별(<code>남성</code>, <code>여성</code> 으로 입력)</p></td>
-</tr>
-</tbody>
-</table>
 </div>
 <div class="sect3">
-<h4 id="_응답_7"><a class="link" href="#_응답_7">4.1.2. 응답</a></h4>
+<h4 id="_응답_10"><a class="link" href="#_응답_10">4.1.2. 응답</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK</code></pre>
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json
+Content-Length: 149
+
+{
+  "myIngredients" : [ {
+    "id" : "0e5ba846-4767-413c-93aa-396686a4893c",
+    "name" : "고기",
+    "ingredientId" : 1,
+    "dueDay" : -2
+  } ]
+}</code></pre>
 </div>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_토큰이_없을_경우_성별_수정을_실패한다"><a class="link" href="#_토큰이_없을_경우_성별_수정을_실패한다">4.2. 토큰이 없을 경우 성별 수정을 실패한다</a></h3>
+<h3 id="_성공2_요청한_날짜수에서_벗어나면_조회되지_않는다"><a class="link" href="#_성공2_요청한_날짜수에서_벗어나면_조회되지_않는다">4.2. 성공2. 요청한 날짜수에서 벗어나면 조회되지 않는다</a></h3>
 <div class="sect3">
-<h4 id="_요청_7"><a class="link" href="#_요청_7">4.2.1. 요청</a></h4>
+<h4 id="_요청_11"><a class="link" href="#_요청_11">4.2.1. 요청</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/fridge/upcoming/1 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4ZTgxNzcwOC0yM2UxLTRiM2MtOThlOS01ZjA0ZTYyNzhjYjAiLCJpYXQiOjE3MTQzNzA4NDcsImV4cCI6MTcxNDM3NDQ0N30.iLZ0ApKJnSDQKbJqvigkQe18m2si5sIQ6nmcPbEq7aE
+Host: localhost:8080</code></pre>
+</div>
+</div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
+<col style="width: 50%;">
+<col style="width: 50%;">
 </colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-left valign-top">Path</th>
-<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Name</th>
 <th class="tableblock halign-left valign-top">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>gender</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">변경할 성별(<code>남성</code>, <code>여성</code> 으로 입력)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Authorization</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">로그인 후 제공되는 Bearer 토큰</p></td>
 </tr>
 </tbody>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_응답_8"><a class="link" href="#_응답_8">4.2.2. 응답</a></h4>
+<h4 id="_응답_11"><a class="link" href="#_응답_11">4.2.2. 응답</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json
+Content-Length: 27
+
+{
+  "myIngredients" : [ ]
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_유통기한_임박_냉장고_재료_조회를_실패한다_토큰이_없을_때"><a class="link" href="#_유통기한_임박_냉장고_재료_조회를_실패한다_토큰이_없을_때">4.3. 유통기한 임박 냉장고 재료 조회를 실패한다. 토큰이 없을 때</a></h3>
+<div class="sect3">
+<h4 id="_요청_12"><a class="link" href="#_요청_12">4.3.1. 요청</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/fridge/upcoming/1 HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_응답_12"><a class="link" href="#_응답_12">4.3.2. 응답</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 401 Unauthorized
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: text/plain;charset=UTF-8
 Content-Length: 32
 
@@ -887,301 +1213,19 @@ Content-Length: 32
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_성별_입력이_없을_경우_성별_수정을_실패한다"><a class="link" href="#_성별_입력이_없을_경우_성별_수정을_실패한다">4.3. 성별 입력이 없을 경우 성별 수정을 실패한다</a></h3>
-<div class="sect3">
-<h4 id="_요청_8"><a class="link" href="#_요청_8">4.3.1. 요청</a></h4>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Name</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Authorization</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">로그인 후 제공되는 Bearer 토큰</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="sect3">
-<h4 id="_응답_9"><a class="link" href="#_응답_9">4.3.2. 응답</a></h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 400 Bad Request</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_성별_입력이_남성_여성이_아닌_경우_성별_수정을_실패한다"><a class="link" href="#_성별_입력이_남성_여성이_아닌_경우_성별_수정을_실패한다">4.4. 성별 입력이 '남성', '여성&#8217;이 아닌 경우 성별 수정을 실패한다</a></h3>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Name</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Authorization</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">로그인 후 제공되는 Bearer 토큰</p></td>
-</tr>
-</tbody>
-</table>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Path</th>
-<th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>gender</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">변경할 성별(<code>남성</code>, <code>여성</code> 으로 입력)</p></td>
-</tr>
-</tbody>
-</table>
-<div class="sect3">
-<h4 id="_응답_10"><a class="link" href="#_응답_10">4.4.1. 응답</a></h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 400 Bad Request
-Content-Type: text/plain;charset=UTF-8
-Content-Length: 42
-
-성별 입력이 올바르지 않습니다</code></pre>
-</div>
-</div>
-</div>
-</div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_회원_나이대_수정"><a class="link" href="#_회원_나이대_수정">5. 회원 나이대 수정</a></h2>
+<h2 id="_나의_재료_삭제"><a class="link" href="#_나의_재료_삭제">5. 나의 재료 삭제</a></h2>
 <div class="sectionbody">
 <div class="sect2">
 <h3 id="_성공_5"><a class="link" href="#_성공_5">5.1. 성공</a></h3>
 <div class="sect3">
-<h4 id="_요청_9"><a class="link" href="#_요청_9">5.1.1. 요청</a></h4>
+<h4 id="_요청_13"><a class="link" href="#_요청_13">5.1.1. 요청</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /api/member/age HTTP/1.1
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyMTJjODhhZC0zM2I1LTRjMDctOGQ5Yy0xZjhjYWVlNDNmZDkiLCJpYXQiOjE3MTM1MTEzNTAsImV4cCI6MTcxMzUxNDk1MH0.EMm1PdA9z0O0RPnDCzLwsAY5MQAg6ORcWoqCIaXUUxQ
-Content-Length: 21
-Host: localhost:8080
-
-{
-  "age" : "30대"
-}</code></pre>
-</div>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Name</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Authorization</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">로그인 후 제공되는 Bearer 토큰</p></td>
-</tr>
-</tbody>
-</table>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Path</th>
-<th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>age</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">변경할 나이대</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="sect3">
-<h4 id="_응답_11"><a class="link" href="#_응답_11">5.1.2. 응답</a></h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_토큰이_없을_경우_나이대_수정을_실패한다"><a class="link" href="#_토큰이_없을_경우_나이대_수정을_실패한다">5.2. 토큰이 없을 경우 나이대 수정을 실패한다</a></h3>
-<div class="sect3">
-<h4 id="_요청_10"><a class="link" href="#_요청_10">5.2.1. 요청</a></h4>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Path</th>
-<th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>age</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">변경할 나이대</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="sect3">
-<h4 id="_응답_12"><a class="link" href="#_응답_12">5.2.2. 응답</a></h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 401 Unauthorized
-Content-Type: text/plain;charset=UTF-8
-Content-Length: 32
-
-로그인 후 이용해주세요</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_나이대_입력이_없을_경우_나이대_수정을_실패한다"><a class="link" href="#_나이대_입력이_없을_경우_나이대_수정을_실패한다">5.3. 나이대 입력이 없을 경우 나이대 수정을 실패한다</a></h3>
-<div class="sect3">
-<h4 id="_요청_11"><a class="link" href="#_요청_11">5.3.1. 요청</a></h4>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Name</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Authorization</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">로그인 후 제공되는 Bearer 토큰</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="sect3">
-<h4 id="_응답_13"><a class="link" href="#_응답_13">5.3.2. 응답</a></h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 400 Bad Request</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_나이대_입력이_올바르지_않은_경우_수정을_실패한다"><a class="link" href="#_나이대_입력이_올바르지_않은_경우_수정을_실패한다">5.4. 나이대 입력이 올바르지 않은 경우 수정을 실패한다</a></h3>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Name</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Authorization</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">로그인 후 제공되는 Bearer 토큰</p></td>
-</tr>
-</tbody>
-</table>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Path</th>
-<th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>age</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">잘못된 나이대 입력</p></td>
-</tr>
-</tbody>
-</table>
-<div class="sect3">
-<h4 id="_응답_14"><a class="link" href="#_응답_14">5.4.1. 응답</a></h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 400 Bad Request
-Content-Type: text/plain;charset=UTF-8
-Content-Length: 45
-
-나이대 입력이 올바르지 않습니다</code></pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_회원_삭제"><a class="link" href="#_회원_삭제">6. 회원 삭제</a></h2>
-<div class="sectionbody">
-<div class="sect2">
-<h3 id="_성공_6"><a class="link" href="#_성공_6">6.1. 성공</a></h3>
-<div class="sect3">
-<h4 id="_요청_12"><a class="link" href="#_요청_12">6.1.1. 요청</a></h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">DELETE /api/member HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIwMmYyYTczYS1kM2Y4LTQ1ZDYtYThkNy1jMTZkM2IyYjU1NTMiLCJpYXQiOjE3MTM1MTEzNDgsImV4cCI6MTcxMzUxNDk0OH0.tkot009INBYuny_Oxb9Eg8x6HdCeRMBzu3QNJ4mf9M4
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">DELETE /api/fridge/70c99ab4-d1e7-4150-b106-e84f5d1ad754 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIwODUzYjc4NS05ZTc4LTQ2MjMtOWEyOS02ZDc2ODJhZmQwMTkiLCJpYXQiOjE3MTQzNzA4NDYsImV4cCI6MTcxNDM3NDQ0Nn0.D4aTEiYT80OTFukAA2R8AbT_glXn8QWW536mP3qYtag
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -1205,21 +1249,36 @@ Host: localhost:8080</code></pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_응답_15"><a class="link" href="#_응답_15">6.1.2. 응답</a></h4>
+<h4 id="_응답_13"><a class="link" href="#_응답_13">5.1.2. 응답</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 204 No Content</code></pre>
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 204 No Content
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers</code></pre>
 </div>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_토큰이_없을_경우_성별_수정을_실패한다_2"><a class="link" href="#_토큰이_없을_경우_성별_수정을_실패한다_2">6.2. 토큰이 없을 경우 성별 수정을 실패한다</a></h3>
+<h3 id="_내_냉장고_재료_삭제를_실패한다_토큰이_없을_때"><a class="link" href="#_내_냉장고_재료_삭제를_실패한다_토큰이_없을_때">5.2. 내 냉장고 재료 삭제를 실패한다. 토큰이 없을 때</a></h3>
 <div class="sect3">
-<h4 id="_응답_16"><a class="link" href="#_응답_16">6.2.1. 응답</a></h4>
+<h4 id="_요청_14"><a class="link" href="#_요청_14">5.2.1. 요청</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">DELETE /api/fridge/678c5d3d-ccc3-417c-a30a-1136f61a8382 HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_응답_14"><a class="link" href="#_응답_14">5.2.2. 응답</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 401 Unauthorized
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: text/plain;charset=UTF-8
 Content-Length: 32
 
@@ -1228,19 +1287,14 @@ Content-Length: 32
 </div>
 </div>
 </div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_모든_앱_이용_사유_조회"><a class="link" href="#_모든_앱_이용_사유_조회">7. 모든 앱 이용 사유 조회</a></h2>
-<div class="sectionbody">
 <div class="sect2">
-<h3 id="_성공_7"><a class="link" href="#_성공_7">7.1. 성공</a></h3>
+<h3 id="_내_냉장고_재료_삭제를_실패한다_재료가_없을_때"><a class="link" href="#_내_냉장고_재료_삭제를_실패한다_재료가_없을_때">5.3. 내 냉장고 재료 삭제를 실패한다. 재료가 없을 때</a></h3>
 <div class="sect3">
-<h4 id="_요청_13"><a class="link" href="#_요청_13">7.1.1. 요청</a></h4>
+<h4 id="_요청_15"><a class="link" href="#_요청_15">5.3.1. 요청</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/member/reasons HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJiM2UxZThkMi1hOTRhLTQ3MDEtOGRjNS1kYjQ5MDgzNDExNmYiLCJpYXQiOjE3MTM1MTEzNTAsImV4cCI6MTcxMzUxNDk1MH0.AVlCshvH3K-CKNBi3b9ak11QDSMyQGlyEc5GQfPvl08
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">DELETE /api/fridge/180d0628-9941-4f65-8070-fd1167c8ad42 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJiMGNlZjdhZi00YzNiLTRjMmEtOTNkYS00YzM5ZjJjMWI4NmUiLCJpYXQiOjE3MTQzNzA4NTAsImV4cCI6MTcxNDM3NDQ1MH0.BunLndyh5u_nac4M2UOyUYJf_b7V4OqKIBzbX0j1SqI
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -1264,427 +1318,32 @@ Host: localhost:8080</code></pre>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_응답_17"><a class="link" href="#_응답_17">7.1.2. 응답</a></h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
-Content-Type: application/json
-Content-Length: 3
-
-{ }</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_토큰이_없을_경우_조회를_실패한다"><a class="link" href="#_토큰이_없을_경우_조회를_실패한다">7.2. 토큰이 없을 경우 조회를 실패한다</a></h3>
-<div class="sect3">
-<h4 id="_응답_18"><a class="link" href="#_응답_18">7.2.1. 응답</a></h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
-Content-Type: application/json
-Content-Length: 3
-
-{ }</code></pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_나의_앱_이용_사유_조회"><a class="link" href="#_나의_앱_이용_사유_조회">8. 나의 앱 이용 사유 조회</a></h2>
-<div class="sectionbody">
-<div class="sect2">
-<h3 id="_성공_8"><a class="link" href="#_성공_8">8.1. 성공</a></h3>
-<div class="sect3">
-<h4 id="_요청_14"><a class="link" href="#_요청_14">8.1.1. 요청</a></h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/member/reasons/me HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkYTMzMjRkZi1lODhkLTQ3MmMtOGFiZi1iM2I5ZDMxYTUxYTUiLCJpYXQiOjE3MTM1MTEzNDksImV4cCI6MTcxMzUxNDk0OX0.dW0Uw0zHYMJGJFVsFhJeEwYVDsC6mn8vgqZs9PPw2YA
-Host: localhost:8080</code></pre>
-</div>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Name</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Authorization</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">로그인 후 제공되는 Bearer 토큰</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="sect3">
-<h4 id="_응답_19"><a class="link" href="#_응답_19">8.1.2. 응답</a></h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
-Content-Type: application/json
-Content-Length: 3
-
-{ }</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_토큰이_없을_경우_조회를_실패한다_2"><a class="link" href="#_토큰이_없을_경우_조회를_실패한다_2">8.2. 토큰이 없을 경우 조회를 실패한다</a></h3>
-<div class="sect3">
-<h4 id="_응답_20"><a class="link" href="#_응답_20">8.2.1. 응답</a></h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
-Content-Type: application/json
-Content-Length: 3
-
-{ }</code></pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_나의_앱_이용_사유_추가"><a class="link" href="#_나의_앱_이용_사유_추가">9. 나의 앱 이용 사유 추가</a></h2>
-<div class="sectionbody">
-<div class="sect2">
-<h3 id="_성공_9"><a class="link" href="#_성공_9">9.1. 성공</a></h3>
-<div class="sect3">
-<h4 id="_요청_15"><a class="link" href="#_요청_15">9.1.1. 요청</a></h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/member/reasons HTTP/1.1
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyZDk1OTU2YS1hMjJiLTRkYTgtODRlNi1jY2UzNzI3MTg2OGYiLCJpYXQiOjE3MTM1MTEzNDgsImV4cCI6MTcxMzUxNDk0OH0.7qLZcSbu3jELkxuBU4OQovI35kHeWCNYrnfN1uE2wAQ
-Content-Length: 84
-Host: localhost:8080
-
-{
-  "reasons" : [ "몸에 좋은 건강한 레시피를 추천받고 싶어요." ]
-}</code></pre>
-</div>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Name</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Authorization</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">로그인 후 제공되는 Bearer 토큰</p></td>
-</tr>
-</tbody>
-</table>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Path</th>
-<th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>reasons</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">저장할 앱 이용사유들. 배열형으로</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="sect3">
-<h4 id="_응답_21"><a class="link" href="#_응답_21">9.1.2. 응답</a></h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_토큰이_없을_경우_추가를_실패한다"><a class="link" href="#_토큰이_없을_경우_추가를_실패한다">9.2. 토큰이 없을 경우 추가를 실패한다</a></h3>
-<div class="sect3">
-<h4 id="_요청_16"><a class="link" href="#_요청_16">9.2.1. 요청</a></h4>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Path</th>
-<th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>reasons</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">저장할 앱 이용사유들. 배열형으로</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="sect3">
-<h4 id="_응답_22"><a class="link" href="#_응답_22">9.2.2. 응답</a></h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 401 Unauthorized
-Content-Type: text/plain;charset=UTF-8
-Content-Length: 32
-
-로그인 후 이용해주세요</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_body의_입력이_없는_경우_추가를_실패한다"><a class="link" href="#_body의_입력이_없는_경우_추가를_실패한다">9.3. body의 입력이 없는 경우 추가를 실패한다.</a></h3>
-<div class="sect3">
-<h4 id="_요청_17"><a class="link" href="#_요청_17">9.3.1. 요청</a></h4>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Name</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Authorization</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">로그인 후 제공되는 Bearer 토큰</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="sect3">
-<h4 id="_응답_23"><a class="link" href="#_응답_23">9.3.2. 응답</a></h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 400 Bad Request</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_body의_입력이_올바르지_않은_경우_추가를_실패한다"><a class="link" href="#_body의_입력이_올바르지_않은_경우_추가를_실패한다">9.4. body의 입력이 올바르지 않은 경우 추가를 실패한다.</a></h3>
-<div class="sect3">
-<h4 id="_요청_18"><a class="link" href="#_요청_18">9.4.1. 요청</a></h4>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Name</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Authorization</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">로그인 후 제공되는 Bearer 토큰</p></td>
-</tr>
-</tbody>
-</table>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Path</th>
-<th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>reasons</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">저장할 앱 이용사유들. 배열형으로</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="sect3">
-<h4 id="_응답_24"><a class="link" href="#_응답_24">9.4.2. 응답</a></h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 400 Bad Request
-Content-Type: text/plain;charset=UTF-8
-Content-Length: 54
-
-입력하신 이용사유는 존재하지 않습니다</code></pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_나의_앱_이용_사유_삭제"><a class="link" href="#_나의_앱_이용_사유_삭제">10. 나의 앱 이용 사유 삭제</a></h2>
-<div class="sectionbody">
-<div class="sect2">
-<h3 id="_성공_10"><a class="link" href="#_성공_10">10.1. 성공</a></h3>
-<div class="sect3">
-<h4 id="_요청_19"><a class="link" href="#_요청_19">10.1.1. 요청</a></h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">DELETE /api/member/reasons?id=e9e177ed-ce34-4785-90f6-172ee0585348 HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIwNDFjOWNkZC1lNjM5LTRjY2QtODcyMC01NDkxMmYzMzc5ZTAiLCJpYXQiOjE3MTM1MTEzNTEsImV4cCI6MTcxMzUxNDk1MX0.psX3cCodwsDouZzuugw71-BDJ2k38AaZOorowEV0r8k
-Content-Type: application/x-www-form-urlencoded
-Host: localhost:8080</code></pre>
-</div>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Name</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Authorization</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">로그인 후 제공되는 Bearer 토큰</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="sect3">
-<h4 id="_응답_25"><a class="link" href="#_응답_25">10.1.2. 응답</a></h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 204 No Content</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_토큰이_없을_경우_실패한다"><a class="link" href="#_토큰이_없을_경우_실패한다">10.2. 토큰이 없을 경우 실패한다</a></h3>
-<div class="sect3">
-<h4 id="_응답_26"><a class="link" href="#_응답_26">10.2.1. 응답</a></h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 401 Unauthorized
-Content-Type: text/plain;charset=UTF-8
-Content-Length: 32
-
-로그인 후 이용해주세요</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_파라미터가_없을_경우_실패한다"><a class="link" href="#_파라미터가_없을_경우_실패한다">10.3. 파라미터가 없을 경우 실패한다</a></h3>
-<div class="sect3">
-<h4 id="_요청_20"><a class="link" href="#_요청_20">10.3.1. 요청</a></h4>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Name</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Authorization</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">로그인 후 제공되는 Bearer 토큰</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="sect3">
-<h4 id="_응답_27"><a class="link" href="#_응답_27">10.3.2. 응답</a></h4>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 400 Bad Request</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_db에_데이터가_없을_경우_실패한다"><a class="link" href="#_db에_데이터가_없을_경우_실패한다">10.4. DB에 데이터가 없을 경우 실패한다</a></h3>
-<div class="sect3">
-<h4 id="_요청_21"><a class="link" href="#_요청_21">10.4.1. 요청</a></h4>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Name</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Authorization</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">로그인 후 제공되는 Bearer 토큰</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="sect3">
-<h4 id="_응답_28"><a class="link" href="#_응답_28">10.4.2. 응답</a></h4>
+<h4 id="_응답_15"><a class="link" href="#_응답_15">5.3.2. 응답</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 404 Not Found
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: text/plain;charset=UTF-8
 Content-Length: 55
 
-회원의 앱 이용사유가 존재하지 않습니다</code></pre>
+냉장고에 해당 재료가 존재하지 않습니다</code></pre>
 </div>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_다른_사람의_데이터를_삭제하려_한_경우_실패한다"><a class="link" href="#_다른_사람의_데이터를_삭제하려_한_경우_실패한다">10.5. 다른 사람의 데이터를 삭제하려 한 경우 실패한다</a></h3>
+<h3 id="_내_냉장고_재료_삭제를_실패한다_권한이_없을_때"><a class="link" href="#_내_냉장고_재료_삭제를_실패한다_권한이_없을_때">5.4. 내 냉장고 재료 삭제를 실패한다. 권한이 없을 때</a></h3>
 <div class="sect3">
-<h4 id="_요청_22"><a class="link" href="#_요청_22">10.5.1. 요청</a></h4>
+<h4 id="_요청_16"><a class="link" href="#_요청_16">5.4.1. 요청</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">DELETE /api/fridge/89dfdfc9-f2e0-4685-ad9c-4865bcc47749 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJlNGY3ZGFmMS0zZTIwLTQ4YjktYTBlZC01MjI5ZGFmZDNiYzYiLCJpYXQiOjE3MTQzNzA4NDksImV4cCI6MTcxNDM3NDQ0OX0.uuQpTtyhmnMU3kYotRQtyYxymyxwbpJo-svgvyso1L0
+Host: localhost:8080</code></pre>
+</div>
+</div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -1705,14 +1364,17 @@ Content-Length: 55
 </table>
 </div>
 <div class="sect3">
-<h4 id="_응답_29"><a class="link" href="#_응답_29">10.5.2. 응답</a></h4>
+<h4 id="_응답_16"><a class="link" href="#_응답_16">5.4.2. 응답</a></h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 403 Forbidden
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: text/plain;charset=UTF-8
-Content-Length: 23
+Content-Length: 22
 
-권한이 없습니다.</code></pre>
+권한이 없습니다</code></pre>
 </div>
 </div>
 </div>
@@ -1723,7 +1385,7 @@ Content-Length: 23
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2024-04-18 16:14:56 +0900
+Last updated 2024-04-26 15:11:31 +0900
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>

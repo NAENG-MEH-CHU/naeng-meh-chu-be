@@ -1,0 +1,194 @@
+:toc: left
+:source-highlighter: highlightjs
+:sectlinks:
+:toclevels: 2
+:sectlinks:
+:sectnums:
+
+= Fridge
+
+== 냉장고에 재료 추가
+
+=== 성공
+
+==== 요청
+
+include::{snippets}/fridge-controller-integration-test/add_ingredient/http-request.adoc[]
+include::{snippets}/fridge-controller-integration-test/add_ingredient/request-headers.adoc[]
+include::{snippets}/fridge-controller-integration-test/add_ingredient/request-fields.adoc[]
+
+==== 응답
+
+include::{snippets}/fridge-controller-integration-test/add_ingredient/http-response.adoc[]
+
+=== 내 냉장고재료 추가를 실패한다. 토큰이 없을 때
+
+==== 요청
+
+include::{snippets}/fridge-controller-integration-test/fail_to_add_ingredient_no_token/http-request.adoc[]
+include::{snippets}/fridge-controller-integration-test/fail_to_add_ingredient_no_token/request-fields.adoc[]
+
+==== 응답
+
+include::{snippets}/fridge-controller-integration-test/fail_to_add_ingredient_no_token/http-response.adoc[]
+
+=== 내 냉장고에 재료 추가를 실패한다. 존재하지 않는 재료
+
+==== 요청
+
+include::{snippets}/fridge-controller-integration-test/fail_to_add_ingredient_not_found/http-request.adoc[]
+include::{snippets}/fridge-controller-integration-test/fail_to_add_ingredient_not_found/request-headers.adoc[]
+include::{snippets}/fridge-controller-integration-test/fail_to_add_ingredient_not_found/request-fields.adoc[]
+
+==== 응답
+
+include::{snippets}/fridge-controller-integration-test/fail_to_add_ingredient_not_found/http-response.adoc[]
+
+=== 내 냉장고에 재료 추가를 실패한다. 재료 id/년/월/일중에 하나라도 null일 경우
+
+==== 요청
+
+include::{snippets}/fridge-controller-integration-test/fail_to_add_ingredient_blank/http-request.adoc[]
+include::{snippets}/fridge-controller-integration-test/fail_to_add_ingredient_blank/request-headers.adoc[]
+include::{snippets}/fridge-controller-integration-test/fail_to_add_ingredient_blank/request-fields.adoc[]
+
+==== 응답
+
+include::{snippets}/fridge-controller-integration-test/fail_to_add_ingredient_blank/http-response.adoc[]
+
+=== 내 냉장고에 재료 추가를 실패한다. 재료가 이미 냉장고에 있는 경우
+
+==== 요청
+
+include::{snippets}/fridge-controller-integration-test/fail_to_add_ingredient_invalid/http-request.adoc[]
+include::{snippets}/fridge-controller-integration-test/fail_to_add_ingredient_invalid/request-headers.adoc[]
+include::{snippets}/fridge-controller-integration-test/fail_to_add_ingredient_invalid/request-fields.adoc[]
+
+==== 응답
+
+include::{snippets}/fridge-controller-integration-test/fail_to_add_ingredient_invalid/http-response.adoc[]
+
+== 전체 재료 조회
+
+=== 성공
+
+==== 요청
+
+include::{snippets}/fridge-controller-integration-test/find_all_ingredients/http-request.adoc[]
+include::{snippets}/fridge-controller-integration-test/find_all_ingredients/request-headers.adoc[]
+
+==== 응답
+
+include::{snippets}/fridge-controller-integration-test/find_all_ingredients/http-response.adoc[]
+
+=== 내 냉장고재료 추가를 실패한다. 토큰이 없을 때
+
+==== 요청
+
+include::{snippets}/fridge-controller-integration-test/fail_to_find_all_ingredients_no_token/http-request.adoc[]
+
+==== 응답
+
+include::{snippets}/fridge-controller-integration-test/fail_to_find_all_ingredients_no_token/http-response.adoc[]
+
+== 나의 재료 조회
+
+=== 성공
+
+==== 요청
+
+include::{snippets}/fridge-controller-integration-test/find_my_ingredients/http-request.adoc[]
+include::{snippets}/fridge-controller-integration-test/find_my_ingredients/request-headers.adoc[]
+
+==== 응답
+
+include::{snippets}/fridge-controller-integration-test/find_my_ingredients/http-response.adoc[]
+
+=== 내 냉장고 재료 조회를 실패한다. 토큰이 없을 때
+
+==== 요청
+
+include::{snippets}/fridge-controller-integration-test/fail_to_find_my_ingredients_no_token/http-request.adoc[]
+
+==== 응답
+
+include::{snippets}/fridge-controller-integration-test/fail_to_find_my_ingredients_no_token/http-response.adoc[]
+
+== 유통기한 임박 재료 조회
+
+=== 성공
+
+==== 요청
+
+include::{snippets}/fridge-controller-integration-test/find_upcoming_ingredients/http-request.adoc[]
+include::{snippets}/fridge-controller-integration-test/find_upcoming_ingredients/request-headers.adoc[]
+
+==== 응답
+
+include::{snippets}/fridge-controller-integration-test/find_upcoming_ingredients/http-response.adoc[]
+
+=== 성공2. 요청한 날짜수에서 벗어나면 조회되지 않는다
+
+==== 요청
+
+include::{snippets}/fridge-controller-integration-test/find_upcoming_ingredients_due_date_out/http-request.adoc[]
+include::{snippets}/fridge-controller-integration-test/find_upcoming_ingredients_due_date_out/request-headers.adoc[]
+
+==== 응답
+
+include::{snippets}/fridge-controller-integration-test/find_upcoming_ingredients_due_date_out/http-response.adoc[]
+
+=== 유통기한 임박 냉장고 재료 조회를 실패한다. 토큰이 없을 때
+
+==== 요청
+
+include::{snippets}/fridge-controller-integration-test/fail_to_find_upcoming_ingredients_no_token/http-request.adoc[]
+
+==== 응답
+
+include::{snippets}/fridge-controller-integration-test/fail_to_find_upcoming_ingredients_no_token/http-response.adoc[]
+
+== 나의 재료 삭제
+
+=== 성공
+
+==== 요청
+
+include::{snippets}/fridge-controller-integration-test/delete_my_ingredient/http-request.adoc[]
+include::{snippets}/fridge-controller-integration-test/delete_my_ingredient/request-headers.adoc[]
+
+==== 응답
+
+include::{snippets}/fridge-controller-integration-test/delete_my_ingredient/http-response.adoc[]
+
+=== 내 냉장고 재료 삭제를 실패한다. 토큰이 없을 때
+
+==== 요청
+
+include::{snippets}/fridge-controller-integration-test/fail_to_delete_my_ingredient_no_token/http-request.adoc[]
+
+==== 응답
+
+include::{snippets}/fridge-controller-integration-test/fail_to_delete_my_ingredient_no_token/http-response.adoc[]
+
+=== 내 냉장고 재료 삭제를 실패한다. 재료가 없을 때
+
+==== 요청
+
+include::{snippets}/fridge-controller-integration-test/fail_to_delete_my_ingredient_not_found/http-request.adoc[]
+include::{snippets}/fridge-controller-integration-test/fail_to_delete_my_ingredient_not_found/request-headers.adoc[]
+
+==== 응답
+
+include::{snippets}/fridge-controller-integration-test/fail_to_delete_my_ingredient_not_found/http-response.adoc[]
+
+=== 내 냉장고 재료 삭제를 실패한다. 권한이 없을 때
+
+==== 요청
+
+include::{snippets}/fridge-controller-integration-test/fail_to_delete_my_ingredient_forbidden/http-request.adoc[]
+include::{snippets}/fridge-controller-integration-test/fail_to_delete_my_ingredient_forbidden/request-headers.adoc[]
+
+==== 응답
+
+include::{snippets}/fridge-controller-integration-test/fail_to_delete_my_ingredient_forbidden/http-response.adoc[]
