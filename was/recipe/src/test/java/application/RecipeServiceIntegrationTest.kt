@@ -5,6 +5,7 @@ import io.kotest.matchers.shouldBe
 import org.example.RecipeApplication
 import org.example.application.recipe.RecipeService
 import org.example.domain.entity.Member
+import org.example.domain.enums.Age
 import org.example.domain.enums.Gender
 import org.example.domain.recipe.entity.Recipe
 import org.example.domain.recipe.repository.RecipeRepository
@@ -40,7 +41,7 @@ class RecipeServiceIntegrationTest(
     fun init() {
         member = Member.builder()
             .nickname("before")
-            .age(null)
+            .age(Age.TWENTIES)
             .gender(Gender.MALE)
             .email("test@test.com")
             .ingredients(0)
@@ -55,7 +56,7 @@ class RecipeServiceIntegrationTest(
         val recipe = recipeRepository.save(Recipe(0, "tester", "link", "thumbnail"))
 
         // when
-        val result = recipeService.findRecipeById(recipe.id)
+        val result = recipeService.findRecipeById(recipe.id, member)
 
         // then
         result.recipeLink shouldBe recipe.recipeLink
@@ -69,7 +70,7 @@ class RecipeServiceIntegrationTest(
         // when
 
         // then
-        shouldThrow<RecipeNotFoundException> { recipeService.findRecipeById(UUID.randomUUID()) }
+        shouldThrow<RecipeNotFoundException> { recipeService.findRecipeById(UUID.randomUUID(), member) }
     }
 
     @AfterEach

@@ -3,6 +3,10 @@ package application
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import org.example.application.recipe.RecipeService
+import org.example.domain.entity.Member
+import org.example.domain.enums.Age
+import org.example.domain.enums.Gender
+import org.example.domain.memberRecipe.event.AddMemberRecipeEvent
 import org.example.domain.recipe.dto.RecipeResponse
 import org.example.domain.recipe.entity.Recipe
 import org.example.domain.recipe.repository.RecipeRepository
@@ -29,6 +33,15 @@ class RecipeServiceUnitTest {
     @InjectMocks
     private lateinit var recipeService: RecipeService
 
+    private val member = Member.builder()
+        .id(UUID.randomUUID())
+        .nickname("before")
+        .age(Age.TWENTIES)
+        .gender(Gender.MALE)
+        .email("test@test.com")
+        .ingredients(0)
+        .build()
+
     @DisplayName("레시피 단건 조회를 성공시킨다.")
     @Test
     fun `레시피 단건 조회`() {
@@ -37,9 +50,10 @@ class RecipeServiceUnitTest {
 
         // when
         Mockito.`when`(recipeRepository.findById(uuid)).thenReturn(Optional.of(Recipe()))
+        Mockito.doNothing().`when`(publisher).publishEvent(Mockito.any(AddMemberRecipeEvent::class.java))
 
         // then
-        val result =  recipeService.findRecipeById(uuid)
+        val result =  recipeService.findRecipeById(uuid, member)
         result.recipeLink shouldBe RecipeResponse(Recipe().recipeLink).recipeLink
     }
 
@@ -53,6 +67,6 @@ class RecipeServiceUnitTest {
         Mockito.doThrow(RecipeNotFoundException()).`when`(recipeRepository).findById(uuid)
 
         // then
-        shouldThrow<RecipeNotFoundException> { recipeService.findRecipeById(uuid) }
+        shouldThrow<RecipeNotFoundException> { recipeService.findRecipeById(uuid, member) }
     }
 }
