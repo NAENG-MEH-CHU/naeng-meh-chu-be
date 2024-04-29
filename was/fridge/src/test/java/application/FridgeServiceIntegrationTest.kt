@@ -136,8 +136,8 @@ class FridgeServiceIntegrationTest(
     @Test
     fun findUpcomingIngredients_success() {
         // given
-        val now = LocalDate.now()
-        val request = AddIngredientRequest(ingredient.id, now.year, now.monthValue, now.dayOfMonth + 3)
+        val now = LocalDate.now().plusDays(3L)
+        val request = AddIngredientRequest(ingredient.id, now.year, now.monthValue, now.dayOfMonth)
         fridgeService.addIngredient(request, member)
 
         // when
@@ -151,8 +151,8 @@ class FridgeServiceIntegrationTest(
     @Test
     fun findUpcomingIngredients_success_not_in_case() {
         // given
-        val now = LocalDate.now()
-        val request = AddIngredientRequest(ingredient.id, now.year, now.monthValue, now.dayOfMonth + 3)
+        val now = LocalDate.now().plusDays(3)
+        val request = AddIngredientRequest(ingredient.id, now.year, now.monthValue, now.dayOfMonth)
         fridgeService.addIngredient(request, member)
 
         // when

@@ -497,7 +497,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/fridge HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZjQwOWFhNC00MjI5LTQ5YmQtYTYwNS04YTA1YjRjOWRkOTgiLCJpYXQiOjE3MTQxMTEzMzAsImV4cCI6MTcxNDExNDkzMH0.Qrw5yaQPyeigFwHdD4N-Z2KAx9qzhrPtGDJKiu2aMZ0
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4NjIxOGQwNy1mOGFiLTQ1NDktOWJhNi1lZTg0ZjlhYWU1MmIiLCJpYXQiOjE3MTQzNzA4NDMsImV4cCI6MTcxNDM3NDQ0M30.ZMPzlwwhwiGpQZrDqIr-tS58SsXtgCsUxm6Q0JQYufc
 Content-Length: 69
 Host: localhost:8080
 
@@ -568,7 +568,10 @@ Host: localhost:8080
 <h4 id="_응답"><a class="link" href="#_응답">1.1.2. 응답</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created</code></pre>
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers</code></pre>
 </div>
 </div>
 </div>
@@ -634,6 +637,9 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 401 Unauthorized
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: text/plain;charset=UTF-8
 Content-Length: 32
 
@@ -650,7 +656,7 @@ Content-Length: 32
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/fridge HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2ZGY5ODM2ZS1iMWIzLTQwMWMtYWJiMi0yY2VkZDE1MGYwMjMiLCJpYXQiOjE3MTQxMTEzMzMsImV4cCI6MTcxNDExNDkzM30.iLDO-8hJbOezp6xk22ynHjOjoMJ2WdZkeakS5Eg_Tms
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyNGQzNTRhZS04YTcwLTQ0YzQtYjA5YS03ZGI1NDU5ZDM1MGUiLCJpYXQiOjE3MTQzNzA4NDYsImV4cCI6MTcxNDM3NDQ0Nn0.rFJIwj5Y8qWL0caM-5PWoSFlOQ--nnptxWrdwN0XaT8
 Content-Length: 73
 Host: localhost:8080
 
@@ -722,6 +728,9 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 404 Not Found
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: text/plain;charset=UTF-8
 Content-Length: 48
 
@@ -738,7 +747,7 @@ Content-Length: 48
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/fridge HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1NGJmZGYyYy1mZGVlLTQ3YTMtOTY0YS0wYjljYjg1ZWJjNTIiLCJpYXQiOjE3MTQxMTEzMzEsImV4cCI6MTcxNDExNDkzMX0.VM-A2eImhL4hnCYaWC6KHgrz47Jm1qxUvAu2UpsAkrM
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIwYmU0OGQxMS02YzQ2LTRiNWItOGZjYS1kZmQyMWQ0NDdiMjUiLCJpYXQiOjE3MTQzNzA4NDQsImV4cCI6MTcxNDM3NDQ0NH0.7Zxy0NC3GQFT9l1qyS3GiG0N4nj8W8PXABkTSUUpDPg
 Content-Length: 72
 Host: localhost:8080
 
@@ -809,7 +818,10 @@ Host: localhost:8080
 <h4 id="_응답_4"><a class="link" href="#_응답_4">1.4.2. 응답</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 400 Bad Request</code></pre>
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 400 Bad Request
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers</code></pre>
 </div>
 </div>
 </div>
@@ -822,7 +834,7 @@ Host: localhost:8080
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/fridge HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkNjcwOTg3NC1kM2IwLTQzNDItODUxOS0wODcyOWVhYzE4OGEiLCJpYXQiOjE3MTQxMTEzMzUsImV4cCI6MTcxNDExNDkzNX0.HqjXXFVyQQi2YGd7XXP8pjSA86WaQtCqMs35NXYJTtg
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI3OTc0MWJkNi00MmRkLTQzOTctODAzMi00NzY2MWRkYWJmMGEiLCJpYXQiOjE3MTQzNzA4NDgsImV4cCI6MTcxNDM3NDQ0OH0.YJv8SDUz1noiKUfc2P34uXDLvgB07VfCwNR4mql558s
 Content-Length: 70
 Host: localhost:8080
 
@@ -894,6 +906,9 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 400 Bad Request
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: text/plain;charset=UTF-8
 Content-Length: 35
 
@@ -914,7 +929,7 @@ Content-Length: 35
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/fridge HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI3ODgxMmViNi0yZjc1LTQ2ODMtOThlNS1kMzZmYjM4OTQwYzAiLCJpYXQiOjE3MTQxMTEzMzYsImV4cCI6MTcxNDExNDkzNn0.lOgHB1g4oBQo49WghoJLm76hq2F98P89PWcs37HSa0g
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZjM0ZmFmNC1hYjc5LTQ4N2ItOTQ2Yy0wMjE5NzgzYWM4ODQiLCJpYXQiOjE3MTQzNzA4NDksImV4cCI6MTcxNDM3NDQ0OX0.yUrvhzlMVS7nP-X8HebrnU43QUPqnkIbOq4aAlgNbqQ
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -942,6 +957,9 @@ Host: localhost:8080</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: application/json
 Content-Length: 3
 
@@ -966,6 +984,9 @@ Host: localhost:8080</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 401 Unauthorized
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: text/plain;charset=UTF-8
 Content-Length: 32
 
@@ -986,7 +1007,7 @@ Content-Length: 32
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/fridge/mine HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4ZjI3NzY0OC03NGQ0LTRiOWYtYmQxZi03OTI0YTg0NWUwMzciLCJpYXQiOjE3MTQxMTEzMzIsImV4cCI6MTcxNDExNDkzMn0.fwEpEuqDNHEyrmiXpmaD-MNZ6G8dN_occRfhae8AgUA
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1MTgyN2I2MS1jYjI0LTQyMWItOGIzYS05OGYxMGY0ODNiZDciLCJpYXQiOjE3MTQzNzA4NDQsImV4cCI6MTcxNDM3NDQ0NH0.pdYUFFlpkfKfHGIYmC4SAqd43JSR9_FWVuDUCzCxU2A
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -1014,15 +1035,18 @@ Host: localhost:8080</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: application/json
 Content-Length: 151
 
 {
   "myIngredients" : [ {
-    "id" : "c548ce3d-5b64-41a5-b725-067fa1ee4bd4",
+    "id" : "2e831370-27cd-483b-b6ef-c15114c55188",
     "name" : "고기",
     "ingredientId" : 6,
-    "dueDay" : 2248
+    "dueDay" : 2251
   } ]
 }</code></pre>
 </div>
@@ -1045,6 +1069,9 @@ Host: localhost:8080</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 401 Unauthorized
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: text/plain;charset=UTF-8
 Content-Length: 32
 
@@ -1065,7 +1092,7 @@ Content-Length: 32
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/fridge/upcoming/3 HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJlMDEwY2QwMS01N2VkLTQwNjgtYmFiNC04NjAzMTU5NDdmOGMiLCJpYXQiOjE3MTQxMTEzMjksImV4cCI6MTcxNDExNDkyOX0.tELwNduo58vwP8_ZZKsFD3xd6dwf0uilW0YZYpFJfsk
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0YTFmY2Y3Ny02YTM0LTQ0YzctOGMyZC0wZDczYjhhNjM0MDAiLCJpYXQiOjE3MTQzNzA4NDEsImV4cCI6MTcxNDM3NDQ0MX0.fXeHZ3eUP11JxrLGNRh-3ppjBqFR0DGsijtdt-NvYkw
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -1093,12 +1120,15 @@ Host: localhost:8080</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: application/json
 Content-Length: 149
 
 {
   "myIngredients" : [ {
-    "id" : "25e7771f-8a50-4903-97b8-17a348377b29",
+    "id" : "0e5ba846-4767-413c-93aa-396686a4893c",
     "name" : "고기",
     "ingredientId" : 1,
     "dueDay" : -2
@@ -1115,7 +1145,7 @@ Content-Length: 149
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/fridge/upcoming/1 HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIwNTViNmE5Yi1iYjE3LTRjYzQtOWJjMC03NGE3ZjA0NGY0ZWEiLCJpYXQiOjE3MTQxMTEzMzQsImV4cCI6MTcxNDExNDkzNH0.C6mgd6qecppkyE036qkNuwCG3qDpN2zwbN1prsbq6Xc
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4ZTgxNzcwOC0yM2UxLTRiM2MtOThlOS01ZjA0ZTYyNzhjYjAiLCJpYXQiOjE3MTQzNzA4NDcsImV4cCI6MTcxNDM3NDQ0N30.iLZ0ApKJnSDQKbJqvigkQe18m2si5sIQ6nmcPbEq7aE
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -1143,6 +1173,9 @@ Host: localhost:8080</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: application/json
 Content-Length: 27
 
@@ -1169,6 +1202,9 @@ Host: localhost:8080</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 401 Unauthorized
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: text/plain;charset=UTF-8
 Content-Length: 32
 
@@ -1188,8 +1224,8 @@ Content-Length: 32
 <h4 id="_요청_13"><a class="link" href="#_요청_13">5.1.1. 요청</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">DELETE /api/fridge/d4237d74-b316-475d-b603-556a0f08ee97 HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI5ZDgyZmE5Ny1hNjY2LTQ2ZGUtYjhlOS1mNGIxZjU5MzY5ZGUiLCJpYXQiOjE3MTQxMTEzMzQsImV4cCI6MTcxNDExNDkzNH0.6dy99FEMkO2MtyJYByYE8RRpFKea0YuHjsJJfHTlXlA
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">DELETE /api/fridge/70c99ab4-d1e7-4150-b106-e84f5d1ad754 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIwODUzYjc4NS05ZTc4LTQ2MjMtOWEyOS02ZDc2ODJhZmQwMTkiLCJpYXQiOjE3MTQzNzA4NDYsImV4cCI6MTcxNDM3NDQ0Nn0.D4aTEiYT80OTFukAA2R8AbT_glXn8QWW536mP3qYtag
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -1216,7 +1252,10 @@ Host: localhost:8080</code></pre>
 <h4 id="_응답_13"><a class="link" href="#_응답_13">5.1.2. 응답</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 204 No Content</code></pre>
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 204 No Content
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers</code></pre>
 </div>
 </div>
 </div>
@@ -1227,7 +1266,7 @@ Host: localhost:8080</code></pre>
 <h4 id="_요청_14"><a class="link" href="#_요청_14">5.2.1. 요청</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">DELETE /api/fridge/1d05e7e0-f1c3-4320-9197-ab1a3ebb4d12 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">DELETE /api/fridge/678c5d3d-ccc3-417c-a30a-1136f61a8382 HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -1237,6 +1276,9 @@ Host: localhost:8080</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 401 Unauthorized
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: text/plain;charset=UTF-8
 Content-Length: 32
 
@@ -1251,8 +1293,8 @@ Content-Length: 32
 <h4 id="_요청_15"><a class="link" href="#_요청_15">5.3.1. 요청</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">DELETE /api/fridge/db9a105d-d1ff-46d0-8ae4-00eeab87e4a9 HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI3NmYwNDgyNS0wMDZlLTQ0ODAtODMxZC1kZmEzMWEyZTNiN2EiLCJpYXQiOjE3MTQxMTEzMzcsImV4cCI6MTcxNDExNDkzN30.sqVZ5RPSMNdHRbefSnwKI5xQ9x1VP5Einw4zFybLAqg
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">DELETE /api/fridge/180d0628-9941-4f65-8070-fd1167c8ad42 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJiMGNlZjdhZi00YzNiLTRjMmEtOTNkYS00YzM5ZjJjMWI4NmUiLCJpYXQiOjE3MTQzNzA4NTAsImV4cCI6MTcxNDM3NDQ1MH0.BunLndyh5u_nac4M2UOyUYJf_b7V4OqKIBzbX0j1SqI
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -1280,6 +1322,9 @@ Host: localhost:8080</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 404 Not Found
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: text/plain;charset=UTF-8
 Content-Length: 55
 
@@ -1294,8 +1339,8 @@ Content-Length: 55
 <h4 id="_요청_16"><a class="link" href="#_요청_16">5.4.1. 요청</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">DELETE /api/fridge/ae414fdf-27c9-4554-99d3-3c3b7580b8fc HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmMTI5MzM0MC1mYzQ0LTQwNDYtYjFkMi1hM2UzYTFiODhiMDQiLCJpYXQiOjE3MTQxMTEzMzYsImV4cCI6MTcxNDExNDkzNn0.GRl-e-n9PUXEmaBIPn0KPmQP9FygaL-j6CCkXUkRLG4
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">DELETE /api/fridge/89dfdfc9-f2e0-4685-ad9c-4865bcc47749 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJlNGY3ZGFmMS0zZTIwLTQ4YjktYTBlZC01MjI5ZGFmZDNiYzYiLCJpYXQiOjE3MTQzNzA4NDksImV4cCI6MTcxNDM3NDQ0OX0.uuQpTtyhmnMU3kYotRQtyYxymyxwbpJo-svgvyso1L0
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -1323,6 +1368,9 @@ Host: localhost:8080</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 403 Forbidden
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: text/plain;charset=UTF-8
 Content-Length: 22
 
@@ -1337,7 +1385,7 @@ Content-Length: 22
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2024-04-26 15:01:53 +0900
+Last updated 2024-04-26 15:11:31 +0900
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>

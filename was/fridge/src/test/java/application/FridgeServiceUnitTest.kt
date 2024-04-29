@@ -3,11 +3,11 @@ package application
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.equality.shouldBeEqualUsingFields
 import io.kotest.matchers.shouldBe
+import org.example.application.FridgeEventPublisher
 import org.example.application.FridgeService
 import org.example.domain.entity.Member
 import org.example.domain.enums.Age
 import org.example.domain.enums.Gender
-import org.example.domain.event.AddIngredientEvent
 import org.example.domain.fridgeIngredient.entity.FridgeIngredient
 import org.example.domain.fridgeIngredient.repository.FridgeIngredientRepository
 import org.example.domain.ingredient.entity.Ingredient
@@ -19,7 +19,6 @@ import org.example.exception.exceptions.IngredientNotFoundException
 import org.example.presentation.dto.request.AddIngredientRequest
 import org.example.presentation.dto.response.IngredientsResponse
 import org.example.presentation.dto.response.MyIngredientsResponse
-import org.example.presentation.dto.response.SingleIngredientResponse
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -27,7 +26,6 @@ import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.junit.jupiter.MockitoExtension
-import org.springframework.context.ApplicationEventPublisher
 import java.time.LocalDate
 import java.util.*
 
@@ -41,7 +39,7 @@ class FridgeServiceUnitTest {
     private lateinit var fridgeIngredientRepository: FridgeIngredientRepository
 
     @Mock
-    private lateinit var publisher: ApplicationEventPublisher
+    private lateinit var publisher: FridgeEventPublisher
 
     @InjectMocks
     private lateinit var fridgeService: FridgeService
@@ -70,7 +68,7 @@ class FridgeServiceUnitTest {
             .thenReturn(false)
         Mockito.`when`(fridgeIngredientRepository.save(Mockito.any(FridgeIngredient::class.java)))
             .thenReturn(fridgeIngredient)
-        Mockito.doNothing().`when`(publisher).publishEvent(Mockito.any(AddIngredientEvent::class.java))
+        Mockito.doNothing().`when`(publisher).addIngredient(member.id, ingredient.id)
 
         // then
         fridgeService.addIngredient(request, member) shouldBe Unit
