@@ -1,5 +1,6 @@
 package presentation
 
+import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.equals.shouldBeEqual
 import io.kotest.matchers.shouldBe
 import org.example.application.recipe.RecipeService
@@ -64,6 +65,6 @@ class RecipeControllerUnitTest {
         Mockito.doThrow(RecipeNotFoundException()).`when`(recipeService).findRecipeById(id, member)
 
         // then
-        recipeController.findRecipeById(member, id).statusCode shouldBe HttpStatusCode.valueOf(404)
+        shouldThrow<RecipeNotFoundException> { recipeController.findRecipeById(member, id) }
     }
 }
