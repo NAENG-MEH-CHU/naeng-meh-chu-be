@@ -3,10 +3,13 @@ package application
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import org.example.RecipeApplication
+import org.example.application.memberRecipe.MemberRecipeEventHandler
 import org.example.application.recipe.RecipeService
 import org.example.domain.entity.Member
 import org.example.domain.enums.Age
 import org.example.domain.enums.Gender
+import org.example.domain.memberRecipe.event.AddMemberRecipeEvent
+import org.example.domain.memberRecipe.repository.MemberRecipeRepository
 import org.example.domain.recipe.entity.Recipe
 import org.example.domain.recipe.repository.RecipeRepository
 import org.example.domain.repository.MemberRepository
@@ -21,6 +24,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.context.ApplicationEventPublisher
 import java.util.*
+import kotlin.collections.HashMap
 
 @SpringBootTest(classes = [RecipeApplication::class])
 @AutoConfigureMockMvc
@@ -32,7 +36,11 @@ class RecipeServiceIntegrationTest(
     @Autowired
     private val recipeService: RecipeService,
     @Autowired
-    private val memberRepository: MemberRepository
+    private val memberRepository: MemberRepository,
+    @Autowired
+    private val memberRecipeRepository: MemberRecipeRepository,
+    @Autowired
+    private val memberRecipeEventHandler: MemberRecipeEventHandler,
 ) {
 
     private lateinit var member: Member

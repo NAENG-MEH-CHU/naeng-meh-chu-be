@@ -55,6 +55,7 @@ class RecipeServiceUnitTest {
         // then
         val result =  recipeService.findRecipeById(uuid, member)
         result.recipeLink shouldBe RecipeResponse(Recipe().recipeLink).recipeLink
+        Mockito.verify(publisher).publishEvent(Mockito.any(AddMemberRecipeEvent::class.java))
     }
 
     @DisplayName("레시피 단건 조회를 실패한다. RecipeNotFoundException.")
