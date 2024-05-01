@@ -17,7 +17,7 @@ open class RecipeService(
     private val publisher: ApplicationEventPublisher
 ) {
 
-    @Transactional(readOnly = true)
+    @Transactional
     open fun findRecipeById(recipeId: UUID, member: Member): RecipeResponse {
         val recipe = recipeRepository.findById(recipeId).orElseThrow { RecipeNotFoundException() }
         publisher.publishEvent(AddMemberRecipeEvent(recipeId, member.id, member.age, member.gender))
@@ -27,5 +27,10 @@ open class RecipeService(
     @Transactional(readOnly = true)
     open fun findByMembersIngredients(member: Member): List<RecipeDataResponse> {
         return recipeRepository.findAllByIngredients(member.ingredients).map { each -> RecipeDataResponse(each) }
+    }
+
+    @Transactional(readOnly = true)
+    open fun findAllRecipe(): List<RecipeDataResponse> {
+        return recipeRepository.findAll().map{ each -> RecipeDataResponse(each) }
     }
 }

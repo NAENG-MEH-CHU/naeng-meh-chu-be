@@ -29,4 +29,10 @@ class RecipeController(
         val recipes = recipeService.findByMembersIngredients(member)
         return ResponseEntity<RecipeDataListResponse>(RecipeDataListResponse(recipes), HttpStatus.OK)
     }
+
+    @GetMapping("")
+    fun findAllRecipe(): ResponseEntity<RecipeDataListResponse> {
+        val recipes = recipeService.findAllRecipe()
+        return ResponseEntity<RecipeDataListResponse>(RecipeDataListResponse(recipes), HttpStatus.OK)
+    }
 }
