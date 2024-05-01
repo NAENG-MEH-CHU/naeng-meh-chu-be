@@ -52,7 +52,7 @@ class RecipeServiceIntegrationTest(
             .age(Age.TWENTIES)
             .gender(Gender.MALE)
             .email("test@test.com")
-            .ingredients(0)
+            .ingredients(2)
             .build()
         member = memberRepository.save(member);
     }
@@ -79,6 +79,22 @@ class RecipeServiceIntegrationTest(
 
         // then
         shouldThrow<RecipeNotFoundException> { recipeService.findRecipeById(UUID.randomUUID(), member) }
+    }
+
+    @DisplayName("회원의 재료로 만들 수 있는 레시피를 조회한다")
+    @Test
+    fun `회원의 재료로 만들 수 있는 레시피를 조회한다`() {
+        // given
+        for(index: Int in 1..100) {
+            recipeRepository.save(Recipe(index.toLong(), "tester${index}", "link${index}", "thumbnail${index}"))
+        }
+        // 1부터 100중 비트연산자로 2를 포함하는 숫자들의 개수 : 2, 3, 6, 7, 10, 11, ..., 98, 99로 총 50개
+
+        // when
+        val result = recipeService.findByMembersIngredients(member)
+
+        // then
+        result.size shouldBe 50
     }
 
     @AfterEach

@@ -1,4 +1,4 @@
-package org.example.domain.recipe.dto
+package org.example.presentation.dto.response
 
 class RecipeResponse(val recipeLink: String) {
 }

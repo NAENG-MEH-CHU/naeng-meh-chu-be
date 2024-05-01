@@ -76,7 +76,7 @@ class RecipeControllerIntegrationTest(
             .age(Age.TWENTIES)
             .gender(Gender.MALE)
             .email("test@test.com")
-            .ingredients(0)
+            .ingredients(2)
             .build()
         memberRepository.save(member)
         accessToken = jwtTokenProvider.createAccessToken(member.id.toString())
@@ -137,20 +137,48 @@ class RecipeControllerIntegrationTest(
             .andReturn()
     }
 
+    @DisplayName("내 재료로 만들 수 있는 레시피를 조회한다")
+    @Test
+    fun `내 재료로 만들 수 있는 레시피를 조회한다`() {
+        // given
+        for(index: Int in 1..100) {
+            recipeRepository.save(Recipe(index.toLong(), "tester${index}", "link${index}", "thumbnail${index}"))
+        }
+        // expected
+        mockMvc.perform(
+            RestDocumentationRequestBuilders.get("/api/recipe/ingredients")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer $accessToken"))
+            .andExpect(MockMvcResultMatchers.status().isOk)
+            .andDo(customDocument(
+                "find_by_members_ingredients",
+                requestHeaders(
+                    headerWithName(HttpHeaders.AUTHORIZATION).description("로그인 후 제공되는 Bearer 토큰")
+                ),
+            ))
+            .andReturn()
+    }
+
+    @DisplayName("토큰이 없을 때 내 재료로 만들 수 있는 레시피 조회를 실패한다")
+    @Test
+    fun `토큰이 없을 때 내 재료로 만들 수 있는 레시피 조회를 실패한다`() {
+        // given
+
+        // expected
+        mockMvc.perform(
+            RestDocumentationRequestBuilders.get("/api/recipe/ingredients"))
+            .andExpect(MockMvcResultMatchers.status().isUnauthorized)
+            .andDo(customDocument(
+                createFailedIdentifier("find_by_members_ingredients", NO_TOKEN),
+            ))
+            .andReturn()
+    }
+
     @AfterEach
     fun removeMember() {
         memberRepository.deleteAll()
         recipeRepository.deleteAll()
         memberRecipeRepository.deleteAll()
         accessToken = null
-    }
-
-    private fun makeJson(`object`: Any): String {
-        try {
-            return ObjectMapper().writeValueAsString(`object`)
-        } catch (e: JsonProcessingException) {
-            throw RuntimeException(e)
-        }
     }
 
     private fun createFailedIdentifier(name: String, reason: String?): String {

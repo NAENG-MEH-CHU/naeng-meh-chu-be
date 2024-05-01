@@ -1,13 +1,10 @@
 package org.example.domain.recipe.entity
 
-import jakarta.persistence.Column
-import jakarta.persistence.Entity
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
-import jakarta.persistence.Id
+import jakarta.persistence.*
 import java.util.UUID
 
 @Entity
+@Table(indexes = [Index(name = "idx_ingredients", columnList = "ingredients")])
 class Recipe(
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

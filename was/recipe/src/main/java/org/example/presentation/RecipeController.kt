@@ -2,7 +2,8 @@ package org.example.presentation
 
 import org.example.application.recipe.RecipeService
 import org.example.domain.entity.Member
-import org.example.domain.recipe.dto.RecipeResponse
+import org.example.presentation.dto.response.RecipeDataListResponse
+import org.example.presentation.dto.response.RecipeResponse
 import org.example.support.JwtLogin
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -21,5 +22,11 @@ class RecipeController(
     @GetMapping("{id}")
     fun findRecipeById(@JwtLogin member: Member, @PathVariable("id") recipeId: UUID): ResponseEntity<RecipeResponse> {
         return ResponseEntity<RecipeResponse>(recipeService.findRecipeById(recipeId, member), HttpStatus.OK)
+    }
+
+    @GetMapping("/ingredients")
+    fun findByMembersIngredients(@JwtLogin member: Member): ResponseEntity<RecipeDataListResponse> {
+        val recipes = recipeService.findByMembersIngredients(member)
+        return ResponseEntity<RecipeDataListResponse>(RecipeDataListResponse(recipes), HttpStatus.OK)
     }
 }
