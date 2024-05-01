@@ -1,5 +1,6 @@
 package org.example.presentation
 
+import org.example.application.memberRecipe.MemberRecipeService
 import org.example.application.recipe.RecipeService
 import org.example.domain.entity.Member
 import org.example.presentation.dto.response.RecipeDataListResponse
@@ -16,8 +17,15 @@ import java.util.UUID
 @RestController
 @RequestMapping("/api/recipe")
 class RecipeController(
-    private val recipeService: RecipeService
+    private val recipeService: RecipeService,
+    private val memberRecipeService: MemberRecipeService
 ) {
+
+    @GetMapping("")
+    fun findAllRecipe(): ResponseEntity<RecipeDataListResponse> {
+        val recipes = recipeService.findAllRecipe()
+        return ResponseEntity<RecipeDataListResponse>(RecipeDataListResponse(recipes), HttpStatus.OK)
+    }
 
     @GetMapping("{id}")
     fun findRecipeById(@JwtLogin member: Member, @PathVariable("id") recipeId: UUID): ResponseEntity<RecipeResponse> {
@@ -30,9 +38,9 @@ class RecipeController(
         return ResponseEntity<RecipeDataListResponse>(RecipeDataListResponse(recipes), HttpStatus.OK)
     }
 
-    @GetMapping("")
-    fun findAllRecipe(): ResponseEntity<RecipeDataListResponse> {
-        val recipes = recipeService.findAllRecipe()
+    @GetMapping("/history")
+    fun findMyRecipes(@JwtLogin member: Member): ResponseEntity<RecipeDataListResponse> {
+        val recipes = memberRecipeService.findMyRecipes(member)
         return ResponseEntity<RecipeDataListResponse>(RecipeDataListResponse(recipes), HttpStatus.OK)
     }
 }
