@@ -3,6 +3,7 @@ package org.example.presentation
 import org.example.application.memberRecipe.MemberRecipeService
 import org.example.application.recipe.RecipeService
 import org.example.domain.entity.Member
+import org.example.presentation.dto.response.MemberRecipeDataListResponse
 import org.example.presentation.dto.response.RecipeDataListResponse
 import org.example.presentation.dto.response.RecipeResponse
 import org.example.support.JwtLogin
@@ -39,8 +40,8 @@ class RecipeController(
     }
 
     @GetMapping("/history")
-    fun findMyRecipes(@JwtLogin member: Member): ResponseEntity<RecipeDataListResponse> {
+    fun findMyRecipes(@JwtLogin member: Member): ResponseEntity<MemberRecipeDataListResponse> {
         val recipes = memberRecipeService.findMyRecipes(member)
-        return ResponseEntity<RecipeDataListResponse>(RecipeDataListResponse(recipes), HttpStatus.OK)
+        return ResponseEntity<MemberRecipeDataListResponse>(MemberRecipeDataListResponse(recipes), HttpStatus.OK)
     }
 }
