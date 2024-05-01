@@ -7,6 +7,7 @@ import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import org.example.domain.enums.Age
 import org.example.domain.enums.Gender
+import org.example.domain.recipe.entity.Recipe
 import java.time.LocalDateTime
 import java.util.UUID
 
@@ -26,11 +27,15 @@ class MemberRecipe(
     @Column
     val gender: Gender,
     @Column
-    var deleted: Boolean
+    var deleted: Boolean,
+    @Column
+    var name: String,
+    @Column
+    var thumbnail: String
 ) {
-    constructor() : this(UUID.randomUUID(), UUID.randomUUID(), UUID.randomUUID(), LocalDateTime.now(), Age.THIRTIES, Gender.MALE, false) {}
+    constructor() : this(UUID.randomUUID(), UUID.randomUUID(), UUID.randomUUID(), LocalDateTime.now(), Age.THIRTIES, Gender.MALE, false, "", "") {}
 
-    constructor(recipeId: UUID, memberId: UUID, memberAge: Age, gender: Gender): this(UUID.randomUUID(), recipeId, memberId, LocalDateTime.now(), memberAge, gender, false)
+    constructor(memberId: UUID, memberAge: Age, gender: Gender, recipe: Recipe): this(UUID.randomUUID(), recipe.id, memberId, LocalDateTime.now(), memberAge, gender, false, recipe.name, recipe.thumbnail)
 
     fun deleteMemberRecipe() {
         deleted = true

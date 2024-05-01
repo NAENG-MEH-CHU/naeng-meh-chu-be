@@ -9,6 +9,7 @@ import org.example.application.recipe.RecipeService
 import org.example.domain.entity.Member
 import org.example.domain.enums.Age
 import org.example.domain.enums.Gender
+import org.example.domain.memberRecipe.entity.MemberRecipe
 import org.example.domain.memberRecipe.repository.MemberRecipeRepository
 import org.example.domain.recipe.entity.Recipe
 import org.example.domain.recipe.repository.RecipeRepository
@@ -121,7 +122,6 @@ class RecipeControllerIntegrationTest(
     @Test
     fun `존재하지 않는 레시피를 조회하면 실패한다`() {
         // given
-        val recipe = recipeRepository.save(Recipe(0, "test", "link", "thumbnail"))
 
         // expected
         mockMvc.perform(
@@ -169,6 +169,79 @@ class RecipeControllerIntegrationTest(
             .andExpect(MockMvcResultMatchers.status().isUnauthorized)
             .andDo(customDocument(
                 createFailedIdentifier("find_by_members_ingredients", NO_TOKEN),
+            ))
+            .andReturn()
+    }
+
+    @DisplayName("전체 레시피를 조회한다")
+    @Test
+    fun `전체 레시피를 조회한다`() {
+        // given
+        for(index: Int in 1..100) {
+            recipeRepository.save(Recipe(index.toLong(), "tester${index}", "link${index}", "thumbnail${index}"))
+        }
+        // expected
+        mockMvc.perform(
+            RestDocumentationRequestBuilders.get("/api/recipe")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer $accessToken"))
+            .andExpect(MockMvcResultMatchers.status().isOk)
+            .andDo(customDocument(
+                "find_all_recipes",
+                requestHeaders(
+                    headerWithName(HttpHeaders.AUTHORIZATION).description("로그인 후 제공되는 Bearer 토큰")
+                ),
+            ))
+            .andReturn()
+    }
+
+    @DisplayName("토큰이 없을 전체 레시피를 조회를 실패한다")
+    @Test
+    fun `토큰이 없을 전체 레시피를 조회를 실패한다`() {
+        // given
+
+        // expected
+        mockMvc.perform(
+            RestDocumentationRequestBuilders.get("/api/recipe"))
+            .andExpect(MockMvcResultMatchers.status().isUnauthorized)
+            .andDo(customDocument(
+                createFailedIdentifier("find_all_recipes", NO_TOKEN),
+            ))
+            .andReturn()
+    }
+
+    @DisplayName("나의 조리내역을 조회한다")
+    @Test
+    fun `나의 조리내역을 조회한다`() {
+        // given
+        for(index: Int in 1..10) {
+            val recipe = recipeRepository.save(Recipe(index.toLong(), "tester${index}", "link${index}", "thumbnail${index}"))
+            memberRecipeRepository.save(MemberRecipe(member.id, member.age, member.gender, recipe))
+        }
+        // expected
+        mockMvc.perform(
+            RestDocumentationRequestBuilders.get("/api/recipe/history")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer $accessToken"))
+            .andExpect(MockMvcResultMatchers.status().isOk)
+            .andDo(customDocument(
+                "find_my_recipe_history",
+                requestHeaders(
+                    headerWithName(HttpHeaders.AUTHORIZATION).description("로그인 후 제공되는 Bearer 토큰")
+                ),
+            ))
+            .andReturn()
+    }
+
+    @DisplayName("토큰이 없을 나의 조리내역을 조회를 실패한다")
+    @Test
+    fun `토큰이 없을 나의 조리내역을 조회를 실패한다`() {
+        // given
+
+        // expected
+        mockMvc.perform(
+            RestDocumentationRequestBuilders.get("/api/recipe/history"))
+            .andExpect(MockMvcResultMatchers.status().isUnauthorized)
+            .andDo(customDocument(
+                createFailedIdentifier("find_my_recipe_history", NO_TOKEN),
             ))
             .andReturn()
     }
