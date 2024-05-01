@@ -20,7 +20,7 @@ open class RecipeService(
     @Transactional
     open fun findRecipeById(recipeId: UUID, member: Member): RecipeResponse {
         val recipe = recipeRepository.findById(recipeId).orElseThrow { RecipeNotFoundException() }
-        publisher.publishEvent(AddMemberRecipeEvent(recipeId, member.id, member.age, member.gender, recipe))
+        publisher.publishEvent(AddMemberRecipeEvent(member.id, member.age, member.gender, recipe))
         return RecipeResponse(recipe.recipeLink)
     }
 

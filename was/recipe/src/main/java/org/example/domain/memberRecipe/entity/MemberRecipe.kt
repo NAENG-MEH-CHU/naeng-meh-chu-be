@@ -35,7 +35,7 @@ class MemberRecipe(
 ) {
     constructor() : this(UUID.randomUUID(), UUID.randomUUID(), UUID.randomUUID(), LocalDateTime.now(), Age.THIRTIES, Gender.MALE, false, "", "") {}
 
-    constructor(recipeId: UUID, memberId: UUID, memberAge: Age, gender: Gender, recipe: Recipe): this(UUID.randomUUID(), recipeId, memberId, LocalDateTime.now(), memberAge, gender, false, recipe.name, recipe.thumbnail)
+    constructor(memberId: UUID, memberAge: Age, gender: Gender, recipe: Recipe): this(UUID.randomUUID(), recipe.id, memberId, LocalDateTime.now(), memberAge, gender, false, recipe.name, recipe.thumbnail)
 
     fun deleteMemberRecipe() {
         deleted = true

@@ -23,7 +23,7 @@ class RecipeController(
 ) {
 
     @GetMapping("")
-    fun findAllRecipe(): ResponseEntity<RecipeDataListResponse> {
+    fun findAllRecipe(@JwtLogin member: Member): ResponseEntity<RecipeDataListResponse> {
         val recipes = recipeService.findAllRecipe()
         return ResponseEntity<RecipeDataListResponse>(RecipeDataListResponse(recipes), HttpStatus.OK)
     }

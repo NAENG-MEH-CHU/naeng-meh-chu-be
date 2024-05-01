@@ -6,7 +6,6 @@ import org.example.domain.recipe.entity.Recipe
 import java.util.UUID
 
 class AddMemberRecipeEvent(
-    val recipeId: UUID,
     val memberId: UUID,
     val memberAge: Age,
     val gender: Gender,
