@@ -2,12 +2,11 @@ package presentation
 
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.equals.shouldBeEqual
-import io.kotest.matchers.shouldBe
 import org.example.application.recipe.RecipeService
 import org.example.domain.entity.Member
 import org.example.domain.enums.Age
 import org.example.domain.enums.Gender
-import org.example.domain.recipe.dto.RecipeResponse
+import org.example.presentation.dto.response.RecipeResponse
 import org.example.exception.exceptions.RecipeNotFoundException
 import org.example.presentation.RecipeController
 import org.junit.jupiter.api.DisplayName
@@ -18,7 +17,6 @@ import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.junit.jupiter.MockitoExtension
 import org.springframework.http.HttpStatus
-import org.springframework.http.HttpStatusCode
 import org.springframework.http.ResponseEntity
 import java.util.UUID
 
