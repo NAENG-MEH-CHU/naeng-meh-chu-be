@@ -16,7 +16,11 @@ class MemberRecipeEventHandler(
 
     @TransactionalEventListener(AddMemberRecipeEvent::class)
     fun addMemberRecipe(event: AddMemberRecipeEvent) {
-        val memberRecipe = MemberRecipe(event.recipeId, event.memberId, event.memberAge, event.gender)
+        val memberRecipe = MemberRecipe(event.recipeId,
+            event.memberId,
+            event.memberAge,
+            event.gender,
+            event.recipe)
         memberRecipeRepository.save(memberRecipe)
     }
 

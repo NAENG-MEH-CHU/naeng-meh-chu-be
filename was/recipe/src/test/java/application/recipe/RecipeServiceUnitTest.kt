@@ -2,7 +2,6 @@ package application
 
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
-import io.kotest.matchers.types.shouldBeSameInstanceAs
 import org.example.application.recipe.RecipeService
 import org.example.domain.entity.Member
 import org.example.domain.enums.Age
@@ -78,7 +77,6 @@ class RecipeServiceUnitTest {
     @Test
     fun `회원의 재료와 같은 재료가 필요한 레시피를 조회한다`() {
         // given
-        val uuid = UUID.randomUUID()
 
         // when
         Mockito.`when`(recipeRepository.findAllByIngredients(member.ingredients))

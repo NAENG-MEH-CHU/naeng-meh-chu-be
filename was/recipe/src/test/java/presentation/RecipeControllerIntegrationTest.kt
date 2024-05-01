@@ -121,7 +121,6 @@ class RecipeControllerIntegrationTest(
     @Test
     fun `존재하지 않는 레시피를 조회하면 실패한다`() {
         // given
-        val recipe = recipeRepository.save(Recipe(0, "test", "link", "thumbnail"))
 
         // expected
         mockMvc.perform(
