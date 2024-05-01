@@ -2,6 +2,7 @@ package presentation
 
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.equals.shouldBeEqual
+import org.example.application.memberRecipe.MemberRecipeService
 import org.example.application.recipe.RecipeService
 import org.example.domain.entity.Member
 import org.example.domain.enums.Age
@@ -25,6 +26,9 @@ class RecipeControllerUnitTest {
 
     @Mock
     private lateinit var recipeService: RecipeService
+
+    @Mock
+    private lateinit var memberRecipeService: MemberRecipeService
 
     @InjectMocks
     private lateinit var recipeController: RecipeController
