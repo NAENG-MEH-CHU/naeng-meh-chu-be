@@ -2,7 +2,7 @@ package org.example.presentation
 
 import org.example.application.recipe.RecipeService
 import org.example.domain.entity.Member
-import org.example.domain.recipe.dto.RecipeResponse
+import org.example.presentation.dto.response.RecipeResponse
 import org.example.support.JwtLogin
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
