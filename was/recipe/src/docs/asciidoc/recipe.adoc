@@ -40,3 +40,26 @@ include::{snippets}/recipe-controller-integration-test/fail_to_find_single_recip
 ==== 응답
 
 include::{snippets}/recipe-controller-integration-test/fail_to_find_single_recipe_not_found/http-response.adoc[]
+
+== 조리 가능한 레시피 조회
+
+=== 성공
+
+==== 요청
+
+include::{snippets}/recipe-controller-integration-test/find_by_members_ingredients/http-request.adoc[]
+include::{snippets}/recipe-controller-integration-test/find_by_members_ingredients/request-headers.adoc[]
+
+==== 응답
+
+include::{snippets}/recipe-controller-integration-test/find_by_members_ingredients/http-response.adoc[]
+
+=== 토큰이 없으면 레시피 단건 조회를 실패한다
+
+==== 요청
+
+include::{snippets}/recipe-controller-integration-test/fail_to_find_by_members_ingredients_no_token/http-request.adoc[]
+
+==== 응답
+
+include::{snippets}/recipe-controller-integration-test/fail_to_find_by_members_ingredients_no_token/http-response.adoc[]

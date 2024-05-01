@@ -162,9 +162,7 @@ class RecipeControllerIntegrationTest(
     @Test
     fun `토큰이 없을 때 내 재료로 만들 수 있는 레시피 조회를 실패한다`() {
         // given
-        for(index: Int in 1..100) {
-            recipeRepository.save(Recipe(index.toLong(), "tester${index}", "link${index}", "thumbnail${index}"))
-        }
+
         // expected
         mockMvc.perform(
             RestDocumentationRequestBuilders.get("/api/recipe/ingredients"))
@@ -181,14 +179,6 @@ class RecipeControllerIntegrationTest(
         recipeRepository.deleteAll()
         memberRecipeRepository.deleteAll()
         accessToken = null
-    }
-
-    private fun makeJson(`object`: Any): String {
-        try {
-            return ObjectMapper().writeValueAsString(`object`)
-        } catch (e: JsonProcessingException) {
-            throw RuntimeException(e)
-        }
     }
 
     private fun createFailedIdentifier(name: String, reason: String?): String {
