@@ -88,6 +88,8 @@ public class OAuthLoginService {
 
     @Transactional
     public LoginResponse loginThroughApp(final String token, final String provider) {
+        System.out.println(token);
+        System.out.println("---------");
         OAuthProvider oAuthProvider = findProvider(provider);
         OAuth2UserInfo oAuthUserInfo = requestOAuthInfoService.findThroughToken(oAuthProvider, token);
         boolean isNew = !memberRepository.existsByEmail(oAuthUserInfo.getEmail());

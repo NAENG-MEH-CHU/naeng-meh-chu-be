@@ -9,9 +9,7 @@ import org.example.config.oauth.provider.google.GoogleUserInfo;
 import org.example.config.oauth.provider.google.token.GoogleToken;
 import org.example.config.oauth.provider.naver.NaverUserInfo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
+import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
@@ -43,8 +41,20 @@ public class GoogleApiClient implements OAuthClient{
 
     @Override
     public OAuth2UserInfo requestOAuthInfo(String accessToken) {
-        String uri = createUri(accessToken, resolver.getUserInfoUrl());
-        return restTemplate.getForObject(uri, GoogleUserInfo.class);
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", accessToken);
+        System.out.println(("Authorization: " + accessToken));
+
+        HttpEntity request = new HttpEntity(headers);
+        System.out.println(request.toString());
+        ResponseEntity<GoogleUserInfo> response = restTemplate.exchange(
+                resolver.getUserInfoUrl(),
+                HttpMethod.GET,
+                request,
+                GoogleUserInfo.class
+        );
+        System.out.println(response.toString());
+        return response.getBody();
     }
 
     private String createUri(final String accessToken, final String url) {
@@ -52,6 +62,7 @@ public class GoogleApiClient implements OAuthClient{
                 .fromUriString(url)
                 .queryParam("access_token", accessToken)
                 .build();
+        System.out.println(uriComponents.toString());
         return uriComponents.toString();
     }
 

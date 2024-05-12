@@ -4,12 +4,11 @@ import lombok.NoArgsConstructor;
 import org.example.config.oauth.params.OAuthLoginParams;
 import org.example.config.oauth.params.OAuthProvider;
 import org.example.config.oauth.provider.OAuth2UserInfo;
+import org.example.config.oauth.provider.google.GoogleUserInfo;
 import org.example.config.oauth.provider.naver.NaverUserInfo;
 import org.example.config.oauth.provider.naver.token.NaverToken;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
+import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
@@ -45,10 +44,21 @@ public class NaverApiClient implements OAuthClient {
 
     @Override
     public OAuth2UserInfo requestOAuthInfo(String accessToken) {
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.set("Authorization", addBearerPrefix(accessToken));
-        HttpEntity<?> request = new HttpEntity<>(null, httpHeaders);
-        return restTemplate.postForObject(apiUrl, request, NaverUserInfo.class);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization",accessToken);
+        System.out.println(("Authorization: "  + accessToken));
+
+        HttpEntity request = new HttpEntity(headers);
+        System.out.println(request.toString());
+        ResponseEntity<NaverUserInfo> response = restTemplate.exchange(
+                apiUrl,
+                HttpMethod.GET,
+                request,
+                NaverUserInfo.class
+        );
+        System.out.println(response.toString());
+        return response.getBody();
     }
 
     private String addBearerPrefix(String accessToken) {
