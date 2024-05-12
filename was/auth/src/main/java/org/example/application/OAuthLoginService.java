@@ -10,7 +10,8 @@ import org.example.config.oauth.provider.google.GoogleOAuth2DataResolver;
 import org.example.domain.entity.Member;
 import org.example.domain.repository.MemberRepository;
 import org.example.infrastructure.JwtTokenProvider;
-import org.example.presentation.dto.OAuthLoginRequest;
+import org.example.presentation.AuthControllerUtil;
+import org.example.presentation.dto.LoginResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -86,11 +87,12 @@ public class OAuthLoginService {
     }
 
     @Transactional
-    public String loginThroughApp(final OAuthLoginRequest request, final String provider) {
+    public LoginResponse loginThroughApp(final String token, final String provider) {
         OAuthProvider oAuthProvider = findProvider(provider);
-        OAuth2UserInfo oAuthUserInfo = requestOAuthInfoService.findThroughToken(oAuthProvider, request.getToken());
+        OAuth2UserInfo oAuthUserInfo = requestOAuthInfoService.findThroughToken(oAuthProvider, token);
+        boolean isNew = !memberRepository.existsByEmail(oAuthUserInfo.getEmail());
         UUID memberId = findOrCreateUser(oAuthUserInfo);
-        return tokenProvider.createAccessToken(memberId.toString());
+        return LoginResponse.of(AuthControllerUtil.addPrefixToToken(tokenProvider.createAccessToken(memberId.toString())), isNew);
     }
 
     private UUID findOrCreateUser(OAuth2UserInfo oAuthUserInfo) {

@@ -46,9 +46,14 @@ public class NaverApiClient implements OAuthClient {
     @Override
     public OAuth2UserInfo requestOAuthInfo(String accessToken) {
         HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.set("Authorization", "Bearer " + accessToken);
+        httpHeaders.set("Authorization", addBearerPrefix(accessToken));
         HttpEntity<?> request = new HttpEntity<>(null, httpHeaders);
         return restTemplate.postForObject(apiUrl, request, NaverUserInfo.class);
+    }
+
+    private String addBearerPrefix(String accessToken) {
+        if(accessToken.startsWith("Bearer ")) return accessToken;
+        return "Bearer " + accessToken;
     }
 
     private HttpEntity<MultiValueMap<String, String>> generateHttpRequest(OAuthLoginParams params) {
