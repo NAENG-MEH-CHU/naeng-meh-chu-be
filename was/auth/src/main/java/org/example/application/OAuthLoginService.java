@@ -22,7 +22,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class OAuthLoginService {
@@ -30,6 +29,7 @@ public class OAuthLoginService {
     private final MemberRepository memberRepository;
     private final JwtTokenProvider tokenProvider;
     private final RequestOAuthInfoService requestOAuthInfoService;
+    private final MemberReasonService memberReasonService;
 
     @Autowired
     private final NaverOAuth2DataResolver naverResolver;
@@ -48,13 +48,15 @@ public class OAuthLoginService {
                              GoogleOAuth2DataResolver googleResolver,
                              NaverOAuth2DataResolver naverResolver,
                              GoogleApiClient googleApiClient,
-                             NaverApiClient naverApiClient
+                             NaverApiClient naverApiClient,
+                             MemberReasonService memberReasonService
                              ) {
         this.memberRepository = memberRepository;
         this.tokenProvider = tokenProvider;
         this.googleResolver = googleResolver;
         this.naverResolver = naverResolver;
         this.requestOAuthInfoService = new RequestOAuthInfoService(List.of(naverApiClient, googleApiClient));
+        this.memberReasonService = memberReasonService;
     }
 
     public String getNaverAuthorizeUrl() throws UnsupportedEncodingException {
@@ -82,28 +84,34 @@ public class OAuthLoginService {
     @Transactional
     public String login(OAuthLoginParams params) {
         OAuth2UserInfo oAuthUserInfo = requestOAuthInfoService.request(params);
-        UUID memberId = findOrCreateUser(oAuthUserInfo);
-        return tokenProvider.createAccessToken(memberId.toString());
+        Member memberId = findOrCreateUser(oAuthUserInfo);
+        return tokenProvider.createAccessToken(memberId.getId().toString());
     }
 
     @Transactional
     public LoginResponse loginThroughApp(final String token, final String provider) {
-        System.out.println(token);
-        System.out.println("---------");
         OAuthProvider oAuthProvider = findProvider(provider);
         OAuth2UserInfo oAuthUserInfo = requestOAuthInfoService.findThroughToken(oAuthProvider, token);
-        boolean isNew = !memberRepository.existsByEmail(oAuthUserInfo.getEmail());
-        UUID memberId = findOrCreateUser(oAuthUserInfo);
-        return LoginResponse.of(AuthControllerUtil.addPrefixToToken(tokenProvider.createAccessToken(memberId.toString())), isNew);
+        boolean isNew = isMemberEmpty(oAuthUserInfo.getEmail());
+        Member member = findOrCreateUser(oAuthUserInfo);
+        isNew = isNew && isMemberOnboarded(member);
+        return LoginResponse.of(AuthControllerUtil.addPrefixToToken(tokenProvider.createAccessToken(member.getId().toString())), isNew);
     }
 
-    private UUID findOrCreateUser(OAuth2UserInfo oAuthUserInfo) {
+    private boolean isMemberOnboarded(final Member member) {
+        return member.isFinishedOnboarding() && memberReasonService.hasMemberReason(member.getId());
+    }
+
+    private Member findOrCreateUser(OAuth2UserInfo oAuthUserInfo) {
         return memberRepository.findByEmail(oAuthUserInfo.getEmail())
-                .map(Member::getId)
                 .orElseGet(() -> newUser(oAuthUserInfo));
     }
 
-    private UUID newUser(OAuth2UserInfo oAuthUserInfo) {
+    private boolean isMemberEmpty(final String email) {
+        return memberRepository.findByEmail(email).orElse(null) == null;
+    }
+
+    private Member newUser(OAuth2UserInfo oAuthUserInfo) {
         Member member = Member.builder()
                 .id(null)
                 .email(oAuthUserInfo.getEmail())
@@ -112,8 +120,7 @@ public class OAuthLoginService {
                 .gender(oAuthUserInfo.getGender())
                 .nickname(oAuthUserInfo.getNickname())
                 .build();
-        memberRepository.save(member);
-        return member.getId();
+        return memberRepository.save(member);
     }
 
     private OAuthProvider findProvider(final String provider) {

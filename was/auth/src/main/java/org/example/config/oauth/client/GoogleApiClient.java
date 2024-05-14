@@ -46,7 +46,6 @@ public class GoogleApiClient implements OAuthClient{
         System.out.println(("Authorization: " + accessToken));
 
         HttpEntity request = new HttpEntity(headers);
-        System.out.println(request.toString());
         ResponseEntity<GoogleUserInfo> response = restTemplate.exchange(
                 resolver.getUserInfoUrl(),
                 HttpMethod.GET,
@@ -54,6 +53,7 @@ public class GoogleApiClient implements OAuthClient{
                 GoogleUserInfo.class
         );
         System.out.println(response.toString());
+        System.out.println(Objects.requireNonNull(response.getBody()).toString());
         return response.getBody();
     }
 
