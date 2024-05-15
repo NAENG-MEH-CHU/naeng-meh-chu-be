@@ -11,7 +11,9 @@ import org.example.domain.entity.Member;
 import org.example.domain.repository.MemberRepository;
 import org.example.infrastructure.JwtTokenProvider;
 import org.example.presentation.AuthControllerUtil;
+import org.example.presentation.dto.InitializeMemberRequest;
 import org.example.presentation.dto.LoginResponse;
+import org.example.presentation.dto.TokenResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -96,6 +98,15 @@ public class OAuthLoginService {
         Member member = findOrCreateUser(oAuthUserInfo);
         isNew = isNew && isMemberOnboarded(member);
         return LoginResponse.of(AuthControllerUtil.addPrefixToToken(tokenProvider.createAccessToken(member.getId().toString())), isNew);
+    }
+
+    @Transactional
+    public TokenResponse initializeMember(final Member member, final InitializeMemberRequest request) {
+        member.updateAge(request.paresAge());
+        member.updateGender(request.parseGender());
+        member.updateNickname(request.getNickname());
+        memberRepository.save(member);
+        return TokenResponse.of(AuthControllerUtil.addPrefixToToken(tokenProvider.createAccessToken(member.getId().toString())));
     }
 
     private boolean isMemberOnboarded(final Member member) {
