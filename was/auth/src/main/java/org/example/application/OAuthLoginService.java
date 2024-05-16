@@ -94,10 +94,9 @@ public class OAuthLoginService {
     public LoginResponse loginThroughApp(final String token, final String provider) {
         OAuthProvider oAuthProvider = findProvider(provider);
         OAuth2UserInfo oAuthUserInfo = requestOAuthInfoService.findThroughToken(oAuthProvider, token);
-        boolean isNew = isMemberEmpty(oAuthUserInfo.getEmail()); // 이미 존재하는 회원이면 false
+        boolean isNew = isMemberEmpty(oAuthUserInfo.getEmail());
         Member member = findOrCreateUser(oAuthUserInfo);
-        isNew = isNew && !isMemberOnboarded(member);
-        System.out.println(member.getEmail() + " : " +  isNew);
+        isNew = isNew || !isMemberOnboarded(member);
         return LoginResponse.of(AuthControllerUtil.addPrefixToToken(tokenProvider.createAccessToken(member.getId().toString())), isNew);
     }
 
