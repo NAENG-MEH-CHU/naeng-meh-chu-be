@@ -97,6 +97,7 @@ public class OAuthLoginService {
         boolean isNew = isMemberEmpty(oAuthUserInfo.getEmail());
         Member member = findOrCreateUser(oAuthUserInfo);
         isNew = isNew && isMemberOnboarded(member);
+        System.out.println(member.getEmail() + " : " +  isNew);
         return LoginResponse.of(AuthControllerUtil.addPrefixToToken(tokenProvider.createAccessToken(member.getId().toString())), isNew);
     }
 

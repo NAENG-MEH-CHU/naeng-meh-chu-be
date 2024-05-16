@@ -9,6 +9,9 @@ import org.example.domain.enums.Gender;
 public class GoogleUserInfo implements OAuth2UserInfo {
 
     @JsonProperty("id")
+    private String id;
+
+    @JsonProperty("email")
     private String email;
 
     @JsonProperty("name")
@@ -16,6 +19,7 @@ public class GoogleUserInfo implements OAuth2UserInfo {
 
     @Override
     public String getEmail() {
+        if(email == null) return id;
         return email;
     }
 
