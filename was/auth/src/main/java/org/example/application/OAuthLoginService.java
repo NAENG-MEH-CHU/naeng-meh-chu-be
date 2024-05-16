@@ -10,7 +10,10 @@ import org.example.config.oauth.provider.google.GoogleOAuth2DataResolver;
 import org.example.domain.entity.Member;
 import org.example.domain.repository.MemberRepository;
 import org.example.infrastructure.JwtTokenProvider;
-import org.example.presentation.dto.OAuthLoginRequest;
+import org.example.presentation.AuthControllerUtil;
+import org.example.presentation.dto.InitializeMemberRequest;
+import org.example.presentation.dto.LoginResponse;
+import org.example.presentation.dto.TokenResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,7 +24,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class OAuthLoginService {
@@ -29,6 +31,7 @@ public class OAuthLoginService {
     private final MemberRepository memberRepository;
     private final JwtTokenProvider tokenProvider;
     private final RequestOAuthInfoService requestOAuthInfoService;
+    private final MemberReasonService memberReasonService;
 
     @Autowired
     private final NaverOAuth2DataResolver naverResolver;
@@ -47,13 +50,15 @@ public class OAuthLoginService {
                              GoogleOAuth2DataResolver googleResolver,
                              NaverOAuth2DataResolver naverResolver,
                              GoogleApiClient googleApiClient,
-                             NaverApiClient naverApiClient
+                             NaverApiClient naverApiClient,
+                             MemberReasonService memberReasonService
                              ) {
         this.memberRepository = memberRepository;
         this.tokenProvider = tokenProvider;
         this.googleResolver = googleResolver;
         this.naverResolver = naverResolver;
         this.requestOAuthInfoService = new RequestOAuthInfoService(List.of(naverApiClient, googleApiClient));
+        this.memberReasonService = memberReasonService;
     }
 
     public String getNaverAuthorizeUrl() throws UnsupportedEncodingException {
@@ -81,25 +86,43 @@ public class OAuthLoginService {
     @Transactional
     public String login(OAuthLoginParams params) {
         OAuth2UserInfo oAuthUserInfo = requestOAuthInfoService.request(params);
-        UUID memberId = findOrCreateUser(oAuthUserInfo);
-        return tokenProvider.createAccessToken(memberId.toString());
+        Member memberId = findOrCreateUser(oAuthUserInfo);
+        return tokenProvider.createAccessToken(memberId.getId().toString());
     }
 
     @Transactional
-    public String loginThroughApp(final OAuthLoginRequest request, final String provider) {
+    public LoginResponse loginThroughApp(final String token, final String provider) {
         OAuthProvider oAuthProvider = findProvider(provider);
-        OAuth2UserInfo oAuthUserInfo = requestOAuthInfoService.findThroughToken(oAuthProvider, request.getToken());
-        UUID memberId = findOrCreateUser(oAuthUserInfo);
-        return tokenProvider.createAccessToken(memberId.toString());
+        OAuth2UserInfo oAuthUserInfo = requestOAuthInfoService.findThroughToken(oAuthProvider, token);
+        boolean isNew = isMemberEmpty(oAuthUserInfo.getEmail());
+        Member member = findOrCreateUser(oAuthUserInfo);
+        isNew = isNew && isMemberOnboarded(member);
+        return LoginResponse.of(AuthControllerUtil.addPrefixToToken(tokenProvider.createAccessToken(member.getId().toString())), isNew);
     }
 
-    private UUID findOrCreateUser(OAuth2UserInfo oAuthUserInfo) {
+    @Transactional
+    public TokenResponse initializeMember(final Member member, final InitializeMemberRequest request) {
+        member.updateAge(request.paresAge());
+        member.updateGender(request.parseGender());
+        member.updateNickname(request.getNickname());
+        memberRepository.save(member);
+        return TokenResponse.of(AuthControllerUtil.addPrefixToToken(tokenProvider.createAccessToken(member.getId().toString())));
+    }
+
+    private boolean isMemberOnboarded(final Member member) {
+        return member.isFinishedOnboarding() && memberReasonService.hasMemberReason(member.getId());
+    }
+
+    private Member findOrCreateUser(OAuth2UserInfo oAuthUserInfo) {
         return memberRepository.findByEmail(oAuthUserInfo.getEmail())
-                .map(Member::getId)
                 .orElseGet(() -> newUser(oAuthUserInfo));
     }
 
-    private UUID newUser(OAuth2UserInfo oAuthUserInfo) {
+    private boolean isMemberEmpty(final String email) {
+        return memberRepository.findByEmail(email).orElse(null) == null;
+    }
+
+    private Member newUser(OAuth2UserInfo oAuthUserInfo) {
         Member member = Member.builder()
                 .id(null)
                 .email(oAuthUserInfo.getEmail())
@@ -108,8 +131,7 @@ public class OAuthLoginService {
                 .gender(oAuthUserInfo.getGender())
                 .nickname(oAuthUserInfo.getNickname())
                 .build();
-        memberRepository.save(member);
-        return member.getId();
+        return memberRepository.save(member);
     }
 
     private OAuthProvider findProvider(final String provider) {

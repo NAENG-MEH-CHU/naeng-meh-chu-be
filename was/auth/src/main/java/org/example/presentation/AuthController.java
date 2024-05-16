@@ -8,6 +8,8 @@ import org.example.application.JwtAuthService;
 import org.example.application.OAuthLoginService;
 import org.example.config.oauth.params.OAuthLoginParams;
 import org.example.domain.entity.Member;
+import org.example.presentation.dto.InitializeMemberRequest;
+import org.example.presentation.dto.LoginResponse;
 import org.example.presentation.dto.OAuthLoginRequest;
 import org.example.presentation.dto.TokenResponse;
 import org.example.support.JwtLogin;
@@ -41,10 +43,14 @@ public class AuthController {
     }
 
     @PostMapping("/login/{provider}")
-    public ResponseEntity<TokenResponse> loginThroughApp(@RequestBody @Valid final OAuthLoginRequest request,
+    public ResponseEntity<LoginResponse> loginThroughApp(@RequestHeader("Authorization") String token,
                                                          @PathVariable("provider") String provider) {
-        String token = AuthControllerUtil.addPrefixToToken(oAuthLoginService.loginThroughApp(request, provider));
-        return new ResponseEntity<>(TokenResponse.of(token), HttpStatus.CREATED);
+        return new ResponseEntity<>(oAuthLoginService.loginThroughApp(token, provider), HttpStatus.CREATED);
+    }
+
+    @PostMapping("/initialize")
+    public ResponseEntity<TokenResponse> initializeMember(@JwtLogin Member member, @RequestBody InitializeMemberRequest request) {
+        return new ResponseEntity<>(oAuthLoginService.initializeMember(member, request), HttpStatus.CREATED);
     }
 
     @GetMapping("/reissue")

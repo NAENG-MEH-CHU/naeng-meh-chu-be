@@ -63,4 +63,8 @@ public class Member {
     public void updateAge(final Age age) {
         this.age = age;
     }
+
+    public boolean isFinishedOnboarding() {
+        return !(nickname != null && age != null && gender != null);
+    }
 }
