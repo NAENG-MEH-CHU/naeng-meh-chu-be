@@ -6,7 +6,7 @@ build/
 !**/src/test/**/build/
 src/main/resources
 auth/src/main/resources
-router/src/main/resources
+router/**
 
 ### STS ###
 .apt_generated

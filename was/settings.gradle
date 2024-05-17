@@ -11,5 +11,4 @@ include 'member'
 include 'fridge'
 include 'recipe'
 include 'auth'
-include 'router'
 
