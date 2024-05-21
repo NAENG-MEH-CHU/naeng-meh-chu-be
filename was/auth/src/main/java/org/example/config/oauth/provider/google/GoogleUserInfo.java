@@ -6,9 +6,6 @@ import org.example.config.oauth.provider.OAuth2UserInfo;
 import org.example.domain.enums.Age;
 import org.example.domain.enums.Gender;
 
-import java.time.LocalDate;
-import java.util.Date;
-
 public class GoogleUserInfo implements OAuth2UserInfo {
 
     @JsonProperty("id")
