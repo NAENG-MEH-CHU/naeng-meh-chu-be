@@ -39,7 +39,7 @@ class RecipeControllerUnitTest {
     .age(Age.TWENTIES)
     .gender(Gender.MALE)
     .email("test@test.com")
-    .ingredients(0)
+    .ingredients("0")
     .build()
 
     @DisplayName("레시피 단건 조회를 성공한다")
