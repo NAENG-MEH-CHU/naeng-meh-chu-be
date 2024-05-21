@@ -87,6 +87,6 @@ public class Member {
     }
 
     public boolean isFinishedOnboarding() {
-        return !(nickname != null && age != null && gender != null);
+        return nickname != null && age != null && gender != null;
     }
 }
