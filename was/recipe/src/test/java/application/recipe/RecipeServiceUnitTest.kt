@@ -41,7 +41,7 @@ class RecipeServiceUnitTest {
         .age(Age.TWENTIES)
         .gender(Gender.MALE)
         .email("test@test.com")
-        .ingredients(0)
+        .ingredients("0")
         .build()
 
     @DisplayName("레시피 단건 조회를 성공시킨다.")
@@ -79,7 +79,7 @@ class RecipeServiceUnitTest {
         // given
 
         // when
-        Mockito.`when`(recipeRepository.findAllByIngredients(member.ingredients))
+        Mockito.`when`(recipeRepository.findAllByIngredients(member.ingredients.toString()))
             .thenReturn(listOf(Recipe()))
 
         // then

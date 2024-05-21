@@ -77,7 +77,7 @@ class RecipeControllerIntegrationTest(
             .age(Age.TWENTIES)
             .gender(Gender.MALE)
             .email("test@test.com")
-            .ingredients(2)
+            .ingredients("01")
             .build()
         memberRepository.save(member)
         accessToken = jwtTokenProvider.createAccessToken(member.id.toString())
@@ -87,7 +87,7 @@ class RecipeControllerIntegrationTest(
     @Test
     fun `레시피 단건을 조회한다`() {
         // given
-        val recipe = recipeRepository.save(Recipe(0, "test", "link", "thumbnail"))
+        val recipe = recipeRepository.save(Recipe("0", "test", "link", "thumbnail"))
         // expected
         mockMvc.perform(
             RestDocumentationRequestBuilders.get("/api/recipe/${recipe.id}")
@@ -106,7 +106,7 @@ class RecipeControllerIntegrationTest(
     @Test
     fun `토큰이 없으면 레시피 단건 조회를 실패한다`() {
         // given
-        val recipe = recipeRepository.save(Recipe(0, "test", "link", "thumbnail"))
+        val recipe = recipeRepository.save(Recipe("0", "test", "link", "thumbnail"))
 
         // expected
         mockMvc.perform(
@@ -142,7 +142,7 @@ class RecipeControllerIntegrationTest(
     fun `내 재료로 만들 수 있는 레시피를 조회한다`() {
         // given
         for(index: Int in 1..100) {
-            recipeRepository.save(Recipe(index.toLong(), "tester${index}", "link${index}", "thumbnail${index}"))
+            recipeRepository.save(Recipe(index.toString(), "tester${index}", "link${index}", "thumbnail${index}"))
         }
         // expected
         mockMvc.perform(
@@ -178,7 +178,7 @@ class RecipeControllerIntegrationTest(
     fun `전체 레시피를 조회한다`() {
         // given
         for(index: Int in 1..100) {
-            recipeRepository.save(Recipe(index.toLong(), "tester${index}", "link${index}", "thumbnail${index}"))
+            recipeRepository.save(Recipe(index.toString(), "tester${index}", "link${index}", "thumbnail${index}"))
         }
         // expected
         mockMvc.perform(
@@ -214,7 +214,7 @@ class RecipeControllerIntegrationTest(
     fun `나의 조리내역을 조회한다`() {
         // given
         for(index: Int in 1..10) {
-            val recipe = recipeRepository.save(Recipe(index.toLong(), "tester${index}", "link${index}", "thumbnail${index}"))
+            val recipe = recipeRepository.save(Recipe(index.toString(), "tester${index}", "link${index}", "thumbnail${index}"))
             memberRecipeRepository.save(MemberRecipe(member.id, member.age, member.gender, recipe))
         }
         // expected

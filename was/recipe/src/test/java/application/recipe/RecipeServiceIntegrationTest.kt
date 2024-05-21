@@ -52,7 +52,7 @@ class RecipeServiceIntegrationTest(
             .age(Age.TWENTIES)
             .gender(Gender.MALE)
             .email("test@test.com")
-            .ingredients(2)
+            .ingredients("01")
             .build()
         member = memberRepository.save(member);
     }
@@ -61,7 +61,7 @@ class RecipeServiceIntegrationTest(
     @Test
     fun `레시피 단건 조회`() {
         // given
-        val recipe = recipeRepository.save(Recipe(0, "tester", "link", "thumbnail"))
+        val recipe = recipeRepository.save(Recipe("0", "tester", "link", "thumbnail"))
 
         // when
         val result = recipeService.findRecipeById(recipe.id, member)
@@ -86,7 +86,8 @@ class RecipeServiceIntegrationTest(
     fun `회원의 재료로 만들 수 있는 레시피를 조회한다`() {
         // given
         for(index: Int in 1..100) {
-            recipeRepository.save(Recipe(index.toLong(), "tester${index}", "link${index}", "thumbnail${index}"))
+            recipeRepository.save(Recipe(StringBuilder(index.toString(2)).reverse().toString(), "tester${index}", "link${index}", "thumbnail${index}"))
+            println(StringBuilder(index.toString(2)).reverse().toString())
         }
         // 1부터 100중 비트연산자로 2를 포함하는 숫자들의 개수 : 2, 3, 6, 7, 10, 11, ..., 98, 99로 총 50개
 

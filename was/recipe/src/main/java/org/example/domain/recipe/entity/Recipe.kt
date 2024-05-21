@@ -9,8 +9,8 @@ class Recipe(
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     val id: UUID,
-    @Column
-    val ingredients: Long,
+    @Lob
+    val ingredients: String,
     @Column
     val name: String,
     @Column
@@ -18,7 +18,7 @@ class Recipe(
     @Column
     val thumbnail: String
 ) {
-    constructor() : this(UUID.randomUUID(), 0, "", "", "") {}
+    constructor() : this(UUID.randomUUID(), "0", "", "", "") {}
 
-    constructor(ingredients: Long, name: String, recipeLink: String, thumbnail: String): this(UUID.randomUUID(), ingredients, name, recipeLink, thumbnail)
+    constructor(ingredients: String, name: String, recipeLink: String, thumbnail: String): this(UUID.randomUUID(), ingredients, name, recipeLink, thumbnail)
 }
