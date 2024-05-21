@@ -85,9 +85,10 @@ class RecipeServiceIntegrationTest(
     @Test
     fun `회원의 재료로 만들 수 있는 레시피를 조회한다`() {
         // given
+        println(member.ingredients)
+        var count = 0
         for(index: Int in 1..100) {
             recipeRepository.save(Recipe(StringBuilder(index.toString(2)).reverse().toString(), "tester${index}", "link${index}", "thumbnail${index}"))
-            println(StringBuilder(index.toString(2)).reverse().toString())
         }
         // 1부터 100중 비트연산자로 2를 포함하는 숫자들의 개수 : 2, 3, 6, 7, 10, 11, ..., 98, 99로 총 50개
 
@@ -95,7 +96,31 @@ class RecipeServiceIntegrationTest(
         val result = recipeService.findByMembersIngredients(member)
 
         // then
-        result.size shouldBe 50
+        result.size shouldBe 1
+    }
+
+    @DisplayName("회원의 재료로 만들 수 있는 레시피를 조회한다2")
+    @Test
+    fun `회원의 재료로 만들 수 있는 레시피를 조회한다2`() {
+        // given
+
+        val other = memberRepository.save(Member.builder()
+            .nickname("other")
+            .age(Age.TWENTIES)
+            .gender(Gender.MALE)
+            .email("other@test.com")
+            .ingredients("1".repeat(10))
+            .build());
+        for(index: Int in 1..100) {
+            recipeRepository.save(Recipe(StringBuilder(index.toString(2)).reverse().toString(), "tester${index}", "link${index}", "thumbnail${index}"))
+        }
+        // 1부터 100중 비트연산자로 2를 포함하는 숫자들의 개수 : 2, 3, 6, 7, 10, 11, ..., 98, 99로 총 50개
+
+        // when
+        val result = recipeService.findByMembersIngredients(other)
+
+        // then
+        result.size shouldBe 100
     }
 
     @AfterEach

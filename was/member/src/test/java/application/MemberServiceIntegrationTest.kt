@@ -38,7 +38,7 @@ open class MemberServiceIntegrationTest(
                 .age(null)
                 .gender(Gender.MALE)
                 .email("test@test.com")
-                .ingredients(0)
+                .ingredients("0")
                 .build()
         member = memberRepository.save(member);
     }

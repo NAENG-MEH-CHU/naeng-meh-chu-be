@@ -530,7 +530,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/member/me HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1YzkyMjExOS0yZGMzLTRiNzItOTc2YS01MWY3MzNkNDk4OWYiLCJpYXQiOjE3MTM1MTEzNDgsImV4cCI6MTcxMzUxNDk0OH0._5MKB-7FPzeqcJ1a8AJXkDaauuFU-ezFG471JO3v2GM
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI5OWQ5NDNlOS03NzdmLTQ5MTgtOWY1Mi1hNjBlOTg0OTQ5YTYiLCJpYXQiOjE3MTYyNzAxMjYsImV4cCI6MTcxNjI3MzcyNn0.lMvIDD9LKLlBdO13DEmY-n5isIN73HAOqPTvYAg3l5I
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -558,6 +558,9 @@ Host: localhost:8080</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: application/json
 Content-Length: 3
 
@@ -573,6 +576,9 @@ Content-Length: 3
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 401 Unauthorized
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: text/plain;charset=UTF-8
 Content-Length: 32
 
@@ -593,7 +599,7 @@ Content-Length: 32
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/member/age HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkZGY2ZjA1YS1iNDI4LTQ0YzctYmNmNi01ZmMyMzA2ODNlN2EiLCJpYXQiOjE3MTM1MTEzNTEsImV4cCI6MTcxMzUxNDk1MX0.uzujs7O56HX8eZfVo7kzHjaFu8Du34frjuFa74IZqSE
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjOWI2Mzk4My05ZDlkLTQ2YmItOWI1ZC1hZTdkNmE3ZWIzY2UiLCJpYXQiOjE3MTYyNzAxMjksImV4cCI6MTcxNjI3MzcyOX0.mYrszm9cBB6Ct8odVRteeuZcbu3c67xx6Hv1wAWO5xo
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -621,6 +627,9 @@ Host: localhost:8080</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: application/json
 Content-Length: 98
 
@@ -648,7 +657,7 @@ Content-Length: 98
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /api/member/nickname HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyYjBkN2Q4NS02Y2E4LTQzOGYtOTBlNi05ODE3NGI3OGNlYzUiLCJpYXQiOjE3MTM1MTEzNTEsImV4cCI6MTcxMzUxNDk1MX0.RKBqxvGVNsFMeIxqdvj3qkbJkNV67atHNrC_RLGHRWE
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2Njk2OTg0Yy05MGI4LTQ4MTEtYmNkMC01ZWE4Njk4MTViNDYiLCJpYXQiOjE3MTYyNzAxMjksImV4cCI6MTcxNjI3MzcyOX0.3RguBFATfgvPd43IJSA-KcVUnRpKdIhid7An8mAoHTg
 Content-Length: 26
 Host: localhost:8080
 
@@ -701,7 +710,10 @@ Host: localhost:8080
 <h4 id="_응답_4"><a class="link" href="#_응답_4">3.1.2. 응답</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK</code></pre>
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers</code></pre>
 </div>
 </div>
 </div>
@@ -737,6 +749,9 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 401 Unauthorized
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: text/plain;charset=UTF-8
 Content-Length: 32
 
@@ -772,7 +787,10 @@ Content-Length: 32
 <h4 id="_응답_6"><a class="link" href="#_응답_6">3.3.2. 응답</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 400 Bad Request</code></pre>
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 400 Bad Request
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers</code></pre>
 </div>
 </div>
 </div>
@@ -790,7 +808,7 @@ Content-Length: 32
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /api/member/gender HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIwYWQ0NWJiYS0xNGY5LTQ1Y2UtYTY1Ny0wNTYwNjBiN2JlMzgiLCJpYXQiOjE3MTM1MTEzNDcsImV4cCI6MTcxMzUxNDk0N30.hlm-v0ZMiNKd8IcG-VRw8YsyzJ6E-2QtW2Pyl9P4G5A
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzODIwYmEyMi0zZGY4LTQ1MzItYjJkYS1iNzJiYjM5OGU4MDkiLCJpYXQiOjE3MTYyNzAxMjUsImV4cCI6MTcxNjI3MzcyNX0.zEEM7WQBwn7TUcf2MlygseI_KR1ta3z8j5ciEixXsOY
 Content-Length: 25
 Host: localhost:8080
 
@@ -843,7 +861,10 @@ Host: localhost:8080
 <h4 id="_응답_7"><a class="link" href="#_응답_7">4.1.2. 응답</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK</code></pre>
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers</code></pre>
 </div>
 </div>
 </div>
@@ -879,6 +900,9 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 401 Unauthorized
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: text/plain;charset=UTF-8
 Content-Length: 32
 
@@ -914,7 +938,10 @@ Content-Length: 32
 <h4 id="_응답_9"><a class="link" href="#_응답_9">4.3.2. 응답</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 400 Bad Request</code></pre>
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 400 Bad Request
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers</code></pre>
 </div>
 </div>
 </div>
@@ -965,6 +992,9 @@ Content-Length: 32
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 400 Bad Request
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: text/plain;charset=UTF-8
 Content-Length: 42
 
@@ -986,7 +1016,7 @@ Content-Length: 42
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PATCH /api/member/age HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyMTJjODhhZC0zM2I1LTRjMDctOGQ5Yy0xZjhjYWVlNDNmZDkiLCJpYXQiOjE3MTM1MTEzNTAsImV4cCI6MTcxMzUxNDk1MH0.EMm1PdA9z0O0RPnDCzLwsAY5MQAg6ORcWoqCIaXUUxQ
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjYjhmZjMwMy05NmRiLTQ2NzAtOWE1OS1lYjU3MmIwMjZmM2MiLCJpYXQiOjE3MTYyNzAxMjgsImV4cCI6MTcxNjI3MzcyOH0.j8ty0QpBGLXrYhZfoZDV6AkLv8lhgIfGrLdDcs_AYdU
 Content-Length: 21
 Host: localhost:8080
 
@@ -1039,7 +1069,10 @@ Host: localhost:8080
 <h4 id="_응답_11"><a class="link" href="#_응답_11">5.1.2. 응답</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK</code></pre>
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers</code></pre>
 </div>
 </div>
 </div>
@@ -1075,6 +1108,9 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 401 Unauthorized
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: text/plain;charset=UTF-8
 Content-Length: 32
 
@@ -1110,7 +1146,10 @@ Content-Length: 32
 <h4 id="_응답_13"><a class="link" href="#_응답_13">5.3.2. 응답</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 400 Bad Request</code></pre>
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 400 Bad Request
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers</code></pre>
 </div>
 </div>
 </div>
@@ -1161,6 +1200,9 @@ Content-Length: 32
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 400 Bad Request
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: text/plain;charset=UTF-8
 Content-Length: 45
 
@@ -1181,7 +1223,7 @@ Content-Length: 45
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">DELETE /api/member HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIwMmYyYTczYS1kM2Y4LTQ1ZDYtYThkNy1jMTZkM2IyYjU1NTMiLCJpYXQiOjE3MTM1MTEzNDgsImV4cCI6MTcxMzUxNDk0OH0.tkot009INBYuny_Oxb9Eg8x6HdCeRMBzu3QNJ4mf9M4
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxNzgzM2JiNS0xZjM0LTRhYjktOGZlMC0xZjhiZjlhNDVhMWUiLCJpYXQiOjE3MTYyNzAxMjcsImV4cCI6MTcxNjI3MzcyN30.a5xtDoMW9vPQ2gnsEDqRKDjba9YP87rSFtS9iv6QM3s
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -1208,7 +1250,10 @@ Host: localhost:8080</code></pre>
 <h4 id="_응답_15"><a class="link" href="#_응답_15">6.1.2. 응답</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 204 No Content</code></pre>
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 204 No Content
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers</code></pre>
 </div>
 </div>
 </div>
@@ -1220,6 +1265,9 @@ Host: localhost:8080</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 401 Unauthorized
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: text/plain;charset=UTF-8
 Content-Length: 32
 
@@ -1240,7 +1288,7 @@ Content-Length: 32
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/member/reasons HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJiM2UxZThkMi1hOTRhLTQ3MDEtOGRjNS1kYjQ5MDgzNDExNmYiLCJpYXQiOjE3MTM1MTEzNTAsImV4cCI6MTcxMzUxNDk1MH0.AVlCshvH3K-CKNBi3b9ak11QDSMyQGlyEc5GQfPvl08
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJiMTkzYzVkNS1iMGFmLTQ1MzYtYWMyMS0yZDY5ZDk2M2I3ZjUiLCJpYXQiOjE3MTYyNzAxMjgsImV4cCI6MTcxNjI3MzcyOH0.zTchwvuAwK-LxwkVHWxFv2C2MmTLvX6I1LfnNM6G68M
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -1268,6 +1316,9 @@ Host: localhost:8080</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: application/json
 Content-Length: 3
 
@@ -1283,6 +1334,9 @@ Content-Length: 3
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: application/json
 Content-Length: 3
 
@@ -1303,7 +1357,7 @@ Content-Length: 3
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/member/reasons/me HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkYTMzMjRkZi1lODhkLTQ3MmMtOGFiZi1iM2I5ZDMxYTUxYTUiLCJpYXQiOjE3MTM1MTEzNDksImV4cCI6MTcxMzUxNDk0OX0.dW0Uw0zHYMJGJFVsFhJeEwYVDsC6mn8vgqZs9PPw2YA
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmYTExOTFkOC0yMGVjLTQzNzItYjg0OS0xYjllMjcyMGM3YjciLCJpYXQiOjE3MTYyNzAxMjcsImV4cCI6MTcxNjI3MzcyN30.62En0wyYpJv7BnTvaWnI8iR1RGJuveDqsdgQMjqAhNg
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -1331,6 +1385,9 @@ Host: localhost:8080</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: application/json
 Content-Length: 3
 
@@ -1346,6 +1403,9 @@ Content-Length: 3
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: application/json
 Content-Length: 3
 
@@ -1367,7 +1427,7 @@ Content-Length: 3
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/member/reasons HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyZDk1OTU2YS1hMjJiLTRkYTgtODRlNi1jY2UzNzI3MTg2OGYiLCJpYXQiOjE3MTM1MTEzNDgsImV4cCI6MTcxMzUxNDk0OH0.7qLZcSbu3jELkxuBU4OQovI35kHeWCNYrnfN1uE2wAQ
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmYWRhYWE2Zi1iNzBhLTQ4NzUtYmI0YS1hMGRmZTU0NjQyYTciLCJpYXQiOjE3MTYyNzAxMjcsImV4cCI6MTcxNjI3MzcyN30.COfTQ1DdCL8-_s-wN55hMz6ixDvU-0EpAqBvhRE-yP0
 Content-Length: 84
 Host: localhost:8080
 
@@ -1420,7 +1480,10 @@ Host: localhost:8080
 <h4 id="_응답_21"><a class="link" href="#_응답_21">9.1.2. 응답</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created</code></pre>
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers</code></pre>
 </div>
 </div>
 </div>
@@ -1456,6 +1519,9 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 401 Unauthorized
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: text/plain;charset=UTF-8
 Content-Length: 32
 
@@ -1491,7 +1557,10 @@ Content-Length: 32
 <h4 id="_응답_23"><a class="link" href="#_응답_23">9.3.2. 응답</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 400 Bad Request</code></pre>
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 400 Bad Request
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers</code></pre>
 </div>
 </div>
 </div>
@@ -1545,6 +1614,9 @@ Content-Length: 32
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 400 Bad Request
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: text/plain;charset=UTF-8
 Content-Length: 54
 
@@ -1564,8 +1636,8 @@ Content-Length: 54
 <h4 id="_요청_19"><a class="link" href="#_요청_19">10.1.1. 요청</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">DELETE /api/member/reasons?id=e9e177ed-ce34-4785-90f6-172ee0585348 HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIwNDFjOWNkZC1lNjM5LTRjY2QtODcyMC01NDkxMmYzMzc5ZTAiLCJpYXQiOjE3MTM1MTEzNTEsImV4cCI6MTcxMzUxNDk1MX0.psX3cCodwsDouZzuugw71-BDJ2k38AaZOorowEV0r8k
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">DELETE /api/member/reasons?id=654813c7-5a9c-49a2-a92d-818f7803043f HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI3OWQyN2RiMC03MTZjLTQ2MWYtYjYzNi1mNDczM2RjYzRkNDUiLCJpYXQiOjE3MTYyNzAxMzAsImV4cCI6MTcxNjI3MzczMH0.1zf9Qy7tGNJ--xSPQeQ63-SFub0E9Hm2QJMUm_UXGjY
 Content-Type: application/x-www-form-urlencoded
 Host: localhost:8080</code></pre>
 </div>
@@ -1593,7 +1665,10 @@ Host: localhost:8080</code></pre>
 <h4 id="_응답_25"><a class="link" href="#_응답_25">10.1.2. 응답</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 204 No Content</code></pre>
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 204 No Content
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers</code></pre>
 </div>
 </div>
 </div>
@@ -1605,6 +1680,9 @@ Host: localhost:8080</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 401 Unauthorized
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: text/plain;charset=UTF-8
 Content-Length: 32
 
@@ -1640,7 +1718,10 @@ Content-Length: 32
 <h4 id="_응답_27"><a class="link" href="#_응답_27">10.3.2. 응답</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 400 Bad Request</code></pre>
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 400 Bad Request
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers</code></pre>
 </div>
 </div>
 </div>
@@ -1673,6 +1754,9 @@ Content-Length: 32
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 404 Not Found
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: text/plain;charset=UTF-8
 Content-Length: 55
 
@@ -1709,6 +1793,9 @@ Content-Length: 55
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 403 Forbidden
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: text/plain;charset=UTF-8
 Content-Length: 23
 

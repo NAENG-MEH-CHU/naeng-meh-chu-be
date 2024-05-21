@@ -80,7 +80,7 @@ class MemberControllerIntegrationTest(
                 .age(null)
                 .gender(null)
                 .email("test@test.com")
-                .ingredients(0)
+                .ingredients("0")
                 .build()
         memberRepository.save(member)
         accessToken = jwtTokenProvider.createAccessToken(member.id.toString())

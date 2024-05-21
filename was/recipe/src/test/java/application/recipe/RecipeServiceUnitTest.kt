@@ -79,7 +79,7 @@ class RecipeServiceUnitTest {
         // given
 
         // when
-        Mockito.`when`(recipeRepository.findAllByIngredients(member.ingredients.toString()))
+        Mockito.`when`(recipeRepository.findAll())
             .thenReturn(listOf(Recipe()))
 
         // then

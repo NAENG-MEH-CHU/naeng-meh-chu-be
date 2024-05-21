@@ -40,7 +40,7 @@ class MemberServiceUnitTest {
         .age(null)
         .gender(Gender.MALE)
         .email("test@test.com")
-        .ingredients(0)
+        .ingredients("0")
         .build();
 
     @DisplayName("등록 가능한 이용 사유를 조회한다")
