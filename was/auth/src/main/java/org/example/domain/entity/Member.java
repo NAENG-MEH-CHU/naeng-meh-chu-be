@@ -32,6 +32,7 @@ public class Member {
     private String nickname;
 
     @Lob
+    @Column(columnDefinition = "TEXT")
     private String ingredients;
 
     @Column

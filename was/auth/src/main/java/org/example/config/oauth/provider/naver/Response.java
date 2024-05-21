@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record Response(
+        @JsonProperty("id")
+        String id,
         @JsonProperty("email")
         String email,
         @JsonProperty("nickname")

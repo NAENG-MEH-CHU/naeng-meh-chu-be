@@ -16,6 +16,7 @@ public class NaverUserInfo implements OAuth2UserInfo {
 
     @Override
     public String getEmail() {
+        if(response.email() == null || response.email().equals("")) return response.id();
         return response.email();
     }
 
