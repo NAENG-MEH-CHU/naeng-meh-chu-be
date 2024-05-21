@@ -106,7 +106,9 @@ public class OAuthLoginService {
         member.updateGender(request.parseGender());
         member.updateNickname(request.getNickname());
         memberRepository.save(member);
-        return TokenResponse.of(AuthControllerUtil.addPrefixToToken(tokenProvider.createAccessToken(member.getId().toString())));
+        memberReasonService.saveMemberReasons(member.getId(), request.parseReasons());
+        return TokenResponse.of(AuthControllerUtil
+                .addPrefixToToken(tokenProvider.createAccessToken(member.getId().toString())));
     }
 
     private boolean isMemberOnboarded(final Member member) {
