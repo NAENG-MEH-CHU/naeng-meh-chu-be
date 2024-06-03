@@ -19,6 +19,7 @@ dependencies {
     implementation project(":auth")
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
     implementation 'org.jetbrains.kotlin:kotlin-reflect:1.6.21'
+    implementation group: 'org.apache.commons', name: 'commons-math3', version: '3.6.1'
     // Test framework
     testImplementation("io.kotest:kotest-runner-junit5:5.8.0")
     // Assertion library

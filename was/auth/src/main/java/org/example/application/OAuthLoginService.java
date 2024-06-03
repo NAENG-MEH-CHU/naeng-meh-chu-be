@@ -96,7 +96,7 @@ public class OAuthLoginService {
         OAuth2UserInfo oAuthUserInfo = requestOAuthInfoService.findThroughToken(oAuthProvider, token);
         boolean isNew = isMemberEmpty(oAuthUserInfo.getEmail()); // 없으면 true임
         Member member = findOrCreateUser(oAuthUserInfo);
-        isNew = isNew && !isMemberOnboarded(member);
+        isNew = isNew || !isMemberOnboarded(member);
         return LoginResponse.of(AuthControllerUtil.addPrefixToToken(tokenProvider.createAccessToken(member.getId().toString())), isNew);
     }
 
