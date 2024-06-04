@@ -93,10 +93,10 @@ public class OAuthLoginService {
     @Transactional
     public LoginResponse loginThroughApp(final String token, final String provider) {
         OAuthProvider oAuthProvider = findProvider(provider);
-        OAuth2UserInfo oAuthUserInfo = requestOAuthInfoService.findThroughToken(oAuthProvider, token);
-        boolean isNew = isMemberEmpty(oAuthUserInfo.getEmail());
+        OAuth2UserInfo oAuthUserInfo = requestOAuthInfoService.findThroughToken(oAuthProvider, parseToken(token));
+        boolean isNew = isMemberEmpty(oAuthUserInfo.getEmail()); // 없으면 true임
         Member member = findOrCreateUser(oAuthUserInfo);
-        isNew = isNew && isMemberOnboarded(member);
+        isNew = isNew || !isMemberOnboarded(member);
         return LoginResponse.of(AuthControllerUtil.addPrefixToToken(tokenProvider.createAccessToken(member.getId().toString())), isNew);
     }
 
@@ -112,7 +112,7 @@ public class OAuthLoginService {
     }
 
     private boolean isMemberOnboarded(final Member member) {
-        return member.isFinishedOnboarding() && memberReasonService.hasMemberReason(member.getId());
+        return member.isFinishedOnboarding() && memberReasonService.hasMemberReason(member.getId()); // 온보딩 다했으면 true임
     }
 
     private Member findOrCreateUser(OAuth2UserInfo oAuthUserInfo) {
@@ -142,5 +142,13 @@ public class OAuthLoginService {
         }
 
         return OAuthProvider.GOOGLE;
+    }
+
+    private String parseToken(final String token) {
+        if(token.startsWith("Bearer ")) {
+            return token;
+        }
+
+        return "Bearer " + token;
     }
 }

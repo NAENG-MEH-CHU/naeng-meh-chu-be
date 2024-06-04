@@ -1,15 +1,15 @@
 package org.example.domain.recipe.entity
 
 import jakarta.persistence.*
-import java.util.UUID
+import java.util.*
 
 @Entity
-@Table(indexes = [Index(name = "idx_ingredients", columnList = "ingredients")])
 class Recipe(
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     val id: UUID,
     @Lob
+    @Column(columnDefinition = "TEXT")
     val ingredients: String,
     @Column
     val name: String,

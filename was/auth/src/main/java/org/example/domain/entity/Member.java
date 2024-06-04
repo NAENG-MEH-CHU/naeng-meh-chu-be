@@ -32,6 +32,7 @@ public class Member {
     private String nickname;
 
     @Lob
+    @Column(columnDefinition = "TEXT")
     private String ingredients;
 
     @Column
@@ -86,6 +87,6 @@ public class Member {
     }
 
     public boolean isFinishedOnboarding() {
-        return !(nickname != null && age != null && gender != null);
+        return nickname != null && age != null && gender != null;
     }
 }
