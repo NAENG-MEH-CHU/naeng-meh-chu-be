@@ -3,8 +3,9 @@ package org.example.infrastructure
 import org.example.domain.enums.Age
 import org.example.domain.enums.Gender
 import org.example.domain.memberRecipe.entity.MemberRecipe
+import org.springframework.stereotype.Component
 
-
+@Component
 class DataProcessor() {
 
     fun transformData(recipe: MemberRecipe): DoubleArray {

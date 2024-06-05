@@ -4,8 +4,10 @@ import org.apache.commons.math3.ml.distance.EuclideanDistance
 import org.example.domain.memberRecipe.entity.MemberRecipe
 import org.example.infrastructure.DataProcessor
 import org.example.infrastructure.DoubleArrayWrapper
+import org.springframework.stereotype.Component
 import java.util.*
 
+@Component
 class KMeansClusterer(
     private val dataProcessor: DataProcessor
 ) {
@@ -14,25 +16,6 @@ class KMeansClusterer(
         val clusterableData = data?.map { DoubleArrayWrapper(it) } ?: emptyList()
         val clusterer = KMeansPlusPlusClusterer<DoubleArrayWrapper>(numClusters, 1000, EuclideanDistance())
         return clusterer.cluster(clusterableData)
-    }
-
-    fun findClusterIndexForRecipe(
-        recipeId: UUID,
-        clusters: List<CentroidCluster<DoubleArrayWrapper>>,
-        recipes: List<MemberRecipe>
-    ): Int {
-        for (i in clusters.indices) {
-            for (point in clusters[i].points) {
-                val pointArray = point.point
-                for (recipe in recipes) {
-                    val recipeArray = dataProcessor.transformData(recipe)
-                    if (Arrays.equals(pointArray, recipeArray) && recipe.recipeId == recipeId) {
-                        return i
-                    }
-                }
-            }
-        }
-        return -1 // 클러스터를 찾지 못한 경우
     }
 
     fun getRecipesInSameCluster(
@@ -57,5 +40,24 @@ class KMeansClusterer(
         }
 
         return sameClusterRecipes
+    }
+
+    fun findClusterIndexForRecipe(
+        recipeId: UUID,
+        clusters: List<CentroidCluster<DoubleArrayWrapper>>,
+        recipes: List<MemberRecipe>
+    ): Int {
+        for (i in clusters.indices) {
+            for (point in clusters[i].points) {
+                val pointArray = point.point
+                for (recipe in recipes) {
+                    val recipeArray = dataProcessor.transformData(recipe)
+                    if (Arrays.equals(pointArray, recipeArray) && recipe.recipeId == recipeId) {
+                        return i
+                    }
+                }
+            }
+        }
+        return -1 // 클러스터를 찾지 못한 경우
     }
 }
