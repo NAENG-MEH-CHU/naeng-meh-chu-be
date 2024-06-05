@@ -53,6 +53,6 @@ open class MemberRecipeRecommender(
     }
 
     open fun updateCluster() {
-        clusterer.initializeClustersAsync(memberRecipeRepository.findAll(), 1000)
+        clusterer.initializeClustersAsync(memberRecipeRepository.findAll(), 30)
     }
 }
