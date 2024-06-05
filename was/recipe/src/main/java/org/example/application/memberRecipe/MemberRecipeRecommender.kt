@@ -26,6 +26,7 @@ open class MemberRecipeRecommender(
 
         if(batchCount == BATCH_SIZE) {
             updateCluster()
+            batchCount = 0
         }
     }
 
