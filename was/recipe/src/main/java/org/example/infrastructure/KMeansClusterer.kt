@@ -1,60 +1,50 @@
-package org.example.infrastructure
-
-import org.apache.commons.math3.ml.clustering.*
+import jakarta.annotation.PostConstruct
+import org.apache.commons.math3.ml.clustering.CentroidCluster
+import org.apache.commons.math3.ml.clustering.KMeansPlusPlusClusterer
 import org.apache.commons.math3.ml.distance.EuclideanDistance
+import org.example.domain.cluster.entity.ClusterRecipe
+import org.example.domain.cluster.repository.ClusterRecipeRepository
 import org.example.domain.memberRecipe.entity.MemberRecipe
-import org.springframework.stereotype.Service
+import org.example.infrastructure.DataProcessor
+import org.example.infrastructure.DoubleArrayWrapper
+import org.springframework.scheduling.annotation.Async
+import org.springframework.stereotype.Component
 import java.util.*
 
-
-@Service
-class KMeansClusterer(
+@Component
+open class KMeansClusterer(
+    private val dataProcessor: DataProcessor,
+    private val clusteredRecipeRepository: ClusterRecipeRepository
 ) {
-    fun clusterData(data: List<DoubleArray>?, numClusters: Int): List<CentroidCluster<DoubleArray>> {
-        val clusterer: KMeansPlusPlusClusterer<DoubleArray> =
-            KMeansPlusPlusClusterer(numClusters, 1000, EuclideanDistance())
-        return clusterer.cluster(data)
+
+    private var clusters: List<CentroidCluster<DoubleArrayWrapper>> = emptyList()
+    private var recipeMap: Map<UUID, DoubleArray> = emptyMap()
+
+    @Async
+    open fun initializeClustersAsync(data: List<MemberRecipe>, numClusters: Int) {
+        clusters = clusterData(data, numClusters)
+        recipeMap = data.associateBy({ it.recipeId }, { dataProcessor.transformData(it) })
+
+        // 클러스터링 결과를 저장
+        saveClusterResults()
     }
 
-    fun findClusterIndexForRecipe(
-        recipeId: UUID,
-        clusters: List<CentroidCluster<DoubleArray>>,
-        recipes: List<MemberRecipe>
-    ): Int {
+    private fun saveClusterResults() {
+        clusteredRecipeRepository.deleteAll()
+        val clusteredRecipes = mutableListOf<ClusterRecipe>()
         for (i in clusters.indices) {
-            for (point in clusters[i].getPoints()) {
+            for (point in clusters[i].points) {
                 val pointArray = point.point
-                for (recipe in recipes) {
-                    val recipeArray = doubleArrayOf(ageToDouble(recipe.memberAge), genderToDouble(recipe.gender))
-                    if (Arrays.equals(pointArray, recipeArray) && recipe.recipeId == recipeId) {
-                        return i
-                    }
-                }
+                val recipeId = recipeMap.entries.find { Arrays.equals(it.value, pointArray) }?.key
+                recipeId?.let { clusteredRecipes.add(ClusterRecipe(it, i)) }
             }
         }
-        return -1 // 클러스터를 찾지 못한 경우
+        clusteredRecipeRepository.saveAll(clusteredRecipes)
     }
 
-    fun getRecipesInSameCluster(
-        recipeId: UUID,
-        clusters: List<CentroidCluster<DoubleArray>>,
-        recipes: List<MemberRecipe>
-    ): List<MemberRecipe> {
-        val clusterIndex = findClusterIndexForRecipe(recipeId, clusters, recipes)
-        if (clusterIndex == -1) {
-            return Collections.emptyList()
-        }
-
-        val sameClusterRecipes: MutableList<MemberRecipe> = ArrayList()
-        for (point in clusters[clusterIndex].getPoints()) {
-            val pointArray = point.point
-            for (recipe in recipes) {
-                val recipeArray = doubleArrayOf(ageToDouble(recipe.memberAge), genderToDouble(recipe.gender))
-                if (Arrays.equals(pointArray, recipeArray)) {
-                    sameClusterRecipes.add(recipe)
-                }
-            }
-        }
-        return sameClusterRecipes
+    fun clusterData(data: List<MemberRecipe>, numClusters: Int): List<CentroidCluster<DoubleArrayWrapper>> {
+        val clusterableData = data.map { DoubleArrayWrapper(dataProcessor.transformData(it)) } ?: emptyList()
+        val clusterer = KMeansPlusPlusClusterer<DoubleArrayWrapper>(numClusters, 1000, EuclideanDistance())
+        return clusterer.cluster(clusterableData)
     }
 }

@@ -44,4 +44,10 @@ class RecipeController(
         val recipes = memberRecipeService.findMyRecipes(member)
         return ResponseEntity<MemberRecipeDataListResponse>(MemberRecipeDataListResponse(recipes), HttpStatus.OK)
     }
+
+    @GetMapping("/recommend")
+    fun findRecommendedRecipes(@JwtLogin member: Member): ResponseEntity<RecipeDataListResponse> {
+        val recipes = recipeService.findRecommendableRecipes(member)
+        return ResponseEntity<RecipeDataListResponse>(RecipeDataListResponse(recipes), HttpStatus.OK)
+    }
 }
