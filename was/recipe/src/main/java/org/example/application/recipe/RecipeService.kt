@@ -21,7 +21,7 @@ open class RecipeService(
     private val memberRecipeRecommender: MemberRecipeRecommender
 ) {
 
-    private val recipeMap = HashMap<String, List<Recipe>>();
+    private val recipeMap = HashMap<String, MutableList<Recipe>>();
 
     @Transactional
     open fun findRecipeById(recipeId: UUID, member: Member): RecipeResponse {
@@ -36,9 +36,13 @@ open class RecipeService(
             findRecipeData()
         }
 
-        return recipeMap.keys
-            .filter { key -> isIngredientsContained(key, member.ingredients) }
-            .map { key -> RecipeDataResponse(recipeMap[key]!!) }
+        val result = mutableListOf<RecipeDataResponse>()
+
+        recipeMap.keys
+            .filter { isIngredientsContained(it, member.ingredients) }
+            .forEach { result.addAll(recipeMap[it]!!.map { RecipeDataResponse(it) }) }
+
+        return result
     }
 
     @Transactional(readOnly = true)
@@ -49,12 +53,21 @@ open class RecipeService(
     @Transactional(readOnly = true)
     open fun findRecommendableRecipes(member: Member): List<RecipeDataResponse> {
         val recipes = recipeRepository.findAllById(memberRecipeRecommender.findRecommendingRecipeIdsByMemberId(member.id))
-        return recipes.map{ RecipeDataResponse(it) }
+        return recipes.map { RecipeDataResponse(it) }
     }
 
     @Transactional(readOnly = true)
     open fun findRecipeData() {
-        recipeRepository.findAll().forEach{ recipe -> recipeMap[recipe.ingredients] = recipe}
+        recipeRepository.findAll().forEach{ addRecipeToMap(it) }
+    }
+
+    private fun addRecipeToMap(recipe: Recipe) {
+        if(recipeMap[recipe.ingredients] == null) {
+            recipeMap[recipe.ingredients] = mutableListOf(recipe)
+            return
+        }
+
+        recipeMap[recipe.ingredients]!!.add(recipe)
     }
 
     private fun isIngredientsContained(recipeIngredients : String, memberIngredients: String): Boolean {
