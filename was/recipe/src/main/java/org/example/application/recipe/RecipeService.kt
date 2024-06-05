@@ -1,5 +1,6 @@
 package org.example.application.recipe
 
+import org.example.application.memberRecipe.MemberRecipeRecommender
 import org.example.domain.entity.Member
 import org.example.domain.memberRecipe.event.AddMemberRecipeEvent
 import org.example.domain.recipe.entity.Recipe
@@ -16,10 +17,11 @@ import kotlin.math.min
 @Service
 open class RecipeService(
     private val recipeRepository: RecipeRepository,
-    private val publisher: ApplicationEventPublisher
+    private val publisher: ApplicationEventPublisher,
+    private val memberRecipeRecommender: MemberRecipeRecommender
 ) {
 
-    private val recipeMap = HashMap<String, Recipe>();
+    private val recipeMap = HashMap<String, List<Recipe>>();
 
     @Transactional
     open fun findRecipeById(recipeId: UUID, member: Member): RecipeResponse {
@@ -41,7 +43,13 @@ open class RecipeService(
 
     @Transactional(readOnly = true)
     open fun findAllRecipe(): List<RecipeDataResponse> {
-        return recipeRepository.findAll().map{ each -> RecipeDataResponse(each) }
+        return recipeRepository.findAll().map{ RecipeDataResponse(it) }
+    }
+
+    @Transactional(readOnly = true)
+    open fun findRecommendableRecipes(member: Member): List<RecipeDataResponse> {
+        val recipes = recipeRepository.findAllById(memberRecipeRecommender.findRecommendingRecipeIdsByMemberId(member.id))
+        return recipes.map{ RecipeDataResponse(it) }
     }
 
     @Transactional(readOnly = true)
