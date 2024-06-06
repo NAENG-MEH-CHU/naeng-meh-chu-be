@@ -79,14 +79,14 @@ class FridgeControllerIntegrationTest(
             .age(null)
             .gender(null)
             .email("test@test.com")
-            .ingredients(0)
+            .ingredients("0")
             .build()
         memberRepository.save(member)
         other = memberRepository.save(Member
             .builder()
             .nickname("other")
             .email("other@other.com")
-            .ingredients(0)
+            .ingredients("0")
             .age(Age.THIRTIES)
             .build())
         accessToken = jwtTokenProvider.createAccessToken(member.id.toString())
@@ -172,33 +172,6 @@ class FridgeControllerIntegrationTest(
             )).andReturn()
     }
 
-    @DisplayName("내 냉장고에 재료 추가를 실패한다. 재료 id/년/월/일중에 하나라도 null일 경우")
-    @Test
-    fun addIngredient_fail_blank() {
-        // given
-        val request = AddIngredientRequest(null, 2017, 3, 1)
-
-        // expected
-        mockMvc.perform(
-            post("/api/fridge")
-                .header(HttpHeaders.AUTHORIZATION, "Bearer $accessToken")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(makeJson(request)))
-            .andExpect(MockMvcResultMatchers.status().isBadRequest)
-            .andDo(customDocument(
-                createFailedIdentifier("add_ingredient", BLANK),
-                requestHeaders(
-                    headerWithName(HttpHeaders.AUTHORIZATION).description("로그인 후 제공되는 Bearer 토큰")
-                ),
-                requestFields(
-                    fieldWithPath("ingredientId").description("냉장고에 추가할 재료 id"),
-                    fieldWithPath("year").description("유통기한의 년도"),
-                    fieldWithPath("month").description("유통기한의 월"),
-                    fieldWithPath("day").description("유통기한의 일"),
-                ),
-            )).andReturn()
-    }
-
     @DisplayName("내 냉장고에 재료 추가를 실패한다. 재료가 이미 냉장고에 있는 경우")
     @Test
     fun addIngredient_fail_already_in() {
@@ -242,6 +215,11 @@ class FridgeControllerIntegrationTest(
                 requestHeaders(
                     headerWithName(HttpHeaders.AUTHORIZATION).description("로그인 후 제공되는 Bearer 토큰")
                 ),
+                responseFields(
+                    fieldWithPath("ingredients").description("재료 목록"),
+                    fieldWithPath("ingredients[].ingredientId").description("재료 ID"),
+                    fieldWithPath("ingredients[].name").description("재료 이름")
+                )
             )).andReturn()
     }
 
@@ -277,6 +255,13 @@ class FridgeControllerIntegrationTest(
                 requestHeaders(
                     headerWithName(HttpHeaders.AUTHORIZATION).description("로그인 후 제공되는 Bearer 토큰")
                 ),
+                responseFields(
+                    fieldWithPath("myIngredients").description("내 재료 목록"),
+                    fieldWithPath("myIngredients[].id").description("내 재료 ID"),
+                    fieldWithPath("myIngredients[].name").description("재료 이름"),
+                    fieldWithPath("myIngredients[].ingredientId").description("재료 ID"),
+                    fieldWithPath("myIngredients[].dueDay").description("재료 유통기한")
+                )
             )).andReturn()
     }
 
@@ -318,6 +303,13 @@ class FridgeControllerIntegrationTest(
                 requestHeaders(
                     headerWithName(HttpHeaders.AUTHORIZATION).description("로그인 후 제공되는 Bearer 토큰")
                 ),
+                responseFields(
+                    fieldWithPath("myIngredients").description("내 재료 목록"),
+                    fieldWithPath("myIngredients[].id").description("내 재료 ID"),
+                    fieldWithPath("myIngredients[].name").description("재료 이름"),
+                    fieldWithPath("myIngredients[].ingredientId").description("재료 ID"),
+                    fieldWithPath("myIngredients[].dueDay").description("재료 유통기한")
+                )
             )).andReturn()
     }
 

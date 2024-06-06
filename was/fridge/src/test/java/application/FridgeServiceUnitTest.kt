@@ -50,7 +50,7 @@ class FridgeServiceUnitTest {
         .age(null)
         .gender(Gender.MALE)
         .email("test@test.com")
-        .ingredients(0)
+        .ingredients("0")
         .build();
     private var ingredient = Ingredient(1, "test")
     private var fridgeIngredient = FridgeIngredient(member.id, 1, "test", LocalDate.now())
@@ -180,7 +180,7 @@ class FridgeServiceUnitTest {
             .email("other@other.com")
             .nickname("other")
             .age(Age.THIRTIES)
-            .ingredients(0)
+            .ingredients("0")
             .build()
 
         // when

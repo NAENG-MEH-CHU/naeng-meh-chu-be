@@ -7,6 +7,7 @@ import org.example.domain.recipe.entity.Recipe
 import org.example.presentation.dto.response.RecipeResponse
 import org.example.domain.recipe.repository.RecipeRepository
 import org.example.exception.exceptions.RecipeNotFoundException
+import org.example.presentation.dto.request.SaveRecipeRequest
 import org.example.presentation.dto.response.RecipeDataResponse
 import org.springframework.context.ApplicationEventPublisher
 import org.springframework.stereotype.Service
@@ -28,6 +29,11 @@ open class RecipeService(
         val recipe = recipeRepository.findById(recipeId).orElseThrow { RecipeNotFoundException() }
         publisher.publishEvent(AddMemberRecipeEvent(member.id, member.age, member.gender, recipe))
         return RecipeResponse(recipe.recipeLink)
+    }
+
+    @Transactional
+    open fun saveRecipes(recipes: List<SaveRecipeRequest>) {
+        recipeRepository.saveAll(recipes.map { it.mapToRecipe() })
     }
 
     @Transactional(readOnly = true)

@@ -33,7 +33,7 @@ class FridgeController( private val fridgeService: FridgeService ) {
         return ResponseEntity(fridgeService.findAllIngredients(), HttpStatus.OK)
     }
 
-    @GetMapping("mine")
+    @GetMapping("/mine")
     fun findMyIngredients(@JwtLogin member: Member): ResponseEntity<MyIngredientsResponse> {
         return ResponseEntity(fridgeService.findMyIngredients(member), HttpStatus.OK)
     }
