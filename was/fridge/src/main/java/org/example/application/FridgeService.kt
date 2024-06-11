@@ -20,7 +20,6 @@ import java.time.LocalDate
 import java.util.UUID
 
 @Service
-@RequiredArgsConstructor
 open class FridgeService(
     private val ingredientRepository: IngredientRepository,
     private val fridgeIngredientRepository: FridgeIngredientRepository,
@@ -30,14 +29,14 @@ open class FridgeService(
     @Transactional
     open fun addIngredient(request: AddIngredientRequest, member: Member) {
 
-        val ingredient = ingredientRepository.findById(request.ingredientId!!)
+        val ingredient = ingredientRepository.findById(request.ingredientId)
             .orElseThrow { IngredientNotFoundException() }
         validateExistence(member, ingredient.id)
 
-        val date = LocalDate.of(request.year!!, request.month!!, request.day!!)
+        val date = LocalDate.of(request.year, request.month, request.day)
         val fridgeIngredient = FridgeIngredient(member.id, ingredient.id, ingredient.name, date)
         fridgeIngredientRepository.save(fridgeIngredient)
-        publisher.addIngredient(member.id, ingredient.id)
+        member.addIngredient(ingredient.id)
     }
 
     @Transactional(readOnly = true)
@@ -67,7 +66,8 @@ open class FridgeService(
             .orElseThrow { FridgeIngredientNotFoundException() }
 
         if(!myIngredient.equalsMemberId(member.id)) throw FridgeIngredientForbiddenException()
-        publisher.removeIngredient(member.id, myIngredient.ingredientId)
+
+        member.removeIngredient(myIngredient.ingredientId)
         fridgeIngredientRepository.delete(myIngredient)
     }
 

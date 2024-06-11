@@ -4,6 +4,7 @@ import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import org.example.RecipeApplication
 import org.example.application.memberRecipe.MemberRecipeEventHandler
+import org.example.application.memberRecipe.MemberRecipeRecommender
 import org.example.application.recipe.RecipeService
 import org.example.domain.entity.Member
 import org.example.domain.enums.Age
@@ -41,6 +42,8 @@ class RecipeServiceIntegrationTest(
     private val memberRecipeRepository: MemberRecipeRepository,
     @Autowired
     private val memberRecipeEventHandler: MemberRecipeEventHandler,
+    @Autowired
+    private val memberRecipeRecommender: MemberRecipeRecommender
 ) {
 
     private lateinit var member: Member

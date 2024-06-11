@@ -1,4 +1,4 @@
 package org.example.presentation.dto.response
 
-class RecipeDataListResponse(recipeDataResponses: List<RecipeDataResponse>) {
+class RecipeDataListResponse(val recipeDataResponses: List<RecipeDataResponse>) {
 }

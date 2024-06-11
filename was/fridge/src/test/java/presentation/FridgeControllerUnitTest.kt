@@ -38,7 +38,7 @@ class FridgeControllerUnitTest {
         .age(null)
         .gender(Gender.MALE)
         .email("test@test.com")
-        .ingredients(0)
+        .ingredients("0")
         .build();
 
     @DisplayName("냉장고에 재료를 추가한다.")

@@ -6,6 +6,7 @@ build/
 !**/src/test/**/build/
 src/main/resources
 auth/src/main/resources
+**/src/test/resources
 router/**
 
 ### STS ###

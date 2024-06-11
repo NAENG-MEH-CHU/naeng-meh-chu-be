@@ -3,6 +3,7 @@ package org.example.presentation
 import org.example.application.memberRecipe.MemberRecipeService
 import org.example.application.recipe.RecipeService
 import org.example.domain.entity.Member
+import org.example.presentation.dto.request.SaveRecipesRequest
 import org.example.presentation.dto.response.MemberRecipeDataListResponse
 import org.example.presentation.dto.response.RecipeDataListResponse
 import org.example.presentation.dto.response.RecipeResponse
@@ -11,6 +12,8 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import java.util.UUID
@@ -22,8 +25,14 @@ class RecipeController(
     private val memberRecipeService: MemberRecipeService
 ) {
 
+    @PostMapping("")
+    fun save(@RequestBody request: SaveRecipesRequest): ResponseEntity<Unit> {
+        recipeService.saveRecipes(request.recipeRequests)
+        return ResponseEntity<Unit>(HttpStatus.CREATED)
+    }
+
     @GetMapping("")
-    fun findAllRecipe(@JwtLogin member: Member): ResponseEntity<RecipeDataListResponse> {
+    fun findAllRecipe(): ResponseEntity<RecipeDataListResponse> {
         val recipes = recipeService.findAllRecipe()
         return ResponseEntity<RecipeDataListResponse>(RecipeDataListResponse(recipes), HttpStatus.OK)
     }

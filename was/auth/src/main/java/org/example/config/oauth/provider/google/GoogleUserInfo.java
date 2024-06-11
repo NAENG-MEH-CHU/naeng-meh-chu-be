@@ -16,6 +16,8 @@ public class GoogleUserInfo implements OAuth2UserInfo {
 
     @Override
     public String getEmail() {
+        if(email == null || email.isEmpty()) return nickname;
+
         return email;
     }
 
