@@ -52,14 +52,14 @@ class FridgeServiceIntegrationTest(
             .age(null)
             .gender(Gender.MALE)
             .email("test@test.com")
-            .ingredients(0)
+            .ingredients("0")
             .build())
         other = memberRepository.save(Member.builder()
             .id(UUID.randomUUID())
             .email("other@other.com")
             .nickname("other")
             .age(Age.THIRTIES)
-            .ingredients(0)
+            .ingredients("0")
             .build())
         ingredient = ingredientRepository.save(Ingredient(1, "계란"))
     }
@@ -68,8 +68,7 @@ class FridgeServiceIntegrationTest(
     @Test
     fun addIngredient_success() {
         // given
-        var ingredientId = ingredient.id
-        if(ingredientId === null) ingredientId = 1
+        val ingredientId = ingredient.id
         val request = AddIngredientRequest(ingredientId, 2017, 3, 1)
 
         // when
@@ -83,8 +82,7 @@ class FridgeServiceIntegrationTest(
     @Test
     fun addIngredient_fail_ingredient_already_in() {
         // given
-        var ingredientId = ingredient.id
-        if(ingredientId === null) ingredientId = 1
+        val ingredientId = ingredient.id
         val request = AddIngredientRequest(ingredientId, 2017, 3, 1)
         fridgeService.addIngredient(request, member)
 

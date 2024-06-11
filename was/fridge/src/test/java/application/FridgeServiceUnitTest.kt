@@ -50,7 +50,7 @@ class FridgeServiceUnitTest {
         .age(null)
         .gender(Gender.MALE)
         .email("test@test.com")
-        .ingredients(0)
+        .ingredients("0")
         .build();
     private var ingredient = Ingredient(1, "test")
     private var fridgeIngredient = FridgeIngredient(member.id, 1, "test", LocalDate.now())
@@ -68,7 +68,7 @@ class FridgeServiceUnitTest {
             .thenReturn(false)
         Mockito.`when`(fridgeIngredientRepository.save(Mockito.any(FridgeIngredient::class.java)))
             .thenReturn(fridgeIngredient)
-        Mockito.doNothing().`when`(publisher).addIngredient(member.id, ingredient.id)
+//        Mockito.doNothing().`when`(publisher).addIngredient(member.id, ingredient.id)
 
         // then
         fridgeService.addIngredient(request, member) shouldBe Unit
@@ -99,6 +99,7 @@ class FridgeServiceUnitTest {
             .thenReturn(Optional.of(ingredient))
         Mockito.`when`(fridgeIngredientRepository.existsByIngredientIdAndMemberId(request.ingredientId!!, member.id))
             .thenReturn(true)
+
 
         // then
         shouldThrow<IngredientAlreadyInException> { fridgeService.addIngredient(request, member) }
@@ -180,7 +181,7 @@ class FridgeServiceUnitTest {
             .email("other@other.com")
             .nickname("other")
             .age(Age.THIRTIES)
-            .ingredients(0)
+            .ingredients("0")
             .build()
 
         // when
