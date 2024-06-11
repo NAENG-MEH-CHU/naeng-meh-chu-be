@@ -68,7 +68,7 @@ class FridgeServiceUnitTest {
             .thenReturn(false)
         Mockito.`when`(fridgeIngredientRepository.save(Mockito.any(FridgeIngredient::class.java)))
             .thenReturn(fridgeIngredient)
-        Mockito.doNothing().`when`(publisher).addIngredient(member.id, ingredient.id)
+//        Mockito.doNothing().`when`(publisher).addIngredient(member.id, ingredient.id)
 
         // then
         fridgeService.addIngredient(request, member) shouldBe Unit
@@ -99,6 +99,7 @@ class FridgeServiceUnitTest {
             .thenReturn(Optional.of(ingredient))
         Mockito.`when`(fridgeIngredientRepository.existsByIngredientIdAndMemberId(request.ingredientId!!, member.id))
             .thenReturn(true)
+
 
         // then
         shouldThrow<IngredientAlreadyInException> { fridgeService.addIngredient(request, member) }

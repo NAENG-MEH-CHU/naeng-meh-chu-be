@@ -44,6 +44,8 @@ public class Member {
     private Gender gender;
 
     public boolean containsIngredient(final int value) {
+        if(ingredients.length() <= value) return false;
+
         return ingredients.charAt(value-1) == '1';
     }
 
@@ -57,9 +59,6 @@ public class Member {
             ingredients+= adder;
             return;
         }
-        // "10111"에서 2를 추가하는 경우는?
-        // 문자열의 배열로 만든 다음, value-1인덱스의 값을 "1"로 바꾸고 join시키자.
-        // 결과는 "11111"이다.
         char[] chars = ingredients.toCharArray();
         chars[value - 1] = '1';
         ingredients = new String(chars);
